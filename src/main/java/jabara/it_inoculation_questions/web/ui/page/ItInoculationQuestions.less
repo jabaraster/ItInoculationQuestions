@@ -1,0 +1,110 @@
+@import "common-const.less";
+
+body h1 {
+    color: @accent-color;
+    text-shadow: rgba(0,0,0,.3) 1px 1px;
+}
+
+h2, h3, h4, h5, h6  {
+    color: @main-color;
+    text-shadow: rgba(0,0,0,.3) 1px 1px;
+}
+
+body textarea {
+	width: 90%;
+	height: 20em;
+    border-radius: @border-radius-small;
+}
+
+input[type='text'] {
+    border-radius: 5px;
+}
+
+.header-footer () {
+    height: 2em;
+    background: @main-color;
+    box-shadow: rgba(0,0,0,.3) 1px 1px;
+}
+
+.top-radius (@radius) {
+    border-bottom-left-radius: @radius;
+    border-bottom-right-radius: @radius;
+}
+
+.bottom-radius (@radius) {
+    border-top-left-radius: @radius;
+    border-top-right-radius: @radius;
+}
+
+header {
+	.header-footer();
+    .top-radius(@border-radius-small);
+
+    padding-top: 0.3em;
+    background: @main-color;
+
+    position: relative;
+
+    li {
+       display: inline-block;
+       margin-right: 1em;
+       a {
+           color: @link-in-nav;
+       }
+       .icon-exit {
+           margin-left: 5em;
+       }
+    }
+}
+
+footer {
+	.header-footer();
+    .bottom-radius(@border-radius-small);
+
+    padding-top: 0.3em;
+	margin-top: 1em;
+
+    color: @base-color;
+    text-align: right;
+    padding-right: 0.3em;
+    text-shadow: rgba(0,0,0,1) 3px 3px;
+}
+
+div.mainBox {
+    text-align: center;
+}
+
+span.keyword {
+    padding: 0.2em;
+    border: solid 1px #333333;
+    border-radius: 4px;
+    margin-right: 0.3em;
+    background: @cell-background;
+    font-size: smaller;
+}
+
+span.required:after {
+	content: '(*)';
+	color: red;
+}
+
+input.error, textarea.error {
+	color: @error-color;
+	background: @error-background;
+}
+
+fieldset {
+	border: none;
+}
+
+ul {
+    list-style-type: none;
+}
+
+body form {
+    margin-bottom: 0.1em;
+}
+
+div.mainContent {
+    margin: 1em;
+}
