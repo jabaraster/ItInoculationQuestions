@@ -19,7 +19,7 @@ public class IndexPage extends ItInoculationQuestionsWebPageBase {
     @Override
     public void renderHead(final IHeaderResponse pResponse) {
         super.renderHead(pResponse);
-        pResponse.render(addPageCssReference(pResponse, this.getClass()));
+        addPageCssReference(pResponse, this.getClass());
     }
 
     /**

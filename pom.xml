@@ -133,7 +133,7 @@
 		<dependency>
 			<groupId>jabaraster</groupId>
 			<artifactId>jabara-general</artifactId>
-			<version>1.1</version>
+			<version>1.2</version>
 		</dependency>
 
 		<!-- テスト用 -->
