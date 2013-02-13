@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<questions>
+	<question type="SELECT">
+		<message>あなたの性別を選択してください。</message>
+		<selection value="1">男性</selection>
+		<selection value="2">女性</selection>
+	</question>
+
+	<question type="SELECT">
+		<message>あなたの年齢層を教えてください。</message>
+		<selection value="1">２０歳未満</selection>
+		<selection value="2">２０歳代</selection>
+		<selection value="3">３０歳代</selection>
+		<selection value="4">４０歳代</selection>
+		<selection value="5">５０歳代</selection>
+		<selection value="6">６０歳以上</selection>
+	</question>
+
+	<question type="SELECT">
+		<message>あなたの職務は以下のどれに最も近いですか？</message>
+		<selection value="1">役員</selection>
+		<selection value="2">管理職</selection>
+		<selection value="3">営業・マーケティング</selection>
+		<selection value="4">サービス・カスタマサポート</selection>
+		<selection value="5">事務職</selection>
+		<selection value="6">コンピュータ関連技術者</selection>
+		<selection value="7">その他技術者</selection>
+	</question>
+
+	<question type="SELECT">
+		<message>業務上の連絡を電子メールで送受する場合を想定すると、あなたは電子メールの取り扱いにどの程度熟練していますか？
+		</message>
+		<selection value="1">非常に熟練している</selection>
+		<selection value="2">熟練している方だ</selection>
+		<selection value="3">平均的だ</selection>
+		<selection value="4">あまり熟練していない</selection>
+		<selection value="5">ほとんどできない</selection>
+	</question>
+
+	<question type="TEXT">
+		<message>あなたは業務上のメールを送受信合わせて何通程度取り扱いますか？</message>
+		<selection>平日の一日平均で約${value}通</selection>
+	</question>
+
+	<question type="TEXT">
+		<message>あなたは業務上のメールをどの程度の時間をかけて処理していますか？断続的にメールを処理している場合は全部の合計でお答えください。</message>
+		<selection>平日の一日平均で約${value}時間</selection>
+	</question>
+
+	<question type="SELECT">
+		<message>あなたは過去にITセキュリティ予防接種を経験しましたか？</message>
+		<selection value="1">経験した(対象者として参加した)</selection>
+		<selection value="2">経験していない(今回が初めて)</selection>
+	</question>
+
+	<question type="SELECT">
+		<message>あなたは今年度の擬似攻撃メールにどのように対応しましたか？</message>
+		<selection value="1">メールを受け取っており、添付されていたファイルの内容も見た。</selection>
+		<selection value="2">メールを受け取ったが、添付されていたファイルの内容は見なかった。</selection>
+		<selection value="3">そんなメールは受け取っていない。</selection>
+	</question>
+
+	<question type="SELECT">
+		<message>擬似攻撃メールの本文や表題は、あなたの担当業務とどの程度関連していましたか？</message>
+		<selection value="1">非常に強い関連を感じた</selection>
+		<selection value="2">どちらかといえば関連が強い方だと思った。</selection>
+		<selection value="3">わずかに関連していた</selection>
+		<selection value="4">まったく無関係であった</selection>
+	</question>
+
+	<question type="TEXTAREA" maxChar="400">
+		<message>予防接種について、ご感想・ご意見などを自由にご記述ください。(400字まで。空欄でも構いません。)</message>
+	</question>
+</questions>

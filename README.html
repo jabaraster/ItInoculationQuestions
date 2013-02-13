@@ -1,0 +1,218 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+  </style>
+  <link rel="stylesheet" href="file:///Users/jabaraster/Documents/docs/css/styles.css" type="text/css" />
+</head>
+<body>
+<p>情報をかき集めてメモるWebアプリです。<br />Jetty開発環境のRI（Reference Implementation：参照実装）も兼ねます。</p>
+<h1 id="このプロジェクトの説明">このプロジェクトの説明</h1>
+<p>Jetty+Wicket+JPAでWebアプリを作りHeroku上で動作させるためのテンプレートプロジェクトです。<br />もちろん、Heroku上でなくても動作します。</p>
+<h1 id="このプロジェクトのコンセプト">このプロジェクトのコンセプト</h1>
+<p>このプロジェクトは</p>
+<p><strong>導入に手間がかからない</strong></p>
+<p>ことを第一に考えて構成しています。</p>
+<h1 id="プロジェクトの使い方">プロジェクトの使い方</h1>
+<h2 id="事前にインストールしておくもの">事前にインストールしておくもの</h2>
+<h3 id="maven">Maven</h3>
+<p>Javaで依存ライブラリをダウンロードしてくれるツール。<br /><a href="http://maven.apache.org">http://maven.apache.org</a></p>
+<p>最新版をダウンロードして解凍したら、binフォルダにPATHを通せばインストールは完成。</p>
+<h3 id="postgresql">PostgreSQL</h3>
+<p><a href="http://www.postgresql.jp/download">http://www.postgresql.jp/download</a></p>
+<h3 id="eclipse">eclipse</h3>
+<p>必須ではないが、あった方がいいでしょう。 <a href="http://www.eclipse.org/downloads/">http://www.eclipse.org/downloads/</a></p>
+<h2 id="動作のさせ方">動作のさせ方</h2>
+<h3 id="eclipseプロジェクトzipの入手">eclipseプロジェクトZIPの入手</h3>
+<p>このプロジェクトの次のURLからダウンロード出来ます。<br /><a href="https://github.com/jabaraster/heroku-web-template/archive/master.zip">https://github.com/jabaraster/heroku-web-template/archive/master.zip</a></p>
+<h3 id="postgresqlの実行">PostgreSQLの実行</h3>
+<p>このプロジェクトはpostgresというDBに接続します。 通常このDBはPostgreSQLをインストールしたときにデフォルトでインストールされます。 ですので、PostgreSQLを起動しさえすれば準備完了です。</p>
+<h3 id="mavenの実行">Mavenの実行</h3>
+<h4 id="eclipseに変数追加">eclipseに変数追加</h4>
+<p>eclipseからMavenのリポジトリを参照可能にするために、次のコマンドを実行します。</p>
+<p><code>mvn -Declipse.workspace=&lt;eclipseの.metadataのあるフォルダへのパス&gt; eclipse:add-maven-repo</code></p>
+<h4 id="依存jarのダウンロード">依存JARのダウンロード</h4>
+<p>eclipseプロジェクトが依存するJARをダウンロードするために、次のコマンドを実行します。</p>
+<p><code>mvn eclipse:eclipse</code></p>
+<p>初めて実行するときはたくさんのJARがダウンロードされるので、かなり時間がかかります。</p>
+<p>依存JARの情報は、Mavenの設定ファイルであるpom.xmlに書かれています。 また、実はこのコマンドは依存JARをダウンロードするためのコマンドではなく、pom.xmlの設定に従ってeclipseプロジェクトを構成するためのコマンドです。 pom.xmlファイルを編集した場合、再度このコマンドを実行してeclipseプロジェクトに反映する必要があります。</p>
+<h3 id="eclipseプロジェクトのインポート">eclipseプロジェクトのインポート</h3>
+<p>先にダウンロードしたeclipseプロジェクトZIPを解凍し、eclipseにインポートします。</p>
+<p>これでWebアプリを実行する準備が整いました。</p>
+<h4 id="samplewebstarterクラスの実行">SampleWebStarterクラスの実行</h4>
+<p>このクラスを実行すると、次のURLでWebアプリにアクセス出来ます。 http://localhost:8081/ui/</p>
+<h1 id="このプロジェクトが提供している機能">このプロジェクトが提供している機能</h1>
+<h2 id="依存ライブラリ管理">依存ライブラリ管理</h2>
+<p>Mavenの設定ファイルであるpom.xmlに、最低限の設定を記述済みです。</p>
+<h2 id="servletjspによるwebアプリケーションが動作する環境">Servlet&amp;JSPによるWebアプリケーションが動作する環境</h2>
+<h2 id="wicketが動作する環境">Wicketが動作する環境</h2>
+<h2 id="jpaが動作する環境">JPAが動作する環境</h2>
+<p>デフォルトでは、JPAが起動するときに既存テーブルをDROPしてから再作成するようになっています。 この挙動は、環境変数<code>HIBERNATE_HBM2DDL_AUTO</code>を設定することで上書きできます。</p>
+<p>Linux系であれば</p>
+<p><code>export HIBERNATE_HBM2DDL_AUTO=none</code></p>
+<p>Winows系であれば</p>
+<p><code>set HIBERNATE_HBM2DDL_AUTO=nonw</code></p>
+<p>と設定します。</p>
+<h2 id="google-guiceによるdi">Google GuiceによるDI</h2>
+<pre class="sourceCode java"><code class="sourceCode java">@com.<span class="fu">google</span>.<span class="fu">inject</span>.<span class="fu">Inject</span></code></pre>
+<p>を付けることにより、オブジェクトが自動的に注入されます。</p>
+<h2 id="google-guiceによる自動トランザクション制御">Google Guiceによる自動トランザクション制御</h2>
+<p>次のようなメソッドには自動でトランザクション制御が仕込まれます。</p>
+<ul>
+<li>メソッドを持っているクラスが、<code>jabara.jpa_guice.DaoBase</code>クラスを継承している</li>
+<li><code>public</code>メソッド</li>
+</ul>
+<p>このようなメソッドはトランザクション制御対象メソッドです。 トランザクション制御対象メソッドに対しては、メソッド実行直前にトランザクションが開始され、メソッドから例外がスローされた場合は自動でロールバックされます。 例外が発生せず、普通にメソッドから復帰した場合は自動でコミットされます。</p>
+<p>トランザクション制御対象メソッドの中から別のトランザクション制御対象メソッドを呼び出した場合、トランザクションが入れ子になることはなく、同じトランザクションの中で実行されます。</p>
+<h2 id="jax-rsによるrestアプリケーションが動作する環境">JAX-RSによるRESTアプリケーションが動作する環境</h2>
+<h2 id="memcachedによるhttpsession実装">MemcachedによるHttpSession実装</h2>
+<p>Memcachedを使うとWebアプリケーションのプロセスが複数ある場合にセッションを共有することが可能になります。</p>
+<h2 id="heroku上での動作に必要なファイル">Heroku上での動作に必要なファイル</h2>
+<h3 id="procfile">Procfile</h3>
+<p>このファイルはWebアプリケーションをHeroku上で動作させるための起動コマンドが書かれています。</p>
+<p><code>web:    java -cp src/main/webapp/WEB-INF/classes:target/dependency/* -XX:+UseCompressedOops -Dweb.port=${PORT} -Ddatabase.url=${DATABASE_URL} -Dwicket.configuration=deployment -Dmemcached.servers=${MEMCACHIER_SERVERS} -Dmemcached.username=${MEMCACHIER_USERNAME} -Dmemcached.password=${MEMCACHIER_PASSWORD} -server SampleWebStarter</code></p>
+<p>この起動コマンドの意味は次の通りです。</p>
+<ul>
+<li>Webアプリケーションを起動します。</li>
+<li>リッスンポートはHerokuが設定する環境変数<code>PORT</code>の値を使います。</li>
+<li>データベースはHerokuがデフォルトで提供するものを使います。つまりHerokuが設定する環境変数<code>DATABASE_URL</code>の値を接続先として使います。</li>
+<li>Wicketを<code>deployment</code>モードで起動します。</li>
+<li>Memcachedによるセッション管理を行います。Herokuのアドオン<code>MemCachier</code>が追加されている前提です。Memcachedに関する設定は、<code>MemCachier</code>が設定する各種環境変数の値を使います。</li>
+<li>JVMをserverモードで起動します。</li>
+</ul>
+<h1 id="パッケージ構成">パッケージ構成</h1>
+<p>推奨パッケージ構成を説明します。 ルートパッケージを&lt;root_package&gt;と表記します。</p>
+<h2 id="web関連クラスのパッケージ">Web関連クラスのパッケージ</h2>
+<table>
+<thead>
+<tr class="header">
+<th align="left">パッケージ</th>
+<th align="left">配置するクラスの分類</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">&lt;root_package&gt;.web</td>
+<td align="left">ServletAPIに近いクラス。WebInitializerクラスもここに置く</td>
+</tr>
+<tr class="even">
+<td align="left">&lt;root_package&gt;.web.rest</td>
+<td align="left">JAX-RSに関するクラス</td>
+</tr>
+<tr class="odd">
+<td align="left">&lt;root_package&gt;.web.ui</td>
+<td align="left">画面を構成するクラス。Wicketの場合は各種Pageクラス。Pageクラスが多い場合はweb.ui.pageパッケージを切って、そこにまとめた方が見通しが良くなります</td>
+</tr>
+<tr class="even">
+<td align="left">&lt;root_package&gt;.web.ui.component</td>
+<td align="left">画面を構成する部品。Wicketの場合はPanelなどのUI部品</td>
+</tr>
+</tbody>
+</table>
+<h2 id="ビジネスロジッククラスのパッケージ">ビジネスロジッククラスのパッケージ</h2>
+<table>
+<thead>
+<tr class="header">
+<th align="left">パッケージ</th>
+<th align="left">配置するクラスの分類</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">&lt;root_package&gt;.entity</td>
+<td align="left">エンティティクラス（データベースモデルをJavaクラスに写したクラス）を置く</td>
+</tr>
+<tr class="even">
+<td align="left">&lt;root_package&gt;.model</td>
+<td align="left">エンティティクラスよりも高級なデータモデルを置く</td>
+</tr>
+<tr class="odd">
+<td align="left">&lt;root_package&gt;.service</td>
+<td align="left">ビジネスロジックのインターフェイスを置く。業務的な例外クラスもここに置く</td>
+</tr>
+<tr class="even">
+<td align="left">&lt;root_package&gt;.service.impl</td>
+<td align="left">ビジネスロジックの実装クラスを置く</td>
+</tr>
+</tbody>
+</table>
+<h2 id="その他のパッケージ">その他のパッケージ</h2>
+<table>
+<thead>
+<tr class="header">
+<th align="left">パッケージ</th>
+<th align="left">配置するクラスの分類</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">&lt;root_package&gt;</td>
+<td align="left">グローバル設定値を置く。環境変数など。ただし、ここに属するクラス／変数などは最小限になるように注意するべき</td>
+</tr>
+<tr class="even">
+<td align="left">&lt;root_package&gt;.util</td>
+<td align="left">Serviceにするほどでないロジックを置く。例えば日付の表現形式を統一するためのユーティリティメソッドなど</td>
+</tr>
+</tbody>
+</table>
+<h1 id="大事なクラス">大事なクラス</h1>
+<h2 id="samplewebinitializerクラス">SampleWebInitializerクラス</h2>
+<p>いくつかある大事なクラスの中でも、このクラスが飛び抜けて大事です。</p>
+<p>このクラスは<code>javax.servlet.ServletContextListener</code>インターフェイスをimplementsしています。これにより、Webアプリケーション起動時にこのクラスの<code>contextInitialized</code>メソッドがただ一度だけ呼び出されるようになります。</p>
+<p>また、ServletAPI3.0になってから、ServletContextを通してコードからServletやFilterを登録することが出来るようになりました。</p>
+<p>つまり<code>contextInitialized</code>メソッドの中でこの機能を利用すれば、web.xmlに頼らずにServletやFilterを登録することが出来るようになるわけです。</p>
+<h3 id="web.xmlに頼らずに済むことの利点">web.xmlに頼らずに済むことの利点</h3>
+<p>web.xmlに頼らずJavaコードでServletやFilterを登録する利点は、<strong>型安全性</strong>です。web.xmlはクラス名を誤って記述してしまっても、Servletコンテナを起動するまでは気付けません。しかしJavaコードで登録する場合、工夫次第でクラス名を謝るなどということは起こらないようにすることが出来ます。</p>
+<p>ただし、場合によってはweb.xmlを編集する必要が生じることに注意が必要です。例えばファイルの拡張子とMIMEタイプのマッピングは、web.xmlでないと登録できません。</p>
+<h2 id="samplerestapplicationクラス">SampleRestApplicationクラス</h2>
+<p>JAX-RSを使うために必要です。<code>javax.ws.rs.core.Application</code>クラスを継承します。</p>
+<p>このクラスの主な役割は</p>
+<ol style="list-style-type: decimal">
+<li>リソースクラスの登録</li>
+<li>各種拡張クラスの登録</li>
+</ol>
+<p>です。</p>
+<p>なお、<code>SampleRestApplication</code>クラスをWebアプリケーションから使えるようにするには、前述の<code>SampleWebInitializer</code>クラスの中で<code>SampleRestApplication</code>クラスを登録する必要があります。</p>
+<h2 id="samplewicketappliationクラス">SampleWicketAppliationクラス</h2>
+<p>Wicketを使うためのクラスです。 Wicketの詳しい説明は別項に譲りますが、日本語の情報は多いですし、メーリングリストも充実しているので手詰まりになることはまずありません。</p>
+<p>なお<code>SampleWicketApplication</code>クラスをWebアプリケーションから使えるようにするには、前述の<code>SampleWebInitializer</code>クラスの中で<code>SampleWicketApplication</code>クラスを登録する必要があります。</p>
+<h1 id="各種設定ファイルについて">各種設定ファイルについて</h1>
+<h2 id="pom.xml">pom.xml</h2>
+<p>このプロジェクトはMaven2というパッケージ管理システムの利用を前提に設定されています。 http://maven.apache.org</p>
+<p>Maven2の唯一の設定ファイルが<code>pom.xml</code>です。 <code>pom.xml</code>にはプロジェクトが依存するライブラリやプロジェクトのディレクトリ構成が書かれています。</p>
+<h2 id="procfile-1">Procfile</h2>
+<p>このファイルは、このプロジェクトをHerokuにデプロイする際に必要となるファイルです。HerokuというのはPaaS環境です。 http://www.heroku.com</p>
+<p>Herokuを使わない場合はこのファイルは無視して下さい。</p>
+<h2 id="gitignore">.gitignore</h2>
+<p>ソースをGitで管理する場合に、管理対象外とするファイルのパターンを書くファイルです。 Gitを使わない場合はこのファイルは無視して下さい。</p>
+<h1 id="残作業">残作業</h1>
+<h2 id="glassfishへのデプロイ検証">Glassfishへのデプロイ検証</h2>
+<p>WARを作成して、それがGlassfish上で動作するかどうかの検証を行う必要があります。</p>
+<h2 id="jspでelが使えない">JSPでELが使えない</h2>
+<p>これは困る。</p>
+<h2 id="wicketのページにcssやjsを適用するサンプル">WicketのページにCSSやJSを適用するサンプル</h2>
+<h2 id="複数db接続先への対応">複数DB接続先への対応</h2>
+</body>
+</html>
