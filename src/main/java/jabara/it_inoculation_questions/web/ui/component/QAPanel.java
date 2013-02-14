@@ -1,0 +1,88 @@
+/**
+ * 
+ */
+package jabara.it_inoculation_questions.web.ui.component;
+
+import jabara.it_inoculation_questions.model.Question;
+
+import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.form.FormComponent;
+import org.apache.wicket.model.AbstractReadOnlyModel;
+import org.apache.wicket.model.IModel;
+
+/**
+ * @author jabaraster
+ */
+@SuppressWarnings("serial")
+public class QAPanel extends InputPanel {
+    private static final long    serialVersionUID = -1685283113094374805L;
+
+    private final Question       question;
+    private final IModel<String> answerValueModel;
+    private final int            index;
+
+    private InputPanel           answerInputPanel;
+
+    private Label                message;
+
+    /**
+     * @param pId
+     * @param pQuestion
+     * @param pAnswerValueModel
+     * @param pIndex
+     */
+    public QAPanel(final String pId, final Question pQuestion, final IModel<String> pAnswerValueModel, final int pIndex) {
+        super(pId);
+
+        this.question = pQuestion;
+        this.answerValueModel = pAnswerValueModel;
+        this.index = pIndex;
+
+        this.add(getMessage());
+        this.add(getAnswerInputPanel());
+    }
+
+    /**
+     * @see jabara.it_inoculation_questions.web.ui.component.InputPanel#getInputComponent()
+     */
+    @Override
+    public FormComponent<?> getInputComponent() {
+        return this.answerInputPanel.getInputComponent();
+    }
+
+    private InputPanel getAnswerInputPanel() {
+        if (this.answerInputPanel == null) {
+            final String id = "answer"; //$NON-NLS-1$
+
+            switch (this.question.getType()) {
+            case SELECT:
+                this.answerInputPanel = new AnswerSelectPanel(id, this.question, this.answerValueModel);
+                break;
+            case TEXT:
+                this.answerInputPanel = new AnswerTextPanel(id, this.question, this.answerValueModel);
+                break;
+            case TEXTAREA:
+                this.answerInputPanel = new AnswerTextAreaPanel(id, this.question, this.answerValueModel);
+                break;
+            default:
+                throw new IllegalStateException(this.question.getType() + " is unsupported."); //$NON-NLS-1$
+            }
+        }
+        return this.answerInputPanel;
+    }
+
+    @SuppressWarnings("nls")
+    private Label getMessage() {
+        if (this.message == null) {
+            this.message = new Label("message", new AbstractReadOnlyModel<String>() {
+                @SuppressWarnings("synthetic-access")
+                @Override
+                public String getObject() {
+                    return "Q" + (QAPanel.this.index + 1) + ") " + QAPanel.this.question.getMessage();
+                }
+            });
+        }
+        return this.message;
+    }
+
+}

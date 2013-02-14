@@ -5,6 +5,7 @@ package jabara.it_inoculation_questions.model;
 
 import java.io.Serializable;
 
+import javax.persistence.Embeddable;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -16,6 +17,7 @@ import javax.xml.bind.annotation.XmlValue;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
+@Embeddable
 public class Selection implements Serializable {
     private static final long  serialVersionUID = -7524435082123192924L;
 

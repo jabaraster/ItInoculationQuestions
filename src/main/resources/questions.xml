@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <questions>
+
 	<question type="SELECT">
 		<message>あなたの性別を選択してください。</message>
 		<selection value="1">男性</selection>
@@ -28,8 +29,7 @@
 	</question>
 
 	<question type="SELECT">
-		<message>業務上の連絡を電子メールで送受する場合を想定すると、あなたは電子メールの取り扱いにどの程度熟練していますか？
-		</message>
+		<message>業務上の連絡を電子メールで送受する場合を想定すると、あなたは電子メールの取り扱いにどの程度熟練していますか？</message>
 		<selection value="1">非常に熟練している</selection>
 		<selection value="2">熟練している方だ</selection>
 		<selection value="3">平均的だ</selection>
