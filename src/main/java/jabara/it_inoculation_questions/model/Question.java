@@ -5,6 +5,7 @@ package jabara.it_inoculation_questions.model;
 
 import jabara.general.ArgUtil;
 import jabara.general.Empty;
+import jabara.it_inoculation_questions.util.QuestionUtil;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -33,8 +34,12 @@ public class Question implements Serializable {
     @XmlAttribute
     private QuestionType          type             = QuestionType.TEXT;
 
+    @XmlAttribute
+    private boolean               required         = true;
+
     private String                message          = "";                        //$NON-NLS-1$
 
+    @XmlAttribute
     private int                   maxChar          = Integer.MAX_VALUE;
 
     @XmlElement(name = Selection.TAG_NAME)
@@ -97,6 +102,19 @@ public class Question implements Serializable {
     }
 
     /**
+     * @return typeが{@link QuestionType#TEXT}及び{@link QuestionType#TEXTAREA}の時の、入力欄の前後に付与する文字列を返します.
+     */
+    public TextAnswerColumn getAnswerColumnForText() {
+        if (!(this.type == QuestionType.TEXT || this.type == QuestionType.TEXTAREA)) {
+            throw new IllegalStateException("タイプが " + this.type + " のときにこのメソッドを呼び出してはいけません."); //$NON-NLS-1$ //$NON-NLS-2$
+        }
+        if (this.selections.isEmpty()) {
+            return TextAnswerColumn.EMPTY;
+        }
+        return QuestionUtil.parseTextAnswerColumn(this.selections.get(0).getMessage());
+    }
+
+    /**
      * @return the maxChar
      */
     public int getMaxChar() {
@@ -139,6 +157,13 @@ public class Question implements Serializable {
     }
 
     /**
+     * @return the required
+     */
+    public boolean isRequired() {
+        return this.required;
+    }
+
+    /**
      * @param pMaxChar the maxChar to set
      */
     public void setMaxChar(final int pMaxChar) {
@@ -150,6 +175,13 @@ public class Question implements Serializable {
      */
     public void setMessage(final String pMessage) {
         this.message = pMessage == null ? Empty.STRING : pMessage;
+    }
+
+    /**
+     * @param pRequired the required to set
+     */
+    public void setRequired(final boolean pRequired) {
+        this.required = pRequired;
     }
 
     /**
@@ -166,6 +198,7 @@ public class Question implements Serializable {
     @SuppressWarnings("nls")
     @Override
     public String toString() {
-        return "Question [type=" + this.type + ", message=" + this.message + ", maxchar=" + this.maxChar + ", selections=" + this.selections + "]";
+        return "Question [type=" + this.type + ", required=" + this.required + ", message=" + this.message + ", maxChar=" + this.maxChar
+                + ", selections=" + this.selections + "]";
     }
 }

@@ -1,6 +1,6 @@
 @import "common-const.less";
 
-@header-footer-height: 30px;
+@header-height: 90px;
 
 body h1 {
     color: @accent-color;
@@ -14,7 +14,7 @@ h2, h3, h4, h5, h6  {
 
 body textarea {
 	width: 90%;
-	height: 20em;
+	height: 10em;
     border-radius: @border-radius-small;
 }
 
@@ -23,7 +23,6 @@ input[type='text'] {
 }
 
 .header-footer () {
-    height: @header-footer-height;
     background: @main-color;
     box-shadow: rgba(0,0,0,.3) 1px 1px;
 }
@@ -40,7 +39,8 @@ input[type='text'] {
 
 header {
 	.header-footer();
-    .top-radius(@border-radius-small);
+    .top-radius(@border-radius-normal);
+    height: @header-height;
 
     padding-top: 0.3em;
     background: @main-color;
@@ -48,6 +48,8 @@ header {
     position: fixed;
     top: 0;
     width: 100%;
+
+    padding: 5px;
 }
 
 footer {
@@ -55,7 +57,11 @@ footer {
     .bottom-radius(@border-radius-small);
 
     padding-top: 0.3em;
-	margin-top: 1em;
+    margin-top: 1em;
+
+    position: fixed;
+    bottom: 0;
+    width: 100%;
 
     color: @base-color;
     text-align: right;
@@ -86,8 +92,10 @@ body form {
 }
 
 div.mainContent {
-    margin-top: @header-footer-height + 10;
+    margin-top: @header-height + 20;
     margin-left: 1em;
+    margin-right: 1em;
+    margin-bottom: 3em;
 }
 
 select {

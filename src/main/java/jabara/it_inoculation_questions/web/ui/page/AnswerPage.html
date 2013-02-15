@@ -1,0 +1,27 @@
+<wicket:extend>
+
+  <input type="text" id="idText" />
+  <button class="btn btn-primary" id="refresher"><i class="icon-white icon-repeat"></i> 更新</button>
+
+  <table>
+    <tr>
+      <th>id</th>
+      <th>questionIndex</th>
+      <th>value</th>
+    </tr>
+    <tr wicket:id="answers">
+      <td wicket:id="id"></td>
+      <td wicket:id="questionIndex"></td>
+      <td wicket:id="value"></td>
+    </tr>
+  </table>
+
+  <script>
+  $(function() {
+    $('#refresher').click(function() {
+      location.href = '?id=' + $('#idText').val();
+    });
+  });
+  </script>
+
+</wicket:extend>

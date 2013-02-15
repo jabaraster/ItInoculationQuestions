@@ -13,18 +13,20 @@ import javax.persistence.Entity;
  */
 @Entity
 public class Answer extends EntityBase<Answer> {
-    private static final long serialVersionUID = 4438634181403267449L;
+    private static final long serialVersionUID     = 4438634181403267449L;
+
+    private static final int  MAX_CHAR_COUNT_VALUE = 1000;
 
     /**
-     * 
+     * この回答が、何番目の設問に対する回答かを0始まりのインデックス値で保持します.
      */
     @Column(nullable = false)
-    protected int             index;
+    protected int             questionIndex;
 
     /**
-     * 
+     * 回答内容を表す文字列です.
      */
-    @Column(nullable = true)
+    @Column(nullable = true, length = MAX_CHAR_COUNT_VALUE * 3)
     protected String          value;
 
     /**
@@ -35,17 +37,26 @@ public class Answer extends EntityBase<Answer> {
     }
 
     /**
-     * @param pIndex
+     * @param pQuestionIndex 何番目の設問に対する回答かを0始まりのインデックスで指定.
      */
-    public Answer(final int pIndex) {
-        this.index = pIndex;
+    public Answer(final int pQuestionIndex) {
+        this.questionIndex = pQuestionIndex;
+    }
+
+    /**
+     * @param pQuestionIndex 何番目の設問に対する回答かを0始まりのインデックスで指定.
+     * @param pValue 回答内容を表す文字列.
+     */
+    public Answer(final int pQuestionIndex, final String pValue) {
+        setQuestionIndex(pQuestionIndex);
+        setValue(pValue);
     }
 
     /**
      * @return indexを返す.
      */
-    public int getIndex() {
-        return this.index;
+    public int getQuestionIndex() {
+        return this.questionIndex;
     }
 
     /**
@@ -58,8 +69,8 @@ public class Answer extends EntityBase<Answer> {
     /**
      * @param pIndex indexを設定.
      */
-    public void setIndex(final int pIndex) {
-        this.index = pIndex;
+    public void setQuestionIndex(final int pIndex) {
+        this.questionIndex = pIndex;
     }
 
     /**
@@ -75,7 +86,7 @@ public class Answer extends EntityBase<Answer> {
     @SuppressWarnings("nls")
     @Override
     public String toString() {
-        return "Answer [index=" + this.index + ", value=" + this.value + ", id=" + this.id + ", created=" + this.created + ", updated="
-                + this.updated + "]";
+        return "Answer [questionIndex=" + this.questionIndex + ", value=" + this.value + ", id=" + this.id + ", created=" + this.created
+                + ", updated=" + this.updated + "]";
     }
 }

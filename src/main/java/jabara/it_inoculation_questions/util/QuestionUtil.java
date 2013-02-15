@@ -3,12 +3,16 @@
  */
 package jabara.it_inoculation_questions.util;
 
+import jabara.general.Empty;
 import jabara.it_inoculation_questions.model.InvalidQuestionSettingException;
 import jabara.it_inoculation_questions.model.Question;
 import jabara.it_inoculation_questions.model.Questions;
+import jabara.it_inoculation_questions.model.TextAnswerColumn;
 
 import java.net.URL;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.xml.bind.JAXB;
 
@@ -31,6 +35,22 @@ public final class QuestionUtil {
         final List<Question> ret = JAXB.unmarshal(pXmlLocation, Questions.class).getQuestions();
         checkQuestions(ret);
         return ret;
+    }
+
+    /**
+     * @param pDefinition ${value}を含む文字列.
+     * @return 入力欄前後の文字列.
+     */
+    public static TextAnswerColumn parseTextAnswerColumn(final String pDefinition) {
+        if (pDefinition == null || pDefinition.length() == 0) {
+            return new TextAnswerColumn(Empty.STRING, Empty.STRING);
+        }
+
+        final Matcher matcher = Pattern.compile("(.*)\\$\\{value\\}(.*)").matcher(pDefinition); //$NON-NLS-1$
+        if (!matcher.find()) {
+            throw new IllegalArgumentException("文字列に${value}を含める必要があります."); //$NON-NLS-1$
+        }
+        return new TextAnswerColumn(matcher.group(1), matcher.group(2));
     }
 
     private static void checkQuestion(final Question pQuestion) throws CheckError {

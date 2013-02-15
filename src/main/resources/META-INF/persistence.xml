@@ -5,7 +5,9 @@
 
 	<persistence-unit name="mainPersistenceUnit" transaction-type="RESOURCE_LOCAL">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
-        <class>jabara.jpa.entity.EntityBase</class>
+		<class>jabara.jpa.entity.EntityBase</class>
+		<class>jabara.it_inoculation_questions.entity.AnswersSave</class>
+		<class>jabara.it_inoculation_questions.entity.Answers</class>
 		<validation-mode>CALLBACK</validation-mode>
 		<properties>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />

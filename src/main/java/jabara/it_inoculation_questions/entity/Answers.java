@@ -6,44 +6,46 @@ package jabara.it_inoculation_questions.entity;
 import jabara.jpa.entity.EntityBase;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 
 /**
  * @author jabaraster
  */
 @Entity
-public class Answers extends EntityBase<Answers> {
-    private static final long serialVersionUID = 7918875122200802870L;
+public class Answers extends EntityBase<Answers> implements Iterable<Answer> {
+    private static final long serialVersionUID = 366102388187764739L;
 
     /**
      * 
      */
-    @OneToMany(cascade = { CascadeType.ALL }, orphanRemoval = true)
-    @JoinColumn(name = "answers_ref")
+    @OneToMany(cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
+    @JoinColumn(name = "answers_id")
+    @OrderBy("questionIndex")
     protected List<Answer>    answers          = new ArrayList<Answer>();
 
     /**
-     * @param pIndex
-     * @return pIndexの位置にある{@link Answer}.
+     * @param pQuestionIndex 何番目の設問に対する回答かを0始まりのインデックスで指定.
+     * @param pValue 回答内容を表す文字列.
+     * @return 追加した回答.
      */
-    public Answer getAnswer(final int pIndex) {
-        return this.answers.get(pIndex);
+    public Answer addAnswer(final int pQuestionIndex, final String pValue) {
+        final Answer answer = new Answer(pQuestionIndex, pValue);
+        this.answers.add(answer);
+        return answer;
     }
 
     /**
-     * @return 新しい{@link Answer}オブジェクト. <br>
-     *         indexを設定済み. <br>
-     *         コレクションに追加される.
+     * @see java.lang.Iterable#iterator()
      */
-    public Answer newAnswer() {
-        final Answer answer = new Answer();
-        answer.setIndex(this.answers.size());
-        this.answers.add(answer);
-        return answer;
+    @Override
+    public Iterator<Answer> iterator() {
+        return this.answers.iterator();
     }
 }

@@ -51,6 +51,7 @@ public class AnswerSelectPanel extends InputPanel {
                     , this.question.getSelections() //
                     , new SelectionChoiceRenderer() //
             );
+            this.selection.setRequired(this.question.isRequired());
         }
         return this.selection;
     }

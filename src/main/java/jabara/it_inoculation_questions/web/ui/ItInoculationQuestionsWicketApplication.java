@@ -4,7 +4,9 @@
 package jabara.it_inoculation_questions.web.ui;
 
 import jabara.it_inoculation_questions.model.DI;
+import jabara.it_inoculation_questions.web.ui.page.AnswerPage;
 import jabara.it_inoculation_questions.web.ui.page.IndexPage;
+import jabara.it_inoculation_questions.web.ui.page.ThankYouPage;
 
 import org.apache.wicket.Page;
 import org.apache.wicket.guice.GuiceComponentInjector;
@@ -50,6 +52,7 @@ public class ItInoculationQuestionsWicketApplication extends WebApplication {
     }
 
     private void mountPages() {
-
+        mountPage("thankyou", ThankYouPage.class); //$NON-NLS-1$
+        mountPage("answer", AnswerPage.class); //$NON-NLS-1$
     }
 }

@@ -59,7 +59,7 @@ public class QAPanel extends InputPanel {
                 this.answerInputPanel = new AnswerSelectPanel(id, this.question, this.answerValueModel);
                 break;
             case TEXT:
-                this.answerInputPanel = new AnswerTextPanel(id, this.question, this.answerValueModel);
+                this.answerInputPanel = new AnswerTextFieldPanel(id, this.question, this.answerValueModel);
                 break;
             case TEXTAREA:
                 this.answerInputPanel = new AnswerTextAreaPanel(id, this.question, this.answerValueModel);

@@ -1,12 +1,13 @@
-
 <wicket:extend>
 
-    <h1>アンケート</h1>
+  <article wicket:id="questions">
+    <form wicket:id="questionForm">
+      <div wicket:id="question"></div>
+    </form>
+  </article>
 
-    <article wicket:id="questions">
-      <form wicket:id="questionForm">
-        <div wicket:id="question"></div>
-      </form>
-    </article>
+  <form wicket:id="deciderForm" class="deciderForm">
+    <button wicket:id="decider" class="btn btn-warning btn-large decider">回答を送信</button>
+  </form>
 
 </wicket:extend>

@@ -3,8 +3,10 @@
  */
 package jabara.it_inoculation_questions.service;
 
+import jabara.general.NotFound;
 import jabara.it_inoculation_questions.entity.Answer;
 import jabara.it_inoculation_questions.entity.Answers;
+import jabara.it_inoculation_questions.entity.AnswersSave;
 import jabara.it_inoculation_questions.service.impl.AnswerServicesImpl;
 
 import com.google.inject.ImplementedBy;
@@ -16,12 +18,29 @@ import com.google.inject.ImplementedBy;
 public interface IAnswersService {
 
     /**
-     * @param pAnswers
+     * 回答を確定します.
+     * 
+     * @param pAnswersSave
+     * @return 確定した回答.
      */
-    void insertOrUpdate(Answers pAnswers);
+    Answers decide(AnswersSave pAnswersSave);
 
     /**
-     * @param pAnswer
+     * @param pId ID値.
+     * @return 指定のID値を持つ確定回答.
+     * @throws NotFound 該当オブジェクトがない場合.
+     */
+    Answers getById(long pId) throws NotFound;
+
+    /**
+     * @param pAnswersKey 回答のキー. 回答途中の状態を保存するために、ブラウザのCookieに格納される.
+     * @param pQuestionsCount 設問の数.
+     * @return pAnswersKeyで記録されている回答.
+     */
+    AnswersSave getSavedByKey(String pAnswersKey, int pQuestionsCount);
+
+    /**
+     * @param pAnswer 回答.
      */
     void update(Answer pAnswer);
 }

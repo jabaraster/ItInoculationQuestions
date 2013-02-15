@@ -1,2 +1,9 @@
 eclipse.preferences.version=1
+encoding//src/main/java/jabara/it_inoculation_questions/web/ui/component/AnswerSelectPanel.html=UTF-8
+encoding//src/main/java/jabara/it_inoculation_questions/web/ui/component/AnswerTextAreaPanel.html=UTF-8
+encoding//src/main/java/jabara/it_inoculation_questions/web/ui/component/AnswerTextFieldPanel.html=UTF-8
+encoding//src/main/java/jabara/it_inoculation_questions/web/ui/component/DescriptionPanel.html=UTF-8
+encoding//src/main/java/jabara/it_inoculation_questions/web/ui/component/QAPanel.html=UTF-8
+encoding//src/main/java/jabara/it_inoculation_questions/web/ui/component/TextComponentPanel.html=UTF-8
+encoding//src/main/java/jabara/it_inoculation_questions/web/ui/page/AnswerPage.less=UTF-8
 encoding//src/main/java/jabara/it_inoculation_questions/web/ui/page/IndexPage.html=UTF-8

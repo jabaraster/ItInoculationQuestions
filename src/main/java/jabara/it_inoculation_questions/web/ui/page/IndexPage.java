@@ -3,8 +3,9 @@
  */
 package jabara.it_inoculation_questions.web.ui.page;
 
+import jabara.it_inoculation_questions.ItInoculationQuestionsEnv;
 import jabara.it_inoculation_questions.entity.Answer;
-import jabara.it_inoculation_questions.entity.Answers;
+import jabara.it_inoculation_questions.entity.AnswersSave;
 import jabara.it_inoculation_questions.model.Question;
 import jabara.it_inoculation_questions.service.IAnswersService;
 import jabara.it_inoculation_questions.service.IQuestionService;
@@ -12,18 +13,25 @@ import jabara.it_inoculation_questions.web.ui.component.DescriptionPanel;
 import jabara.it_inoculation_questions.web.ui.component.QAPanel;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.OnChangeAjaxBehavior;
 import org.apache.wicket.markup.head.IHeaderResponse;
+import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.request.cycle.RequestCycle;
+import org.apache.wicket.request.http.WebRequest;
+import org.apache.wicket.request.http.WebResponse;
 
 /**
  * @author jabaraster
@@ -31,29 +39,31 @@ import org.apache.wicket.model.IModel;
 @SuppressWarnings("serial")
 public class IndexPage extends ItInoculationQuestionsWebPageBase {
 
+    private static final String  VISITED_COOKIE_NAME = ItInoculationQuestionsEnv.APPLICATION_NAME + ".visited"; //$NON-NLS-1$
+
     @Inject
     IQuestionService             questionService;
     @Inject
     IAnswersService              answersService;
 
     private final List<Question> questionsValue;
-    private final Answers        answersValue = new Answers();
+    private final AnswersSave    answersValue;
 
     private ListView<Question>   questions;
+    private Form<?>              deciderForm;
+    private Button               decider;
 
     /**
      * 
      */
     public IndexPage() {
         this.questionsValue = this.questionService.getQuestions();
-        for (@SuppressWarnings("unused")
-        final Question q : this.questionsValue) {
-            this.answersValue.newAnswer();
-        }
-        this.add(getQuestions());
 
-        // TODO ここでINSERTするのが適切か・・・
-        this.answersService.insertOrUpdate(this.answersValue);
+        final String answersKey = manageVisitedCookie();
+        this.answersValue = this.answersService.getSavedByKey(answersKey, this.questionsValue.size());
+
+        this.add(getQuestions());
+        this.add(getDeciderForm());
     }
 
     /**
@@ -65,6 +75,9 @@ public class IndexPage extends ItInoculationQuestionsWebPageBase {
         addPageCssReference(pResponse, this.getClass());
     }
 
+    /**
+     * @see jabara.it_inoculation_questions.web.ui.page.ItInoculationQuestionsWebPageBase#createHeaderPanel(java.lang.String)
+     */
     @Override
     protected Panel createHeaderPanel(final String pHeaderPanelId) {
         return new DescriptionPanel(pHeaderPanelId);
@@ -81,6 +94,34 @@ public class IndexPage extends ItInoculationQuestionsWebPageBase {
                 return "IT予防接種アンケート"; //$NON-NLS-1$
             }
         };
+    }
+
+    @SuppressWarnings("nls")
+    private Button getDecider() {
+        if (this.decider == null) {
+            this.decider = new Button("decider") {
+                @Override
+                public void onError() {
+                    jabara.Debug.write();
+                }
+
+                @SuppressWarnings("synthetic-access")
+                @Override
+                public void onSubmit() {
+                    IndexPage.this.answersService.decide(IndexPage.this.answersValue);
+                    setResponsePage(ThankYouPage.class);
+                }
+            };
+        }
+        return this.decider;
+    }
+
+    private Form<?> getDeciderForm() {
+        if (this.deciderForm == null) {
+            this.deciderForm = new Form<Object>("deciderForm"); //$NON-NLS-1$
+            this.deciderForm.add(getDecider());
+        }
+        return this.deciderForm;
     }
 
     @SuppressWarnings("nls")
@@ -124,4 +165,28 @@ public class IndexPage extends ItInoculationQuestionsWebPageBase {
         }
         return this.questions;
     }
+
+    private static String addVisitedCookie(final String pVisitedCookieName) {
+        final String key = ((HttpServletRequest) RequestCycle.get().getRequest().getContainerRequest()).getSession().getId();
+        final Cookie visitedCookie = new Cookie(pVisitedCookieName, key);
+
+        final long maxAge = TimeUnit.SECONDS.convert(3, TimeUnit.DAYS);
+        if (maxAge > Integer.MAX_VALUE) {
+            throw new IllegalStateException();
+        }
+        visitedCookie.setMaxAge((int) maxAge);
+        ((WebResponse) RequestCycle.get().getOriginalResponse()).addCookie(visitedCookie);
+        return key;
+    }
+
+    private static String manageVisitedCookie() {
+
+        final WebRequest request = (WebRequest) RequestCycle.get().getRequest();
+        final Cookie cookie = request.getCookie(VISITED_COOKIE_NAME);
+        if (cookie == null) { // 初めての訪問なら
+            return addVisitedCookie(VISITED_COOKIE_NAME);
+        }
+        return cookie.getValue();
+    }
+
 }
