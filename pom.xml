@@ -220,7 +220,7 @@
 				<artifactId>exec-maven-plugin</artifactId>
 				<version>1.2.1</version>
 				<configuration>
-					<mainClass>RakeUpWebStarter</mainClass>
+					<mainClass>ItInoculationQuestionsWebStarter</mainClass>
 					<systemProperties>
                         <!--
                         <systemProperty>
@@ -229,7 +229,7 @@
                        </systemProperty>
                         -->
 						<systemProperty>
-							<key>memcached.servers</key>
+							<key>memcached.server</key>
 							<value>localhost:11211</value>
 						</systemProperty>
 					</systemProperties>
