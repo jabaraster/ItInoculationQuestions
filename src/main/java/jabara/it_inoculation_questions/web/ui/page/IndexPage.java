@@ -8,6 +8,7 @@ import jabara.it_inoculation_questions.entity.Answers;
 import jabara.it_inoculation_questions.model.Question;
 import jabara.it_inoculation_questions.service.IAnswersService;
 import jabara.it_inoculation_questions.service.IQuestionService;
+import jabara.it_inoculation_questions.web.ui.component.DescriptionPanel;
 import jabara.it_inoculation_questions.web.ui.component.QAPanel;
 
 import java.util.List;
@@ -20,6 +21,7 @@ import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
+import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
 
@@ -61,6 +63,11 @@ public class IndexPage extends ItInoculationQuestionsWebPageBase {
     public void renderHead(final IHeaderResponse pResponse) {
         super.renderHead(pResponse);
         addPageCssReference(pResponse, this.getClass());
+    }
+
+    @Override
+    protected Panel createHeaderPanel(final String pHeaderPanelId) {
+        return new DescriptionPanel(pHeaderPanelId);
     }
 
     /**

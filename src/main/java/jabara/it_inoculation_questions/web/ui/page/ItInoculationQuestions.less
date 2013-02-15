@@ -1,12 +1,14 @@
 @import "common-const.less";
 
+@header-footer-height: 30px;
+
 body h1 {
     color: @accent-color;
     text-shadow: rgba(0,0,0,.3) 1px 1px;
 }
 
 h2, h3, h4, h5, h6  {
-    color: @main-color;
+    color: rgb(70, 70, 70);
     text-shadow: rgba(0,0,0,.3) 1px 1px;
 }
 
@@ -21,7 +23,7 @@ input[type='text'] {
 }
 
 .header-footer () {
-    height: 2em;
+    height: @header-footer-height;
     background: @main-color;
     box-shadow: rgba(0,0,0,.3) 1px 1px;
 }
@@ -43,18 +45,9 @@ header {
     padding-top: 0.3em;
     background: @main-color;
 
-    position: relative;
-
-    li {
-       display: inline-block;
-       margin-right: 1em;
-       a {
-           color: @link-in-nav;
-       }
-       .icon-exit {
-           margin-left: 5em;
-       }
-    }
+    position: fixed;
+    top: 0;
+    width: 100%;
 }
 
 footer {
@@ -68,19 +61,6 @@ footer {
     text-align: right;
     padding-right: 0.3em;
     text-shadow: rgba(0,0,0,1) 3px 3px;
-}
-
-div.mainBox {
-    text-align: center;
-}
-
-span.keyword {
-    padding: 0.2em;
-    border: solid 1px #333333;
-    border-radius: 4px;
-    margin-right: 0.3em;
-    background: @cell-background;
-    font-size: smaller;
 }
 
 span.required:after {
@@ -106,5 +86,10 @@ body form {
 }
 
 div.mainContent {
-    margin: 1em;
+    margin-top: @header-footer-height + 10;
+    margin-left: 1em;
+}
+
+select {
+    width: auto;
 }

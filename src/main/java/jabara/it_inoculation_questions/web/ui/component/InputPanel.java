@@ -13,7 +13,7 @@ public abstract class InputPanel extends Panel {
     private static final long serialVersionUID = -2247244758107513835L;
 
     /**
-     * @param pId
+     * @param pId パネルのwicket:id.
      */
     public InputPanel(final String pId) {
         super(pId);

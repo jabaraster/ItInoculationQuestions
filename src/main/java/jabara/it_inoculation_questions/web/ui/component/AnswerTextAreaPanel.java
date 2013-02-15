@@ -21,9 +21,9 @@ public class AnswerTextAreaPanel extends InputPanel {
     private TextArea<String>     answerText;
 
     /**
-     * @param pId
-     * @param pQuestion
-     * @param pAnswerValueModel
+     * @param pId パネルのwicket:id.
+     * @param pQuestion 設問.
+     * @param pAnswerValueModel 回答を格納するモデル.
      */
     public AnswerTextAreaPanel(final String pId, final Question pQuestion, final IModel<String> pAnswerValueModel) {
         super(pId);

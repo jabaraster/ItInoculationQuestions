@@ -26,10 +26,10 @@ public class QAPanel extends InputPanel {
     private Label                message;
 
     /**
-     * @param pId
-     * @param pQuestion
-     * @param pAnswerValueModel
-     * @param pIndex
+     * @param pId パネルのwicket:id.
+     * @param pQuestion 設問.
+     * @param pAnswerValueModel 回答を格納するモデル.
+     * @param pIndex 何番目の設問かを示す値. 0始まり.
      */
     public QAPanel(final String pId, final Question pQuestion, final IModel<String> pAnswerValueModel, final int pIndex) {
         super(pId);

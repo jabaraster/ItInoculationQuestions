@@ -13,6 +13,7 @@ import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.head.JavaScriptHeaderItem;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
@@ -26,12 +27,14 @@ import org.apache.wicket.request.resource.JavaScriptResourceReference;
 public abstract class ItInoculationQuestionsWebPageBase extends WebPage {
     private static final long serialVersionUID = -4825633194551616360L;
 
+    private Label             titleLabel;
+    private Panel             headerPanel;
+
     /**
      * 
      */
     public ItInoculationQuestionsWebPageBase() {
-        super();
-        build();
+        this(new PageParameters());
     }
 
     /**
@@ -39,7 +42,8 @@ public abstract class ItInoculationQuestionsWebPageBase extends WebPage {
      */
     public ItInoculationQuestionsWebPageBase(final PageParameters pParameters) {
         super(pParameters);
-        build();
+        this.add(getTitleLabel());
+        this.add(getHeaderPanel());
     }
 
     /**
@@ -61,18 +65,37 @@ public abstract class ItInoculationQuestionsWebPageBase extends WebPage {
     }
 
     /**
+     * @param pHeaderPanelId headerタグに含めるPanelのwicket:id.
+     * @return headerタグに含めるPanel.
+     */
+    protected abstract Panel createHeaderPanel(String pHeaderPanelId);
+
+    /**
+     * @return headerタグに含めるPanel.
+     */
+    protected Panel getHeaderPanel() {
+        if (this.headerPanel == null) {
+            this.headerPanel = createHeaderPanel("headerPanel"); //$NON-NLS-1$
+        }
+        return this.headerPanel;
+    }
+
+    /**
      * @return HTMLのtitleタグの内容
      */
     protected abstract IModel<String> getTitleLabelModel();
 
     @SuppressWarnings({ "nls", "serial" })
-    private void build() {
-        this.add(new Label("titleLabel", new AbstractReadOnlyModel<String>() {
-            @Override
-            public String getObject() {
-                return getTitleLabelModel().getObject() + " - " + ItInoculationQuestionsEnv.ENV_APPLICATION_NAME;
-            }
-        }));
+    private Label getTitleLabel() {
+        if (this.titleLabel == null) {
+            this.titleLabel = new Label("titleLabel", new AbstractReadOnlyModel<String>() {
+                @Override
+                public String getObject() {
+                    return getTitleLabelModel().getObject() + " - " + ItInoculationQuestionsEnv.ENV_APPLICATION_NAME;
+                }
+            });
+        }
+        return this.titleLabel;
     }
 
     /**
@@ -90,11 +113,10 @@ public abstract class ItInoculationQuestionsWebPageBase extends WebPage {
      */
     public static void renderCommonHead(final IHeaderResponse pResponse) {
         ArgUtil.checkNull(pResponse, "pResponse"); //$NON-NLS-1$
-        //        pResponse.render(CssHeaderItem.forReference(new CssResourceReference(ItInoculationQuestionsWebPageBase.class, "style.css"))); //$NON-NLS-1$
-        pResponse.render(CssHeaderItem.forReference(new CssResourceReference(ItInoculationQuestionsWebPageBase.class, "ItInoculationQuestions.css"))); //$NON-NLS-1$
         pResponse.render(CssHeaderItem.forReference(new CssResourceReference(ItInoculationQuestionsWebPageBase.class, "fonts/icomoon/style.css"))); //$NON-NLS-1$
         pResponse.render(CssHeaderItem.forReference(new CssResourceReference(ItInoculationQuestionsWebPageBase.class,
                 "bootstrap/css/bootstrap.min.css"))); //$NON-NLS-1$
+        pResponse.render(CssHeaderItem.forReference(new CssResourceReference(ItInoculationQuestionsWebPageBase.class, "ItInoculationQuestions.css"))); //$NON-NLS-1$
         pResponse.render(JavaScriptHeaderItem.forReference(new JavaScriptResourceReference(ItInoculationQuestionsWebPageBase.class,
                 JavaScriptUtil.COMMON_JS_FILE_PATH)));
     }
