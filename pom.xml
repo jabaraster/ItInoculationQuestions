@@ -12,7 +12,7 @@
 		<jetty.version>8.1.5.v20120716</jetty.version>
 		<wicket.version>6.4.0</wicket.version>
 		<jersey.version>1.8</jersey.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
 	<!-- 依存ライブラリを記述 -->
@@ -222,12 +222,8 @@
 				<configuration>
 					<mainClass>ItInoculationQuestionsWebStarter</mainClass>
 					<systemProperties>
-                        <!--
-                        <systemProperty>
-                            <key>wicket.configuration</key>
-                            <value>deployment</value> 
-                       </systemProperty>
-                        -->
+						<!-- <systemProperty> <key>wicket.configuration</key> <value>deployment</value> 
+							</systemProperty> -->
 						<systemProperty>
 							<key>memcached.server</key>
 							<value>localhost:11211</value>
