@@ -1,3 +1,5 @@
+package app;
+
 import jabara.jetty_memcached.MemcachedSessionServerStarter;
 
 /**
