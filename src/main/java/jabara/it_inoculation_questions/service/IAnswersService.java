@@ -9,6 +9,8 @@ import jabara.it_inoculation_questions.entity.Answers;
 import jabara.it_inoculation_questions.entity.AnswersSave;
 import jabara.it_inoculation_questions.service.impl.AnswerServicesImpl;
 
+import java.util.List;
+
 import com.google.inject.ImplementedBy;
 
 /**
@@ -24,6 +26,11 @@ public interface IAnswersService {
      * @return 確定した回答.
      */
     Answers decide(AnswersSave pAnswersSave);
+
+    /**
+     * @return 全ての回答.
+     */
+    List<Answers> getAllAnswers();
 
     /**
      * @param pId ID値.

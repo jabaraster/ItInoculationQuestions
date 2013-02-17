@@ -1,6 +1,10 @@
 <wicket:extend>
 
-  <input type="text" id="idText" />
+  <div>
+    <a wicket:id="goList">一覧に戻る</a>
+  </div>
+
+  ID指定で回答を表示：<input type="text" id="idText" wicket:id="idText" />
   <button class="btn btn-primary" id="refresher"><i class="icon-white icon-repeat"></i> 更新</button>
 
   <table>
@@ -19,7 +23,7 @@
   <script>
   $(function() {
     $('#refresher').click(function() {
-      location.href = '?id=' + $('#idText').val();
+      location.href = './' + $('#idText').val();
     });
   });
   </script>

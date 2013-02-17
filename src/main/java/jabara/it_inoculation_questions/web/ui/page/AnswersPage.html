@@ -1,0 +1,26 @@
+<wicket:extend>
+
+  <div class="buttonContainer">
+    <button class="btn btn-primary" id="refresher"><i class="icon-white icon-refresh"></i> 最新に更新</button>
+  </div>
+
+  <table>
+    <tr>
+      <th>id</th>
+      <th>　</th>
+    </tr>
+    <tr wicket:id="answersList">
+      <td wicket:id="id"></td>
+      <td><a wicket:id="goDetail">回答詳細へ</a></td>
+    </tr>
+  </table>
+
+  <script>
+  $(function() {
+    $('#refresher').click(function() {
+      location.reload();
+    });
+  });
+  </script>
+
+</wicket:extend>

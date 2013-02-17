@@ -17,6 +17,9 @@ import javax.inject.Inject;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.head.JavaScriptHeaderItem;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.markup.html.link.StatelessLink;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.EmptyPanel;
@@ -30,7 +33,7 @@ import org.apache.wicket.util.string.StringValue;
 /**
  * @author jabaraster
  */
-public class AnswerPage extends ItInoculationQuestionsWebPageBase {
+public class AnswerPage extends AuthenticatedWebPageBase {
     private static final long serialVersionUID = 5632334148076438396L;
 
     @Inject
@@ -38,7 +41,9 @@ public class AnswerPage extends ItInoculationQuestionsWebPageBase {
 
     private final Answers     answersValue;
 
+    private TextField<Long>   idText;
     private ListView<Answer>  answers;
+    private Link<?>           goList;
 
     /**
      * @param pParameters URLパラメータ.
@@ -47,7 +52,10 @@ public class AnswerPage extends ItInoculationQuestionsWebPageBase {
         super(pParameters);
         final StringValue answerId = pParameters.get("id"); //$NON-NLS-1$
         this.answersValue = findAnswers(answerId);
+        this.add(getIdText());
         this.add(getAnswers());
+        this.add(getGoList());
+        setStatelessHint(true);
     }
 
     /**
@@ -112,6 +120,43 @@ public class AnswerPage extends ItInoculationQuestionsWebPageBase {
             };
         }
         return this.answers;
+    }
+
+    @SuppressWarnings({ "nls", "serial" })
+    private Link<?> getGoList() {
+        if (this.goList == null) {
+            this.goList = new StatelessLink<Object>("goList") {
+                @Override
+                public void onClick() {
+                    setResponsePage(AnswersPage.class);
+                }
+            };
+        }
+        return this.goList;
+    }
+
+    @SuppressWarnings({ "serial", "nls" })
+    private TextField<Long> getIdText() {
+        if (this.idText == null) {
+            this.idText = new TextField<Long>("idText", new AbstractReadOnlyModel<Long>() {
+                @SuppressWarnings("synthetic-access")
+                @Override
+                public Long getObject() {
+                    return AnswerPage.this.answersValue == null ? null : AnswerPage.this.answersValue.getId();
+                }
+            });
+        }
+        return this.idText;
+    }
+
+    /**
+     * @param pId 回答のID値.
+     * @return URLパラメータ.
+     */
+    public static PageParameters createParameters(final long pId) {
+        final PageParameters ret = new PageParameters();
+        ret.set("id", Long.valueOf(pId)); //$NON-NLS-1$
+        return ret;
     }
 
     private static List<Answer> toAnswerList(final Answers pAnswers) {

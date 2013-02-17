@@ -13,6 +13,8 @@ import jabara.it_inoculation_questions.entity.Answers_;
 import jabara.it_inoculation_questions.service.IAnswersService;
 import jabara.jpa.entity.EntityBase_;
 
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -57,6 +59,19 @@ public class AnswerServicesImpl implements IAnswersService {
         em.persist(answers);
 
         return answers;
+    }
+
+    /**
+     * @see jabara.it_inoculation_questions.service.IAnswersService#getAllAnswers()
+     */
+    @Override
+    public List<Answers> getAllAnswers() {
+        final EntityManager em = getEntityManager();
+        final CriteriaBuilder builder = em.getCriteriaBuilder();
+        final CriteriaQuery<Answers> query = builder.createQuery(Answers.class);
+        final Root<Answers> root = query.from(Answers.class);
+        query.orderBy(builder.desc(root.get(EntityBase_.created)));
+        return em.createQuery(query).getResultList();
     }
 
     /**
