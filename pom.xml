@@ -150,8 +150,8 @@
 		<finalName>it-inoculation-questions</finalName>
 
 		<!-- JettyにServlet3.0のアノテーションを読み込んでもらうためにclassファイルの出力先ディレクトリを変更する -->
-		<outputDirectory>src/main/webapp/WEB-INF/classes</outputDirectory>
-		<testOutputDirectory>src/main/webapp/WEB-INF/test-classes</testOutputDirectory>
+        <outputDirectory>src/main/webapp/WEB-INF/classes</outputDirectory>
+        <testOutputDirectory>src/main/webapp/WEB-INF/test-classes</testOutputDirectory>
 
 		<resources>
 			<resource>
