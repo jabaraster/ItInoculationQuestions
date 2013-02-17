@@ -127,7 +127,7 @@ public class LoginPage extends ItInoculationQuestionsWebPageBase {
             if (!redirectPath.isEmpty()) {
                 this.setResponsePage(new RedirectPage(redirectPath.toString()));
             } else {
-                this.setResponsePage(IndexPage.class);
+                this.setResponsePage(AnswersPage.class);
             }
         } catch (final FailAuthentication e) {
             error(getString("failAuthentication")); //$NON-NLS-1$
