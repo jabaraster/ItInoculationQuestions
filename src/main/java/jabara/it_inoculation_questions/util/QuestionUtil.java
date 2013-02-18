@@ -64,6 +64,8 @@ public final class QuestionUtil {
         case TEXTAREA:
             checkSelectionCountIsZeroOrOne(pQuestion);
             break;
+        default:
+            throw new IllegalStateException();
         }
     }
 

@@ -2,7 +2,7 @@
 
 @header-height: 90px;
 
-body h1 {
+h1 {
     color: @accent-color;
     text-shadow: rgba(0,0,0,.3) 1px 1px;
 }
@@ -42,14 +42,30 @@ header {
     .top-radius(@border-radius-normal);
     height: @header-height;
 
-    padding-top: 0.3em;
+    margin-right: 1em;
+
+    padding-left: 0.5em;
+    padding-right: 0.5em;
     background: @main-color;
 
     position: fixed;
     top: 0;
     width: 100%;
 
-    padding: 5px;
+    > h1 {
+        float: left;
+    }
+
+    > div.imageContainer {
+        margin-top: 10px;
+        margin-right: 1em;
+        text-align: right;
+        display: none;
+    }
+
+    > div.headerPanelContainer {
+        clear: both;
+    }
 }
 
 footer {
@@ -57,16 +73,29 @@ footer {
     .bottom-radius(@border-radius-small);
 
     padding-top: 0.3em;
-    margin-top: 1em;
 
     position: fixed;
     bottom: 0;
+    height: 25px;
     width: 100%;
 
     color: @base-color;
     text-align: right;
-    padding-right: 0.3em;
-    text-shadow: rgba(0,0,0,1) 3px 3px;
+
+    > p {
+        padding-left: 1em;
+        font-size: small;
+        float: left;
+    }
+
+    > div {
+        text-shadow: rgba(0,0,0,1) 3px 3px;
+        padding-right: 0.5em;
+        img {
+            border: 0;
+            height: 1em;
+        }
+    }
 }
 
 span.required:after {

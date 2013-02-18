@@ -6,8 +6,6 @@ package jabara.it_inoculation_questions.web;
 import jabara.it_inoculation_questions.model.DI;
 import jabara.it_inoculation_questions.web.rest.ItInoculationQuestionsRestApplication;
 import jabara.it_inoculation_questions.web.ui.ItInoculationQuestionsWicketApplication;
-import jabara.servlet.RequestDumpFilter;
-import jabara.servlet.ResponseDumpFilter;
 import jabara.servlet.UTF8EncodingFilter;
 
 import java.util.EnumSet;
@@ -88,11 +86,6 @@ public class ItInoculationQuestionsWebInitializer implements ServletContextListe
 
     private static ServletRegistration.Dynamic addServlet(final ServletContext pContext, final Class<? extends Servlet> pServletType) {
         return pContext.addServlet(pServletType.getName(), pServletType);
-    }
-
-    private static void initializeDumpFilter(final ServletContext pServletContext) {
-        addFiter(pServletContext, RequestDumpFilter.class).addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), false, PATH_ALL);
-        addFiter(pServletContext, ResponseDumpFilter.class).addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), false, PATH_ALL);
     }
 
     private static void initializeEncodingFilter(final ServletContext pServletContext) {
