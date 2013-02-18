@@ -9,6 +9,7 @@ import jabara.it_inoculation_questions.entity.AnswersSave;
 import jabara.it_inoculation_questions.model.DI;
 import jabara.it_inoculation_questions.service.IAnswersService;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -21,6 +22,16 @@ public class AnswerServicesImplTest {
      */
     @SuppressWarnings("static-method")
     @Test
+    public void _getAnswersStatistics() {
+        DI.get(IAnswersService.class).getAnswersStatistics();
+    }
+
+    /**
+     * 
+     */
+    @SuppressWarnings("static-method")
+    @Test
+    @Ignore
     public void _getByKey() {
         final String key = "hoge"; //$NON-NLS-1$
         final int questionsCount = 10;

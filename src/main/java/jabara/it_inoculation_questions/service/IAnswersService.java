@@ -7,6 +7,7 @@ import jabara.general.NotFound;
 import jabara.it_inoculation_questions.entity.Answer;
 import jabara.it_inoculation_questions.entity.Answers;
 import jabara.it_inoculation_questions.entity.AnswersSave;
+import jabara.it_inoculation_questions.model.AnswersStatistics;
 import jabara.it_inoculation_questions.service.impl.AnswerServicesImpl;
 
 import java.util.List;
@@ -31,6 +32,11 @@ public interface IAnswersService {
      * @return 全ての回答.
      */
     List<Answers> getAllAnswers();
+
+    /**
+     * @return 回答の統計情報を返します.
+     */
+    List<AnswersStatistics> getAnswersStatistics();
 
     /**
      * @param pId ID値.

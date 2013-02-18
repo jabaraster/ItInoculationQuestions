@@ -6,6 +6,7 @@ package jabara.it_inoculation_questions.web.ui;
 import jabara.it_inoculation_questions.model.DI;
 import jabara.it_inoculation_questions.web.ui.page.AnswerPage;
 import jabara.it_inoculation_questions.web.ui.page.AnswersPage;
+import jabara.it_inoculation_questions.web.ui.page.AnswersStatisticsPage;
 import jabara.it_inoculation_questions.web.ui.page.AuthenticatedWebPageBase;
 import jabara.it_inoculation_questions.web.ui.page.IndexPage;
 import jabara.it_inoculation_questions.web.ui.page.LoginPage;
@@ -118,5 +119,6 @@ public class ItInoculationQuestionsWicketApplication extends WebApplication {
         mountPage("thankyou", ThankYouPage.class); //$NON-NLS-1$
         mountPage("answers/${id}", AnswerPage.class); //$NON-NLS-1$
         mountPage("answers", AnswersPage.class); //$NON-NLS-1$
+        mountPage("answersStatistics", AnswersStatisticsPage.class); //$NON-NLS-1$
     }
 }

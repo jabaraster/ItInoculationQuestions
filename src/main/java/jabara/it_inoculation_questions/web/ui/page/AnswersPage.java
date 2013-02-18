@@ -11,7 +11,6 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.apache.wicket.markup.head.IHeaderResponse;
-import org.apache.wicket.markup.head.JavaScriptHeaderItem;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.link.StatelessLink;
@@ -51,7 +50,7 @@ public class AnswersPage extends AuthenticatedWebPageBase {
     public void renderHead(final IHeaderResponse pResponse) {
         super.renderHead(pResponse);
         this.addPageCssReference(pResponse);
-        pResponse.render(JavaScriptHeaderItem.forUrl("http://code.jquery.com/jquery-1.9.1.min.js")); //$NON-NLS-1$
+        ItInoculationQuestionsWebPageBase.addJQueryReference(pResponse);
     }
 
     /**

@@ -99,6 +99,15 @@ public abstract class ItInoculationQuestionsWebPageBase extends WebPage {
     }
 
     /**
+     * jQuery1.9.1を読み込むタグをヘッダに書き込みます.
+     * 
+     * @param pResponse ヘッダ書き込み用オブジェクト.
+     */
+    public static void addJQueryReference(final IHeaderResponse pResponse) {
+        pResponse.render(JavaScriptHeaderItem.forUrl("http://code.jquery.com/jquery-1.9.1.min.js")); //$NON-NLS-1$
+    }
+
+    /**
      * @param pResponse 書き込み用レスポンス.
      * @param pPageType CSSファイルの基準となるページクラス.
      */

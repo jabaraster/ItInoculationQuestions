@@ -6,14 +6,24 @@ package jabara.it_inoculation_questions.service.impl;
 import jabara.general.ArgUtil;
 import jabara.general.NotFound;
 import jabara.it_inoculation_questions.entity.Answer;
+import jabara.it_inoculation_questions.entity.Answer_;
 import jabara.it_inoculation_questions.entity.Answers;
 import jabara.it_inoculation_questions.entity.AnswersSave;
 import jabara.it_inoculation_questions.entity.AnswersSave_;
 import jabara.it_inoculation_questions.entity.Answers_;
+import jabara.it_inoculation_questions.model.AnswerSummary;
+import jabara.it_inoculation_questions.model.AnswersStatistics;
+import jabara.it_inoculation_questions.model.Question;
+import jabara.it_inoculation_questions.model.QuestionType;
+import jabara.it_inoculation_questions.model.Selection;
 import jabara.it_inoculation_questions.service.IAnswersService;
+import jabara.it_inoculation_questions.service.IQuestionService;
 import jabara.jpa.entity.EntityBase_;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -30,6 +40,9 @@ import javax.persistence.criteria.Root;
 public class AnswerServicesImpl implements IAnswersService {
 
     private final EntityManagerFactory emf;
+
+    @Inject
+    IQuestionService                   questionService;
 
     /**
      * @param pEmf {@link EntityManagerFactory}オブジェクト.
@@ -72,6 +85,32 @@ public class AnswerServicesImpl implements IAnswersService {
         final Root<Answers> root = query.from(Answers.class);
         query.orderBy(builder.desc(root.get(EntityBase_.created)));
         return em.createQuery(query).getResultList();
+    }
+
+    /**
+     * @see jabara.it_inoculation_questions.service.IAnswersService#getAnswersStatistics()
+     */
+    @Override
+    public List<AnswersStatistics> getAnswersStatistics() {
+        final List<Question> questions = this.questionService.getQuestions();
+
+        final List<AnswersStatistics> ret = new ArrayList<AnswersStatistics>();
+
+        for (int i = 0; i < questions.size(); i++) {
+            final Map<String, ValueAndCount> answers = getAnswersByQuestionIndex(i);
+            final Question question = questions.get(i);
+            final AnswersStatisticsImpl statistics = new AnswersStatisticsImpl(question.getMessage());
+
+            if (question.getType() == QuestionType.SELECT) {
+                addSelectQuestionAnswerSummary(answers, question, statistics);
+            } else {
+                addTextQuestionAnswerSummary(answers, statistics);
+            }
+
+            ret.add(statistics);
+        }
+
+        return ret;
     }
 
     /**
@@ -120,6 +159,25 @@ public class AnswerServicesImpl implements IAnswersService {
         merged.setValue(pAnswer.getValue());
     }
 
+    private Map<String, ValueAndCount> getAnswersByQuestionIndex(final int pQuestionIndex) {
+        final EntityManager em = getEntityManager();
+        final CriteriaBuilder builder = em.getCriteriaBuilder();
+        final CriteriaQuery<ValueAndCount> query = builder.createQuery(ValueAndCount.class);
+        final Root<Answer> root = query.from(Answer.class);
+
+        query.select(builder.construct(ValueAndCount.class, root.get(Answer_.value), builder.count(root.get(Answer_.value))));
+        query.groupBy(root.get(Answer_.value));
+
+        query.where(builder.equal(root.get(Answer_.questionIndex), Integer.valueOf(pQuestionIndex)));
+
+        final List<ValueAndCount> list = em.createQuery(query).getResultList();
+        final Map<String, ValueAndCount> ret = new HashMap<String, AnswerServicesImpl.ValueAndCount>();
+        for (final ValueAndCount vc : list) {
+            ret.put(vc.getValue(), vc);
+        }
+        return ret;
+    }
+
     private AnswersSave getByKeyCore(final String pAnswersKey) throws NotFound {
         final EntityManager em = getEntityManager();
         final CriteriaBuilder builder = em.getCriteriaBuilder();
@@ -154,6 +212,155 @@ public class AnswerServicesImpl implements IAnswersService {
 
     private void insertCore(final AnswersSave pAnswers) {
         getEntityManager().persist(pAnswers);
+    }
+
+    private static void addSelectQuestionAnswerSummary( //
+            final Map<String, ValueAndCount> pAnswers //
+            , final Question pQuestion //
+            , final AnswersStatisticsImpl pStatistics) {
+
+        for (final Selection selection : pQuestion.getSelections()) {
+            final ValueAndCount vc = pAnswers.get(selection.getValue());
+            final int answerCount = vc == null ? 0 : (int) vc.getCount();
+            final AnswerSummaryImpl summary = new AnswerSummaryImpl(answerCount, selection.getMessage());
+            pStatistics.addAnswerSummary(summary);
+        }
+    }
+
+    private static void addTextQuestionAnswerSummary(final Map<String, ValueAndCount> pAnswers, final AnswersStatisticsImpl pStatistics) {
+        for (final Map.Entry<String, ValueAndCount> entry : pAnswers.entrySet()) {
+            final String value = entry.getValue().getValue();
+            if (value != null) {
+                final AnswerSummaryImpl summary = new AnswerSummaryImpl(1, value);
+                pStatistics.addAnswerSummary(summary);
+            }
+        }
+    }
+
+    /**
+     * @author jabaraster
+     */
+    public static class AnswersStatisticsImpl implements AnswersStatistics {
+        private static final long         serialVersionUID = 3942976868013085336L;
+
+        private final List<AnswerSummary> list             = new ArrayList<AnswerSummary>();
+        private final String              questionMessage;
+
+        /**
+         * @param pQuestionMessage 選択肢文.
+         */
+        public AnswersStatisticsImpl(final String pQuestionMessage) {
+            this.questionMessage = pQuestionMessage;
+        }
+
+        /**
+         * @param pSummary
+         */
+        public void addAnswerSummary(final AnswerSummary pSummary) {
+            ArgUtil.checkNull(pSummary, "pSummary"); //$NON-NLS-1$
+            this.list.add(pSummary);
+        }
+
+        /**
+         * @see jabara.it_inoculation_questions.model.AnswersStatistics#getAnswerSummaries()
+         */
+        @Override
+        public List<AnswerSummary> getAnswerSummaries() {
+            return new ArrayList<AnswerSummary>(this.list);
+        }
+
+        /**
+         * @see jabara.it_inoculation_questions.model.AnswersStatistics#getAnswerSummaryCount()
+         */
+        @Override
+        public int getAnswerSummaryCount() {
+            return this.list.size();
+        }
+
+        /**
+         * @see jabara.it_inoculation_questions.model.AnswersStatistics#getQuestionMessage()
+         */
+        @Override
+        public String getQuestionMessage() {
+            return this.questionMessage;
+        }
+
+    }
+
+    /**
+     * @author jabaraster
+     */
+    public static class AnswerSummaryImpl implements AnswerSummary {
+        private static final long serialVersionUID = -263957673298582958L;
+
+        private final int         answerCount;
+        private final String      selectionMessage;
+
+        /**
+         * @param pAnswerCount
+         * @param pSelectionMessage
+         */
+        public AnswerSummaryImpl(final int pAnswerCount, final String pSelectionMessage) {
+            this.answerCount = pAnswerCount;
+            this.selectionMessage = pSelectionMessage;
+        }
+
+        /**
+         * @see jabara.it_inoculation_questions.model.AnswerSummary#getAnswerCount()
+         */
+        @Override
+        public int getAnswerCount() {
+            return this.answerCount;
+        }
+
+        /**
+         * @see jabara.it_inoculation_questions.model.AnswerSummary#getSelectionMessage()
+         */
+        @Override
+        public String getSelectionMessage() {
+            return this.selectionMessage;
+        }
+
+    }
+
+    /**
+     * @author jabaraster
+     */
+    public static class ValueAndCount {
+        private final String value;
+        private final long   count;
+
+        /**
+         * @param pValue
+         * @param pCount
+         */
+        public ValueAndCount(final String pValue, final long pCount) {
+            this.value = pValue;
+            this.count = pCount;
+        }
+
+        /**
+         * @return countを返す.
+         */
+        public long getCount() {
+            return this.count;
+        }
+
+        /**
+         * @return valueを返す.
+         */
+        public String getValue() {
+            return this.value;
+        }
+
+        /**
+         * @see java.lang.Object#toString()
+         */
+        @SuppressWarnings("nls")
+        @Override
+        public String toString() {
+            return "ValueAndCount [value=" + this.value + ", count=" + this.count + "]";
+        }
     }
 
 }
