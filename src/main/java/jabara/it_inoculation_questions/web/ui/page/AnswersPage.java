@@ -6,6 +6,8 @@ package jabara.it_inoculation_questions.web.ui.page;
 import jabara.it_inoculation_questions.entity.Answers;
 import jabara.it_inoculation_questions.service.IAnswersService;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -73,6 +75,9 @@ public class AnswersPage extends AuthenticatedWebPageBase {
     private ListView<Answers> getAnswersList() {
         if (this.answersList == null) {
             this.answersList = new ListView<Answers>("answersList", this.answersListValue) {
+
+                private final DateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+
                 @Override
                 protected void populateItem(final ListItem<Answers> pItem) {
                     final Answers answers = pItem.getModelObject();
@@ -85,6 +90,7 @@ public class AnswersPage extends AuthenticatedWebPageBase {
                     pItem.add(goDetail);
 
                     pItem.add(new Label("id", String.valueOf(answers.getId()))); //$NON-NLS-1$
+                    pItem.add(new Label("created", this.formatter.format(answers.getCreated())));
                 }
             };
         }

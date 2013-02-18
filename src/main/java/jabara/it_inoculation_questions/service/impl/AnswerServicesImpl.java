@@ -54,6 +54,21 @@ public class AnswerServicesImpl implements IAnswersService {
     }
 
     /**
+     * @see jabara.it_inoculation_questions.service.IAnswersService#countAllAnswers()
+     */
+    @Override
+    public long countAllAnswers() {
+        final EntityManager em = getEntityManager();
+        final CriteriaBuilder builder = em.getCriteriaBuilder();
+        final CriteriaQuery<Long> query = builder.createQuery(Long.class);
+        final Root<Answers> root = query.from(Answers.class);
+
+        query.multiselect(builder.count(root));
+
+        return em.createQuery(query).getSingleResult().longValue();
+    }
+
+    /**
      * @see jabara.it_inoculation_questions.service.IAnswersService#decide(jabara.it_inoculation_questions.entity.AnswersSave)
      */
     @Override

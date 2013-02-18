@@ -36,6 +36,7 @@ public class AnswersStatisticsPage extends AuthenticatedWebPageBase {
     private final List<AnswersStatistics> answersStatisticsValue;
 
     private Link<?>                       refresher;
+    private Label                         answersCount;
     private ListView<AnswersStatistics>   answersStatistics;
 
     /**
@@ -44,6 +45,7 @@ public class AnswersStatisticsPage extends AuthenticatedWebPageBase {
     public AnswersStatisticsPage() {
         this.answersStatisticsValue = this.answersService.getAnswersStatistics();
         this.add(getAnswersStatistics());
+        this.add(getAnswersCount());
         this.add(getRefresher());
         setStatelessHint(true);
     }
@@ -71,6 +73,13 @@ public class AnswersStatisticsPage extends AuthenticatedWebPageBase {
                 return "回答統計情報"; //$NON-NLS-1$
             }
         };
+    }
+
+    private Label getAnswersCount() {
+        if (this.answersCount == null) {
+            this.answersCount = new Label("answersCount", String.valueOf(this.answersService.countAllAnswers())); //$NON-NLS-1$
+        }
+        return this.answersCount;
     }
 
     @SuppressWarnings({ "serial", "nls" })

@@ -1,1 +1,1 @@
-fieldset.AdministratorLinksPanel{background:#ffefd5;margin-right:1em}fieldset.AdministratorLinksPanel li{float:left;width:120px}fieldset.AdministratorLinksPanel li a{cursor:pointer}
+fieldset.AdministratorLinksPanel{background:#ffefd5;margin-right:1em;border-radius:4px}fieldset.AdministratorLinksPanel li{float:left;width:100px}fieldset.AdministratorLinksPanel li>a{cursor:pointer}

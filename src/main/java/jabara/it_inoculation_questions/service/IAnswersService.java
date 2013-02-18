@@ -21,6 +21,11 @@ import com.google.inject.ImplementedBy;
 public interface IAnswersService {
 
     /**
+     * @return 全ての回答の数.
+     */
+    long countAllAnswers();
+
+    /**
      * 回答を確定します.
      * 
      * @param pAnswersSave
