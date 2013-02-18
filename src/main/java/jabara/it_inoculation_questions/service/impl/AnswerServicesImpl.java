@@ -168,7 +168,10 @@ public class AnswerServicesImpl implements IAnswersService {
         query.select(builder.construct(ValueAndCount.class, root.get(Answer_.value), builder.count(root.get(Answer_.value))));
         query.groupBy(root.get(Answer_.value));
 
-        query.where(builder.equal(root.get(Answer_.questionIndex), Integer.valueOf(pQuestionIndex)));
+        query.where( //
+                builder.equal(root.get(Answer_.questionIndex), Integer.valueOf(pQuestionIndex)) //
+                , builder.isMember(root, query.from(Answers.class).get(Answers_.answers)) //
+        );
 
         final List<ValueAndCount> list = em.createQuery(query).getResultList();
         final Map<String, ValueAndCount> ret = new HashMap<String, AnswerServicesImpl.ValueAndCount>();

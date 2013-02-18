@@ -12,12 +12,15 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.apache.wicket.AttributeModifier;
+import org.apache.wicket.Component;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
+import org.apache.wicket.markup.html.list.Loop;
+import org.apache.wicket.markup.html.list.LoopItem;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
 
@@ -74,29 +77,36 @@ public class AnswersStatisticsPage extends AuthenticatedWebPageBase {
     private ListView<AnswersStatistics> getAnswersStatistics() {
         if (this.answersStatistics == null) {
             this.answersStatistics = new ListView<AnswersStatistics>("answersStatistics", this.answersStatisticsValue) {
-                @SuppressWarnings("synthetic-access")
                 @Override
                 protected void populateItem(final ListItem<AnswersStatistics> pItem) {
+                    if (pItem.getModelObject().getAnswerSummaries().isEmpty()) {
+                        populateEmptyAnswerItem(pItem);
+                    } else {
+                        populateAnswerItem(pItem);
+                    }
+                }
+
+                @SuppressWarnings("synthetic-access")
+                private void populateAnswerItem(final ListItem<AnswersStatistics> pItem) {
                     final AnswersStatistics answers = pItem.getModelObject();
                     final List<AnswerSummary> summaries = answers.getAnswerSummaries();
-                    if (summaries.isEmpty()) {
-                        throw new IllegalStateException();
-                    }
-
                     final AttributeModifier rowspan = AttributeModifier.replace("rowspan", Integer.valueOf(answers.getAnswerSummaries().size()));
-
-                    final Label index = new Label("index", "Q" + String.valueOf(pItem.getIndex() + 1));
-                    index.add(rowspan);
-                    pItem.add(index);
-
-                    final Label questionMessage = new Label("questionMessage", answers.getQuestionMessage()); //$NON-NLS-1$
-                    questionMessage.add(rowspan); //$NON-NLS-1$
-                    pItem.add(questionMessage);
-
+                    pItem.add(createRowSpanLabel("index", "Q" + String.valueOf(pItem.getIndex() + 1), rowspan));
+                    pItem.add(createRowSpanLabel("questionMessage", answers.getQuestionMessage(), rowspan));
                     pItem.add(new Label("selectionMessage", summaries.get(0).getSelectionMessage())); //$NON-NLS-1$
                     pItem.add(new Label("answerCount", Integer.valueOf(summaries.get(0).getAnswerCount()))); //$NON-NLS-1$
+                    pItem.add(createAnswerSummary("answerSummary", answers));
+                }
 
-                    pItem.add(createAnswerSummary(answers));
+                @SuppressWarnings("synthetic-access")
+                private void populateEmptyAnswerItem(final ListItem<AnswersStatistics> pItem) {
+                    final AnswersStatistics answers = pItem.getModelObject();
+                    final AttributeModifier rowspan = AttributeModifier.remove("rowspan");
+                    pItem.add(createRowSpanLabel("index", "Q" + String.valueOf(pItem.getIndex() + 1), rowspan));
+                    pItem.add(createRowSpanLabel("questionMessage", answers.getQuestionMessage(), rowspan));
+                    pItem.add(new Label("selectionMessage", "-")); //$NON-NLS-1$
+                    pItem.add(new Label("answerCount", "-")); //$NON-NLS-1$
+                    pItem.add(createEmptyList("answerSummary"));
                 }
             };
         }
@@ -110,10 +120,10 @@ public class AnswersStatisticsPage extends AuthenticatedWebPageBase {
         return this.refresher;
     }
 
-    @SuppressWarnings({ "serial", "nls" })
-    private static ListView<AnswerSummary> createAnswerSummary(final AnswersStatistics pAnswers) {
+    @SuppressWarnings({ "serial" })
+    private static ListView<AnswerSummary> createAnswerSummary(final String pId, final AnswersStatistics pAnswers) {
         final List<AnswerSummary> list = pAnswers.getAnswerSummaries().subList(1, pAnswers.getAnswerSummaryCount());
-        return new ListView<AnswerSummary>("answerSummary", list) {
+        return new ListView<AnswerSummary>(pId, list) {
             @Override
             protected void populateItem(final ListItem<AnswerSummary> pItem) {
                 final AnswerSummary summary = pItem.getModelObject();
@@ -121,6 +131,22 @@ public class AnswersStatisticsPage extends AuthenticatedWebPageBase {
                 pItem.add(new Label("answerCount", Integer.valueOf(summary.getAnswerCount()))); //$NON-NLS-1$
             }
         };
+    }
+
+    @SuppressWarnings("serial")
+    private static Component createEmptyList(final String pId) {
+        return new Loop(pId, 0) {
+            @Override
+            protected void populateItem(@SuppressWarnings("unused") final LoopItem pItem) {
+                // 処理なし
+            }
+        };
+    }
+
+    private static Label createRowSpanLabel(final String pId, final String pLabel, final AttributeModifier pRowSpan) {
+        final Label ret = new Label(pId, pLabel);
+        ret.add(pRowSpan);
+        return ret;
     }
 
 }
