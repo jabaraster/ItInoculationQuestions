@@ -14,10 +14,10 @@ import javax.inject.Inject;
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.link.BookmarkablePageLink;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
-import org.apache.wicket.markup.html.panel.EmptyPanel;
-import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
 
@@ -32,6 +32,7 @@ public class AnswersStatisticsPage extends AuthenticatedWebPageBase {
 
     private final List<AnswersStatistics> answersStatisticsValue;
 
+    private Link<?>                       refresher;
     private ListView<AnswersStatistics>   answersStatistics;
 
     /**
@@ -40,6 +41,8 @@ public class AnswersStatisticsPage extends AuthenticatedWebPageBase {
     public AnswersStatisticsPage() {
         this.answersStatisticsValue = this.answersService.getAnswersStatistics();
         this.add(getAnswersStatistics());
+        this.add(getRefresher());
+        setStatelessHint(true);
     }
 
     /**
@@ -50,14 +53,6 @@ public class AnswersStatisticsPage extends AuthenticatedWebPageBase {
         super.renderHead(pResponse);
         this.addPageCssReference(pResponse);
         ItInoculationQuestionsWebPageBase.addJQueryReference(pResponse);
-    }
-
-    /**
-     * @see jabara.it_inoculation_questions.web.ui.page.ItInoculationQuestionsWebPageBase#createHeaderPanel(java.lang.String)
-     */
-    @Override
-    protected Panel createHeaderPanel(final String pHeaderPanelId) {
-        return new EmptyPanel(pHeaderPanelId);
     }
 
     /**
@@ -106,6 +101,13 @@ public class AnswersStatisticsPage extends AuthenticatedWebPageBase {
             };
         }
         return this.answersStatistics;
+    }
+
+    private Link<?> getRefresher() {
+        if (this.refresher == null) {
+            this.refresher = new BookmarkablePageLink<Object>("refresher", this.getClass()); //$NON-NLS-1$
+        }
+        return this.refresher;
     }
 
     @SuppressWarnings({ "serial", "nls" })

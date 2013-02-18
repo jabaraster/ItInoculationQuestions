@@ -7,7 +7,7 @@ import jabara.general.ArgUtil;
 import jabara.it_inoculation_questions.ItInoculationQuestionsEnv;
 import jabara.it_inoculation_questions.web.ui.JavaScriptUtil;
 
-import org.apache.wicket.Page;
+import org.apache.wicket.MarkupContainer;
 import org.apache.wicket.markup.head.CssHeaderItem;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.head.JavaScriptHeaderItem;
@@ -111,7 +111,7 @@ public abstract class ItInoculationQuestionsWebPageBase extends WebPage {
      * @param pResponse 書き込み用レスポンス.
      * @param pPageType CSSファイルの基準となるページクラス.
      */
-    public static void addPageCssReference(final IHeaderResponse pResponse, final Class<? extends Page> pPageType) {
+    public static void addPageCssReference(final IHeaderResponse pResponse, final Class<? extends MarkupContainer> pPageType) {
         ArgUtil.checkNull(pResponse, "pResponse"); //$NON-NLS-1$
         ArgUtil.checkNull(pPageType, "pPageType"); //$NON-NLS-1$
         pResponse.render(CssHeaderItem.forReference(new CssResourceReference(pPageType, pPageType.getSimpleName() + ".css"))); //$NON-NLS-1$

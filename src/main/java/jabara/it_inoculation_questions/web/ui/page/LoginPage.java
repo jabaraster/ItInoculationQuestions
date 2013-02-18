@@ -130,7 +130,7 @@ public class LoginPage extends ItInoculationQuestionsWebPageBase {
                 this.setResponsePage(AnswersPage.class);
             }
         } catch (final FailAuthentication e) {
-            error(getString("failAuthentication")); //$NON-NLS-1$
+            error("ログインに失敗しました。"); //$NON-NLS-1$
             this.setResponsePage(this);
         }
     }

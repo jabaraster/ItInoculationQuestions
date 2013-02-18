@@ -22,8 +22,6 @@ import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.link.StatelessLink;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
-import org.apache.wicket.markup.html.panel.EmptyPanel;
-import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
@@ -66,14 +64,6 @@ public class AnswerPage extends AuthenticatedWebPageBase {
         super.renderHead(pResponse);
         addPageCssReference(pResponse);
         pResponse.render(JavaScriptHeaderItem.forUrl("http://code.jquery.com/jquery-1.9.1.min.js")); //$NON-NLS-1$
-    }
-
-    /**
-     * @see jabara.it_inoculation_questions.web.ui.page.ItInoculationQuestionsWebPageBase#createHeaderPanel(java.lang.String)
-     */
-    @Override
-    protected Panel createHeaderPanel(final String pHeaderPanelId) {
-        return new EmptyPanel(pHeaderPanelId);
     }
 
     /**

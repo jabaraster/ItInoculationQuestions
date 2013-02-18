@@ -12,12 +12,11 @@ import javax.inject.Inject;
 
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.link.StatelessLink;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
-import org.apache.wicket.markup.html.panel.EmptyPanel;
-import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
 
@@ -32,6 +31,7 @@ public class AnswersPage extends AuthenticatedWebPageBase {
 
     private final List<Answers> answersListValue;
 
+    private Link<?>             refresher;
     private ListView<Answers>   answersList;
 
     /**
@@ -40,6 +40,7 @@ public class AnswersPage extends AuthenticatedWebPageBase {
     public AnswersPage() {
         this.answersListValue = this.answersService.getAllAnswers();
         this.add(getAnswersList());
+        this.add(getRefresher());
         setStatelessHint(true);
     }
 
@@ -51,14 +52,6 @@ public class AnswersPage extends AuthenticatedWebPageBase {
         super.renderHead(pResponse);
         this.addPageCssReference(pResponse);
         ItInoculationQuestionsWebPageBase.addJQueryReference(pResponse);
-    }
-
-    /**
-     * @see jabara.it_inoculation_questions.web.ui.page.ItInoculationQuestionsWebPageBase#createHeaderPanel(java.lang.String)
-     */
-    @Override
-    protected Panel createHeaderPanel(final String pHeaderPanelId) {
-        return new EmptyPanel(pHeaderPanelId);
     }
 
     /**
@@ -96,5 +89,12 @@ public class AnswersPage extends AuthenticatedWebPageBase {
             };
         }
         return this.answersList;
+    }
+
+    private Link<?> getRefresher() {
+        if (this.refresher == null) {
+            this.refresher = new BookmarkablePageLink<Object>("refresher", this.getClass()); //$NON-NLS-1$
+        }
+        return this.refresher;
     }
 }

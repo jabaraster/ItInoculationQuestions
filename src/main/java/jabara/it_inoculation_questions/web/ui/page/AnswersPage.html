@@ -1,7 +1,7 @@
 <wicket:extend>
 
   <div class="buttonContainer">
-    <button class="btn btn-primary" id="refresher"><i class="icon-white icon-refresh"></i> 最新に更新</button>
+    <a href="#" class="btn btn-primary" wicket:id="refresher"><i class="icon-white icon-refresh"></i> 最新に更新</a>
   </div>
 
   <table>
@@ -18,7 +18,7 @@
   <script>
   $(function() {
     $('#refresher').click(function() {
-      location.reload();
+      alert(location.href);
     });
   });
   </script>
