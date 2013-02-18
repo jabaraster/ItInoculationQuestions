@@ -6,7 +6,9 @@ package jabara.it_inoculation_questions.web.ui.page;
 import jabara.general.NotFound;
 import jabara.it_inoculation_questions.entity.Answer;
 import jabara.it_inoculation_questions.entity.Answers;
+import jabara.it_inoculation_questions.model.TextQuestionFound;
 import jabara.it_inoculation_questions.service.IAnswersService;
+import jabara.it_inoculation_questions.service.IQuestionService;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -35,6 +37,8 @@ public class AnswerPage extends AuthenticatedWebPageBase {
     private static final long serialVersionUID = 5632334148076438396L;
 
     @Inject
+    IQuestionService          questionService;
+    @Inject
     IAnswersService           answersService;
 
     private final Answers     answersValue;
@@ -48,8 +52,10 @@ public class AnswerPage extends AuthenticatedWebPageBase {
      */
     public AnswerPage(final PageParameters pParameters) {
         super(pParameters);
+
         final StringValue answerId = pParameters.get("id"); //$NON-NLS-1$
         this.answersValue = findAnswers(answerId);
+
         this.add(getIdText());
         this.add(getAnswers());
         this.add(getGoList());
@@ -102,10 +108,29 @@ public class AnswerPage extends AuthenticatedWebPageBase {
             this.answers = new ListView<Answer>("answers", list) {
                 @Override
                 protected void populateItem(final ListItem<Answer> pItem) {
-                    pItem.setModel(new CompoundPropertyModel<Answer>(pItem.getModelObject()));
+                    final Answer answer = pItem.getModelObject();
+                    pItem.setModel(new CompoundPropertyModel<Answer>(answer));
                     pItem.add(new Label("id"));
                     pItem.add(new Label("questionIndex"));
-                    pItem.add(new Label("value"));
+
+                    try {
+                        final String msg = AnswerPage.this.questionService.findQuestionMessage(answer.getQuestionIndex());
+                        pItem.add(new Label("questionMessage", msg));
+                    } catch (final NotFound e) {
+                        pItem.add(new Label("questionMessage", "-"));
+                    }
+
+                    try {
+                        final String msg = AnswerPage.this.questionService.findSelectionMessage(answer.getQuestionIndex(), answer.getValue());
+                        pItem.add(new Label("value"));
+                        pItem.add(new Label("selectionMessage", msg));
+                    } catch (final NotFound e) {
+                        pItem.add(new Label("value"));
+                        pItem.add(new Label("selectionMessage", "(未回答)"));
+                    } catch (final TextQuestionFound e) {
+                        pItem.add(new Label("value", "-"));
+                        pItem.add(new Label("selectionMessage", answer.getValue()));
+                    }
                 }
             };
         }

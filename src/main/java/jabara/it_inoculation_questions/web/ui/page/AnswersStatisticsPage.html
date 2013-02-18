@@ -16,16 +16,19 @@
     <a href="#" class="btn btn-primary" wicket:id="refresher"><i class="icon-white icon-refresh"></i> 最新に更新</a>
   </div>
 
-  <table>
+  <table class="answerStatistics">
     <tr><th>No</th><th>設問</th><th>回答</th><th>回答数</th></tr>
     <wicket:container wicket:id="answersStatistics">
       <tr>
-        <td rowspan="4" wicket:id="index">Q1</td>
-        <td rowspan="4" wicket:id="questionMessage">設問１</td>
+        <td rowspan="4" wicket:id="index" class="header">Q1</td>
+        <td rowspan="4" wicket:id="questionMessage" class="header">設問１</td>
         <td wicket:id="selectionMessage">選択肢１</td>
         <td wicket:id="answerCount">8件</td>
       </tr>
-      <tr wicket:id="answerSummary"><td wicket:id="selectionMessage">選択肢２</td><td wicket:id="answerCount">2件</td></tr>
+      <tr wicket:id="answerSummary">
+        <td wicket:id="selectionMessage">選択肢２</td>
+        <td wicket:id="answerCount">2件</td>
+      </tr>
       <wicket:remove>
         <tr>                        <td>選択肢２</td><td>2件</td></tr>
         <tr>                        <td>選択肢２</td><td>2件</td></tr>
