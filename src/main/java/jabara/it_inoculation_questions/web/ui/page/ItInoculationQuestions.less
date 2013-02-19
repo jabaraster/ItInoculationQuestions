@@ -61,8 +61,8 @@ header {
         margin-right: 1em;
         text-align: right;
         > img {
-            @logo-gradient-bottom: rgba(255,180,255,.3);
-            @logo-gradient-top: rgba(180,180,180,.4);
+            @logo-gradient-top: rgba(180,180,0,.5);
+            @logo-gradient-bottom: rgba(255,255,120,.5);
 		    background: @logo-gradient-top; /* Old browsers */
 		    background: -moz-linear-gradient(top, @logo-gradient-top 0%, @logo-gradient-bottom 100%); /* FF3.6+ */
 		    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, @logo-gradient-top), color-stop(100%, @logo-gradient-bottom)); /* Chrome,Safari4+ */
@@ -73,6 +73,7 @@ header {
 		    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffb4ff50', endColorstr='#b4b4b464',GradientType=0 ); /* IE6-9 */
 		    border-radius: @border-radius-small;
 		    box-shadow: 3px 3px 3px 3px rgba(0,0,0,0.4) inset;
+		    height: 36px;
         }
     }
 
