@@ -29,7 +29,8 @@
 	</question>
 
 	<question type="SELECT" required="true">
-		<message>業務上の連絡を電子メールで送受する場合を想定すると、あなたは電子メールの取り扱いにどの程度熟練していますか？</message>
+		<message>業務上の連絡を電子メールで送受する場合を想定すると、あなたは電子メールの取り扱いにどの程度熟練していますか？
+		</message>
 		<selection value="1">非常に熟練している</selection>
 		<selection value="2">熟練している方だ</selection>
 		<selection value="3">平均的だ</selection>
@@ -43,7 +44,8 @@
 	</question>
 
 	<question type="TEXT" maxChar="4" required="true">
-		<message>あなたは業務上のメールをどの程度の時間をかけて処理していますか？断続的にメールを処理している場合は全部の合計でお答えください。</message>
+		<message>あなたは業務上のメールをどの程度の時間をかけて処理していますか？断続的にメールを処理している場合は全部の合計でお答えください。
+		</message>
 		<selection>平日の一日平均で約${value}時間</selection>
 	</question>
 
@@ -56,7 +58,8 @@
 	<question type="SELECT" required="true">
 		<message>あなたは今年度の擬似攻撃メールにどのように対応しましたか？</message>
 		<selection value="1">メールを受け取っており、添付されていたファイルの内容も見た。</selection>
-		<selection value="2">メールを受け取ったが、添付されていたファイルの内容は見なかった。</selection>
+		<selection value="2">メールを受け取ったが、添付されていたファイルの内容は見なかった。
+		</selection>
 		<selection value="3">そんなメールは受け取っていない。</selection>
 	</question>
 
@@ -66,6 +69,13 @@
 		<selection value="2">どちらかといえば関連が強い方だと思った。</selection>
 		<selection value="3">わずかに関連していた</selection>
 		<selection value="4">まったく無関係であった</selection>
+	</question>
+
+	<question type="SELECT" required="true">
+		<message>予防接種による訓練をどのように思われますか？</message>
+		<selection value="1">有効であり、定期的に実施すべき。</selection>
+		<selection value="2">有効ではあるが、実施方法は再検討が必要。</selection>
+		<selection value="3">有効とは思えず、今回のみでよい。</selection>
 	</question>
 
 	<question type="TEXTAREA" maxChar="400" required="false">

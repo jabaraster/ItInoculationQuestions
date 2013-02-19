@@ -13,12 +13,14 @@ import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.head.JavaScriptHeaderItem;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.request.resource.CssResourceReference;
 import org.apache.wicket.request.resource.JavaScriptResourceReference;
+import org.apache.wicket.request.resource.SharedResourceReference;
 
 /**
  * 
@@ -29,6 +31,7 @@ public abstract class ItInoculationQuestionsWebPageBase extends WebPage {
 
     private Label             titleLabel;
     private Panel             headerPanel;
+    private Image             logo;
 
     /**
      * 
@@ -44,6 +47,7 @@ public abstract class ItInoculationQuestionsWebPageBase extends WebPage {
         super(pParameters);
         this.add(getTitleLabel());
         this.add(getHeaderPanel());
+        this.add(getLogo());
     }
 
     /**
@@ -84,6 +88,13 @@ public abstract class ItInoculationQuestionsWebPageBase extends WebPage {
      * @return HTMLのtitleタグの内容
      */
     protected abstract IModel<String> getTitleLabelModel();
+
+    private Image getLogo() {
+        if (this.logo == null) {
+            this.logo = new Image("logo", new SharedResourceReference(ItInoculationQuestionsWebPageBase.class, "img/ca_logo_trans.png")); //$NON-NLS-1$ //$NON-NLS-2$
+        }
+        return this.logo;
+    }
 
     @SuppressWarnings({ "nls", "serial" })
     private Label getTitleLabel() {

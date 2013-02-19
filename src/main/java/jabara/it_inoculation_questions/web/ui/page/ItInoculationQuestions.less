@@ -60,6 +60,20 @@ header {
         margin-top: 10px;
         margin-right: 1em;
         text-align: right;
+        > img {
+            @logo-gradient-bottom: rgba(255,180,255,.3);
+            @logo-gradient-top: rgba(180,180,180,.4);
+		    background: @logo-gradient-top; /* Old browsers */
+		    background: -moz-linear-gradient(top, @logo-gradient-top 0%, @logo-gradient-bottom 100%); /* FF3.6+ */
+		    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, @logo-gradient-top), color-stop(100%, @logo-gradient-bottom)); /* Chrome,Safari4+ */
+		    background: -webkit-linear-gradient(top, @logo-gradient-top 0%, @logo-gradient-bottom 100%); /* Chrome10+,Safari5.1+ */
+		    background: -o-linear-gradient(top, @logo-gradient-top 0%,@logo-gradient-bottom 100%); /* Opera 11.10+ */
+		    background: -ms-linear-gradient(top, @logo-gradient-top 0%, @logo-gradient-bottom 100%); /* IE10+ */
+		    background: linear-gradient(to bottom, @logo-gradient-top 0%, @logo-gradient-bottom 100%); /* W3C */
+		    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffb4ff50', endColorstr='#b4b4b464',GradientType=0 ); /* IE6-9 */
+		    border-radius: @border-radius-small;
+		    box-shadow: 3px 3px 3px 3px rgba(0,0,0,0.4) inset;
+        }
     }
 
     > div.headerPanelContainer {
