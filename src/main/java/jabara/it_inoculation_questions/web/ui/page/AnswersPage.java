@@ -5,9 +5,11 @@ package jabara.it_inoculation_questions.web.ui.page;
 
 import jabara.it_inoculation_questions.entity.Answers;
 import jabara.it_inoculation_questions.service.IAnswersService;
+import jabara.it_inoculation_questions.util.DateUtil;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -90,7 +92,9 @@ public class AnswersPage extends AuthenticatedWebPageBase {
                     pItem.add(goDetail);
 
                     pItem.add(new Label("id", String.valueOf(answers.getId()))); //$NON-NLS-1$
-                    pItem.add(new Label("created", this.formatter.format(answers.getCreated())));
+
+                    final Date d = DateUtil.convertAsiaTokyo(answers.getCreated());
+                    pItem.add(new Label("created", this.formatter.format(d)));
                 }
             };
         }
