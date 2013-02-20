@@ -48,13 +48,13 @@
 	</question>
 
 	<question type="SELECT" required="true">
-		<message>あなたは過去にITセキュリティ予防接種を経験しましたか？</message>
+		<message>あなたは過去に「ITセキュリティ予防接種」を経験した事が有りますか？</message>
 		<selection value="1">経験した(対象者として参加した)</selection>
 		<selection value="2">経験していない(今回が初めて)</selection>
 	</question>
 
 	<question type="SELECT" required="true">
-		<message>あなたは今年度の擬似攻撃メールにどのように対応しましたか？</message>
+		<message>あなたは今回の擬似攻撃メールにどのように対応しましたか？</message>
 		<selection value="1">メールを受け取っており、添付されていたファイルの内容も見た</selection>
 		<selection value="2">メールを受け取ったが、添付されていたファイルの内容は見なかった</selection>
 		<selection value="3">そんなメールは受け取っていない</selection>
