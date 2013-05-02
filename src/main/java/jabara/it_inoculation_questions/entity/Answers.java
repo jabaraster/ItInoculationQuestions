@@ -32,13 +32,13 @@ public class Answers extends EntityBase<Answers> implements Iterable<Answer> {
 
     /**
      * @param pQuestionIndex 何番目の設問に対する回答かを0始まりのインデックスで指定.
-     * @param pValue 回答内容を表す文字列.
+     * @param pValues 回答内容を表す文字列.
      * @return 追加した回答.
      */
-    public Answer addAnswer(final int pQuestionIndex, final String pValue) {
-        final Answer answer = new Answer(pQuestionIndex, pValue);
-        this.answers.add(answer);
-        return answer;
+    public Answer addAnswer(final int pQuestionIndex, final List<String> pValues) {
+        final Answer a = new Answer(pQuestionIndex, pValues);
+        this.answers.add(a);
+        return a;
     }
 
     /**

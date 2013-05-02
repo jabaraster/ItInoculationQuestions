@@ -16,6 +16,11 @@ public enum QuestionType {
     /**
      * 
      */
+    MULTI_SELECT,
+
+    /**
+     * 
+     */
     TEXT,
 
     /**

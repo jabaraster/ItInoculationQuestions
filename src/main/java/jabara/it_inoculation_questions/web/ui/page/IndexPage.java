@@ -136,20 +136,21 @@ public class IndexPage extends ItInoculationQuestionsWebPageBase {
                     @SuppressWarnings("synthetic-access")
                     final Answer answer = IndexPage.this.answersValue.getAnswer(pItem.getIndex());
 
-                    final IModel<String> m = new IModel<String>() {
+                    final IModel<List<String>> m = new IModel<List<String>>() {
                         @Override
                         public void detach() {
                             // 処理なし
                         }
 
                         @Override
-                        public String getObject() {
-                            return answer.getValue();
+                        public List<String> getObject() {
+                            return answer.getValues();
                         }
 
                         @Override
-                        public void setObject(final String pObject) {
-                            answer.setValue(pObject);
+                        public void setObject(final List<String> pObject) {
+                            answer.getValues().clear();
+                            answer.getValues().addAll(pObject);
                         }
                     };
                     final QAPanel qaPanel = new QAPanel("question", pItem.getModelObject(), m, pItem.getIndex());

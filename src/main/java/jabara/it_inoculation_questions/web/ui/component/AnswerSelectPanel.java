@@ -6,28 +6,29 @@ package jabara.it_inoculation_questions.web.ui.component;
 import jabara.it_inoculation_questions.model.Question;
 import jabara.it_inoculation_questions.model.Selection;
 
+import java.util.List;
+
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.FormComponent;
-import org.apache.wicket.markup.html.form.IChoiceRenderer;
 import org.apache.wicket.model.IModel;
 
 /**
  * @author jabaraster
  */
 public class AnswerSelectPanel extends InputPanel {
-    private static final long         serialVersionUID = 6209600276674562508L;
+    private static final long          serialVersionUID = 6209600276674562508L;
 
-    private final Question            question;
-    private final IModel<String>      answerValueModel;
+    private final Question             question;
+    private final IModel<List<String>> answerValueModel;
 
-    private DropDownChoice<Selection> selection;
+    private DropDownChoice<Selection>  selection;
 
     /**
      * @param pId パネルのwicket:id.
      * @param pQuestion 設問.
      * @param pAnswerValueModel 回答を格納するモデル.
      */
-    public AnswerSelectPanel(final String pId, final Question pQuestion, final IModel<String> pAnswerValueModel) {
+    public AnswerSelectPanel(final String pId, final Question pQuestion, final IModel<List<String>> pAnswerValueModel) {
         super(pId);
         this.question = pQuestion;
         this.answerValueModel = pAnswerValueModel;
@@ -68,8 +69,10 @@ public class AnswerSelectPanel extends InputPanel {
         @Override
         public Selection getObject() {
             for (final Selection s : AnswerSelectPanel.this.question.getSelections()) {
-                if (s.getValue().equals(AnswerSelectPanel.this.answerValueModel.getObject())) {
-                    return s;
+                for (final String v : AnswerSelectPanel.this.answerValueModel.getObject()) {
+                    if (s.getValue().equals(v)) {
+                        return s;
+                    }
                 }
             }
             return null;
@@ -78,22 +81,9 @@ public class AnswerSelectPanel extends InputPanel {
         @SuppressWarnings("synthetic-access")
         @Override
         public void setObject(final Selection pObject) {
-            AnswerSelectPanel.this.answerValueModel.setObject(pObject == null ? null : pObject.getValue());
+            final List<String> values = AnswerSelectPanel.this.answerValueModel.getObject();
+            values.clear();
+            values.add(pObject.getValue());
         }
-    }
-
-    private static class SelectionChoiceRenderer implements IChoiceRenderer<Selection> {
-        private static final long serialVersionUID = 2100614335551258343L;
-
-        @Override
-        public Object getDisplayValue(final Selection pObject) {
-            return pObject.getMessage();
-        }
-
-        @Override
-        public String getIdValue(final Selection pObject, @SuppressWarnings("unused") final int pIndex) {
-            return pObject.getValue();
-        }
-
     }
 }

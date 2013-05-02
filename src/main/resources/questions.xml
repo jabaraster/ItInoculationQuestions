@@ -1,81 +1,83 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <questions>
 
-	<question type="SELECT" required="true">
-		<message>あなたの性別を選択してください。</message>
-		<selection value="1">男性</selection>
-		<selection value="2">女性</selection>
-	</question>
+    <question type="SELECT" required="true">
+        <message>お客様についてお聞かせ下さい。</message>
+        <selection value="1">学校関係者様：法人経営者</selection>
+        <selection value="2">学校関係者様：教員</selection>
+        <selection value="3">学校関係者様：学校事務職員</selection>
+        <selection value="4">提案業者様：Sier</selection>
+        <selection value="99">提案業者様：その他</selection>
+    </question>
 
-	<question type="SELECT" required="true">
-		<message>あなたの年齢層を教えてください。</message>
-		<selection value="1">２０歳未満</selection>
-		<selection value="2">２０歳代</selection>
-		<selection value="3">３０歳代</selection>
-		<selection value="4">４０歳代</selection>
-		<selection value="5">５０歳代</selection>
-		<selection value="6">６０歳以上</selection>
-	</question>
+    <question type="SELECT" required="true">
+        <message>お客様の課題、計画についてお聞かせください。</message>
+        <selection value="1">2013年度内に新システムをサービスイン予定</selection>
+        <selection value="2">2014年度内に新システムをサービスイン予定</selection>
+        <selection value="3">2015年度以降に課題へ取り組み、計画を実施する予定がある</selection>
+        <selection value="99">その他</selection>
+    </question>
 
-	<question type="SELECT" required="true">
-		<message>あなたの職務は以下のどれに最も近いですか？</message>
-		<selection value="1">役員</selection>
-		<selection value="2">管理職</selection>
-		<selection value="3">営業・マーケティング</selection>
-		<selection value="4">サービス・カスタマサポート</selection>
-		<selection value="5">事務職</selection>
-		<selection value="6">コンピュータ関連技術者</selection>
-		<selection value="7">その他技術者</selection>
-	</question>
+    <question type="SELECT" required="true">
+        <message>上記の課題、計画に対する現時点の活動状況についてお聞かせください。</message>
+        <selection value="1">お客様独自での情報収集段階</selection>
+        <selection value="2">提案業者からの情報収集段階</selection>
+        <selection value="3">新システム要件策定</selection>
+        <selection value="4">業者コンペ中</selection>
+        <selection value="99">その他</selection>
+    </question>
 
-	<question type="SELECT" required="true">
-		<message>業務上の連絡を電子メールで送受する場合を想定すると、あなたは電子メールの取り扱いにどの程度熟練していますか？</message>
-		<selection value="1">非常に熟練している</selection>
-		<selection value="2">熟練している方だ</selection>
-		<selection value="3">平均的だ</selection>
-		<selection value="4">あまり熟練していない</selection>
-		<selection value="5">ほとんどできない</selection>
-	</question>
+    <question type="MULTI_SELECT">
+        <message>次のキーワードの中から、現在、興味をお持ちのものがあればお聞かせ下さい。（複数可）</message>
+        <selection value="1">学校事務（ 入試 ・ 教務 ・ 就職 ）支援システム</selection>
+        <selection value="2">学校会計支援システム</selection>
+        <selection value="3">学校CRM支援ソリューション</selection>
+        <selection value="4">学校ポータル、コミュニケーションシステム</selection>
+        <selection value="5">資産管理ソリューション</selection>
+        <selection value="6">統合認証ツール</selection>
+        <selection value="7">防災・防犯ソリューション</selection>
+        <selection value="8">認証セキュリティ管理ツール</selection>
+        <selection value="9">広域 Wifi 設備</selection>
+        <selection value="99">その他</selection>
+    </question>
 
-	<question type="TEXT" maxChar="5" required="true">
-		<message>あなたは業務上のメールを送受信合わせて何通程度取り扱いますか？</message>
-		<selection>平日の一日平均で約${value}通</selection>
-	</question>
+    <question type="SELECT">
+        <message>展示製品である「 CampusMagic 」＜学校事務支援（入試・教務・就職）システム＞についてお聞かせ下さい。</message>
+        <selection value="1">興味がある</selection>
+        <selection value="2">興味は無い</selection>
+        <selection value="3">ニーズにマッチしている</selection>
+        <selection value="4">製品の購入を検討したい</selection>
+    </question>
 
-	<question type="TEXT" maxChar="4" required="true">
-		<message>あなたは業務上のメールをどの程度の時間をかけて処理していますか？断続的にメールを処理している場合は全部の合計でお答えください。</message>
-		<selection>平日の一日平均で約${value}時間</selection>
-	</question>
+    <question type="SELECT">
+        <message>展示製品である「TOMAS-PSシリーズ」＜学校会計支援システム＞についてお聞かせ下さい。</message>
+        <selection value="1">興味がある</selection>
+        <selection value="2">興味は無い</selection>
+        <selection value="3">ニーズにマッチしている</selection>
+        <selection value="4">製品の購入を検討したい</selection>
+    </question>
 
-	<question type="SELECT" required="true">
-		<message>あなたは過去に「ITセキュリティ予防接種」を経験した事が有りますか？</message>
-		<selection value="1">経験した(対象者として参加した)</selection>
-		<selection value="2">経験していない(今回が初めて)</selection>
-	</question>
+    <question type="SELECT">
+        <message>展示製品である「Portrait/Heart Core」＜CRM支援ソリューション＞＆「カラービット」についてお聞かせ下さい。</message>
+        <selection value="1">興味がある</selection>
+        <selection value="2">興味は無い</selection>
+        <selection value="3">ニーズにマッチしている</selection>
+        <selection value="4">製品の購入を検討したい</selection>
+    </question>
 
-	<question type="SELECT" required="true">
-		<message>あなたは今回の擬似攻撃メールにどのように対応しましたか？</message>
-		<selection value="1">メールを受け取っており、添付されていたファイルの内容も見た</selection>
-		<selection value="2">メールを受け取ったが、添付されていたファイルの内容は見なかった</selection>
-		<selection value="3">そんなメールは受け取っていない</selection>
-	</question>
+    <question type="TEXT">
+        <message>今後、弊社からの情報提供に関してご意見をお聞かせ下さい。</message>
+<selection value="">詳細説明を希望
+    　（製品名　　：${value}　）
+　（内容　　　：　　　　　　　　　）
+　（訪問希望日：　　　　　　）</selection>
+<!-- <selection value="">見積を希望
+　（製品名　：　　　　　　　　）</selection>
+<selection value="">不要</selection>
+-->
+    </question>
 
-	<question type="SELECT" required="true">
-		<message>擬似攻撃メールの本文や表題は、あなたの担当業務とどの程度関連していましたか？</message>
-		<selection value="1">非常に強い関連を感じた</selection>
-		<selection value="2">どちらかといえば関連が強い方だと思った</selection>
-		<selection value="3">わずかに関連していた</selection>
-		<selection value="4">まったく無関係であった</selection>
-	</question>
-
-	<question type="SELECT" required="true">
-		<message>予防接種による訓練をどのように思われますか？</message>
-		<selection value="1">有効であり、定期的に実施すべき</selection>
-		<selection value="2">有効ではあるが、実施方法は再検討が必要</selection>
-		<selection value="3">有効とは思えず、今回のみでよい</selection>
-	</question>
-
-	<question type="TEXTAREA" maxChar="400" required="false">
-		<message>予防接種について、ご感想・ご意見などを自由にご記述ください。(400字まで。空欄でも構いません。)</message>
-	</question>
+    <question type="TEXTAREA" maxChar="400" required="false">
+        <message>弊社ブースの展示内容をご覧になった感想をお聞かせ下さい。</message>
+    </question>
 </questions>

@@ -6,7 +6,6 @@ package jabara.it_inoculation_questions.web.ui.page;
 import jabara.general.NotFound;
 import jabara.it_inoculation_questions.entity.Answer;
 import jabara.it_inoculation_questions.entity.Answers;
-import jabara.it_inoculation_questions.model.TextQuestionFound;
 import jabara.it_inoculation_questions.service.IAnswersService;
 import jabara.it_inoculation_questions.service.IQuestionService;
 
@@ -120,17 +119,19 @@ public class AnswerPage extends AuthenticatedWebPageBase {
                         pItem.add(new Label("questionMessage", "-"));
                     }
 
-                    try {
-                        final String msg = AnswerPage.this.questionService.findSelectionMessage(answer.getQuestionIndex(), answer.getValue());
-                        pItem.add(new Label("value"));
-                        pItem.add(new Label("selectionMessage", msg));
-                    } catch (final NotFound e) {
-                        pItem.add(new Label("value"));
-                        pItem.add(new Label("selectionMessage", "(未回答)"));
-                    } catch (final TextQuestionFound e) {
-                        pItem.add(new Label("value", "-"));
-                        pItem.add(new Label("selectionMessage", answer.getValue()));
-                    }
+                    // try {
+                    // final String msg = AnswerPage.this.questionService.findSelectionMessage(answer.getQuestionIndex(), answer.getValue());
+                    // TODO
+                    final String msg = "実装検討中...";
+                    pItem.add(new Label("values"));
+                    pItem.add(new Label("selectionMessage", msg));
+                    // } catch (final NotFound e) {
+                    // pItem.add(new Label("value"));
+                    // pItem.add(new Label("selectionMessage", "(未回答)"));
+                    // } catch (final TextQuestionFound e) {
+                    // pItem.add(new Label("value", "-"));
+                    // pItem.add(new Label("selectionMessage", answer.getValue())));
+                    // }
                 }
             };
         }

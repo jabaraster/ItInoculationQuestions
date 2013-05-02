@@ -6,7 +6,6 @@ package jabara.it_inoculation_questions.service.impl;
 import jabara.general.ArgUtil;
 import jabara.general.NotFound;
 import jabara.it_inoculation_questions.entity.Answer;
-import jabara.it_inoculation_questions.entity.Answer_;
 import jabara.it_inoculation_questions.entity.Answers;
 import jabara.it_inoculation_questions.entity.AnswersSave;
 import jabara.it_inoculation_questions.entity.AnswersSave_;
@@ -21,7 +20,7 @@ import jabara.it_inoculation_questions.service.IQuestionService;
 import jabara.jpa.entity.EntityBase_;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -81,7 +80,7 @@ public class AnswerServicesImpl implements IAnswersService {
 
         final Answers answers = new Answers();
         for (final Answer answer : pAnswersSave) {
-            answers.addAnswer(answer.getQuestionIndex(), answer.getValue());
+            answers.addAnswer(answer.getQuestionIndex(), answer.getValues());
         }
 
         em.persist(answers);
@@ -171,29 +170,30 @@ public class AnswerServicesImpl implements IAnswersService {
         ArgUtil.checkNull(pAnswer, "pAnswer"); //$NON-NLS-1$
         final Answer merged = getEntityManager().merge(pAnswer);
         merged.setQuestionIndex(pAnswer.getQuestionIndex());
-        merged.setValue(pAnswer.getValue());
+        merged.getValues().addAll(pAnswer.getValues());
     }
 
     private Map<String, ValueAndCount> getAnswersByQuestionIndex(final int pQuestionIndex) {
-        final EntityManager em = getEntityManager();
-        final CriteriaBuilder builder = em.getCriteriaBuilder();
-        final CriteriaQuery<ValueAndCount> query = builder.createQuery(ValueAndCount.class);
-        final Root<Answer> root = query.from(Answer.class);
-
-        query.select(builder.construct(ValueAndCount.class, root.get(Answer_.value), builder.count(root.get(Answer_.value))));
-        query.groupBy(root.get(Answer_.value));
-
-        query.where( //
-                builder.equal(root.get(Answer_.questionIndex), Integer.valueOf(pQuestionIndex)) //
-                , builder.isMember(root, query.from(Answers.class).get(Answers_.answers)) //
-        );
-
-        final List<ValueAndCount> list = em.createQuery(query).getResultList();
-        final Map<String, ValueAndCount> ret = new HashMap<String, AnswerServicesImpl.ValueAndCount>();
-        for (final ValueAndCount vc : list) {
-            ret.put(vc.getValue(), vc);
-        }
-        return ret;
+        return Collections.emptyMap();
+        // final EntityManager em = getEntityManager();
+        // final CriteriaBuilder builder = em.getCriteriaBuilder();
+        // final CriteriaQuery<ValueAndCount> query = builder.createQuery(ValueAndCount.class);
+        // final Root<Answer> root = query.from(Answer.class);
+        //
+        // query.select(builder.construct(ValueAndCount.class, root.get(Answer_.value), builder.count(root.get(Answer_.value))));
+        // query.groupBy(root.get(Answer_.value));
+        //
+        // query.where( //
+        // builder.equal(root.get(Answer_.questionIndex), Integer.valueOf(pQuestionIndex)) //
+        // , builder.isMember(root, query.from(Answers.class).get(Answers_.answers)) //
+        // );
+        //
+        // final List<ValueAndCount> list = em.createQuery(query).getResultList();
+        // final Map<String, ValueAndCount> ret = new HashMap<String, AnswerServicesImpl.ValueAndCount>();
+        // for (final ValueAndCount vc : list) {
+        // ret.put(vc.getValue(), vc);
+        // }
+        // return ret;
     }
 
     private AnswersSave getByKeyCore(final String pAnswersKey) throws NotFound {

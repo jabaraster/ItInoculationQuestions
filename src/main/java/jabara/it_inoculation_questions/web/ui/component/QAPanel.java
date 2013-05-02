@@ -5,6 +5,8 @@ package jabara.it_inoculation_questions.web.ui.component;
 
 import jabara.it_inoculation_questions.model.Question;
 
+import java.util.List;
+
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.FormComponent;
 import org.apache.wicket.model.AbstractReadOnlyModel;
@@ -15,15 +17,15 @@ import org.apache.wicket.model.IModel;
  */
 @SuppressWarnings("serial")
 public class QAPanel extends InputPanel {
-    private static final long    serialVersionUID = -1685283113094374805L;
+    private static final long          serialVersionUID = -1685283113094374805L;
 
-    private final Question       question;
-    private final IModel<String> answerValueModel;
-    private final int            index;
+    private final Question             question;
+    private final IModel<List<String>> answerValueModel;
+    private final int                  index;
 
-    private InputPanel           answerInputPanel;
+    private InputPanel                 answerInputPanel;
 
-    private Label                message;
+    private Label                      message;
 
     /**
      * @param pId パネルのwicket:id.
@@ -31,7 +33,7 @@ public class QAPanel extends InputPanel {
      * @param pAnswerValueModel 回答を格納するモデル.
      * @param pIndex 何番目の設問かを示す値. 0始まり.
      */
-    public QAPanel(final String pId, final Question pQuestion, final IModel<String> pAnswerValueModel, final int pIndex) {
+    public QAPanel(final String pId, final Question pQuestion, final IModel<List<String>> pAnswerValueModel, final int pIndex) {
         super(pId);
 
         this.question = pQuestion;
@@ -57,6 +59,9 @@ public class QAPanel extends InputPanel {
             switch (this.question.getType()) {
             case SELECT:
                 this.answerInputPanel = new AnswerSelectPanel(id, this.question, this.answerValueModel);
+                break;
+            case MULTI_SELECT:
+                this.answerInputPanel = new AnswerMultiSelectPanel(id, this.question, this.answerValueModel);
                 break;
             case TEXT:
                 this.answerInputPanel = new AnswerTextFieldPanel(id, this.question, this.answerValueModel);

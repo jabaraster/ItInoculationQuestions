@@ -58,6 +58,9 @@ public final class QuestionUtil {
         case SELECT:
             checkSelectionCountIsGeOne(pQuestion);
             break;
+        case MULTI_SELECT:
+            checkSelectionCountIsGeOne(pQuestion);
+            break;
         case TEXT:
             checkSelectionCountIsZeroOrOne(pQuestion);
             break;

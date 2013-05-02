@@ -5,8 +5,13 @@ package jabara.it_inoculation_questions.entity;
 
 import jabara.jpa.entity.EntityBase;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 
 /**
  * @author jabaraster
@@ -26,8 +31,8 @@ public class Answer extends EntityBase<Answer> {
     /**
      * 回答内容を表す文字列です.
      */
-    @Column(nullable = true, length = MAX_CHAR_COUNT_VALUE * 3)
-    protected String          value;
+    @ElementCollection(fetch = FetchType.EAGER)
+    protected List<String>    values               = new ArrayList<String>();
 
     /**
      * 
@@ -45,11 +50,11 @@ public class Answer extends EntityBase<Answer> {
 
     /**
      * @param pQuestionIndex 何番目の設問に対する回答かを0始まりのインデックスで指定.
-     * @param pValue 回答内容を表す文字列.
+     * @param pValues 回答内容.
      */
-    public Answer(final int pQuestionIndex, final String pValue) {
+    public Answer(final int pQuestionIndex, final List<String> pValues) {
         setQuestionIndex(pQuestionIndex);
-        setValue(pValue);
+        this.values.addAll(pValues);
     }
 
     /**
@@ -60,10 +65,10 @@ public class Answer extends EntityBase<Answer> {
     }
 
     /**
-     * @return valueを返す.
+     * @return the values
      */
-    public String getValue() {
-        return this.value;
+    public List<String> getValues() {
+        return this.values;
     }
 
     /**
@@ -74,19 +79,19 @@ public class Answer extends EntityBase<Answer> {
     }
 
     /**
-     * @param pValue valueを設定.
-     */
-    public void setValue(final String pValue) {
-        this.value = pValue;
-    }
-
-    /**
      * @see java.lang.Object#toString()
      */
     @SuppressWarnings("nls")
     @Override
     public String toString() {
-        return "Answer [questionIndex=" + this.questionIndex + ", value=" + this.value + ", id=" + this.id + ", created=" + this.created
+        return "Answer [questionIndex=" + this.questionIndex + ", values=" + this.values + ", id=" + this.id + ", created=" + this.created
                 + ", updated=" + this.updated + "]";
+    }
+
+    /**
+     * @return the maxCharCountValue
+     */
+    public static int getMaxCharCountValue() {
+        return MAX_CHAR_COUNT_VALUE;
     }
 }
