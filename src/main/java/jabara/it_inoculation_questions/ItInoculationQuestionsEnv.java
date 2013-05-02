@@ -22,7 +22,7 @@ public final class ItInoculationQuestionsEnv {
     /**
      * 
      */
-    public static final String APPLICATION_NAME_IN_JAPANESE           = "IT予防接種アンケート";                                       //$NON-NLS-1$
+    public static final String APPLICATION_NAME_IN_JAPANESE           = "(株)理経アンケート";                                       //$NON-NLS-1$
 
     /**
      * 

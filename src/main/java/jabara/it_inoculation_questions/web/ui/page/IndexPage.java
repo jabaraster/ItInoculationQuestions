@@ -92,7 +92,7 @@ public class IndexPage extends ItInoculationQuestionsWebPageBase {
         return new AbstractReadOnlyModel<String>() {
             @Override
             public String getObject() {
-                return "設問"; //$NON-NLS-1$
+                return "ご回答ページ"; //$NON-NLS-1$
             }
         };
     }

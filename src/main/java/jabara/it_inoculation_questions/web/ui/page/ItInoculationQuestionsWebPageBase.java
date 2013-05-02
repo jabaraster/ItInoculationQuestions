@@ -102,7 +102,7 @@ public abstract class ItInoculationQuestionsWebPageBase extends WebPage {
             this.titleLabel = new Label("titleLabel", new AbstractReadOnlyModel<String>() {
                 @Override
                 public String getObject() {
-                    return getTitleLabelModel().getObject() + " - " + ItInoculationQuestionsEnv.APPLICATION_NAME_IN_JAPANESE;
+                    return getTitleLabelModel().getObject() + " - QRアンケート";
                 }
             });
         }
