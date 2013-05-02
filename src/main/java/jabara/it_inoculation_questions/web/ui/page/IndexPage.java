@@ -5,6 +5,7 @@ package jabara.it_inoculation_questions.web.ui.page;
 
 import jabara.it_inoculation_questions.ItInoculationQuestionsEnv;
 import jabara.it_inoculation_questions.entity.Answer;
+import jabara.it_inoculation_questions.entity.Answers;
 import jabara.it_inoculation_questions.entity.AnswersSave;
 import jabara.it_inoculation_questions.model.Question;
 import jabara.it_inoculation_questions.service.IAnswersService;
@@ -109,9 +110,9 @@ public class IndexPage extends ItInoculationQuestionsWebPageBase {
                 @SuppressWarnings("synthetic-access")
                 @Override
                 public void onSubmit() {
-                    IndexPage.this.answersService.decide(IndexPage.this.answersValue);
+                    final Answers decided = IndexPage.this.answersService.decide(IndexPage.this.answersValue);
 
-                    final PageParameters param = ThankYouPage.createParameterForAnswerIdDisplay(IndexPage.this.answersValue.getId().longValue());
+                    final PageParameters param = ThankYouPage.createParameterForAnswerIdDisplay(decided.getId().longValue());
                     setResponsePage(ThankYouPage.class, param);
                 }
             };
