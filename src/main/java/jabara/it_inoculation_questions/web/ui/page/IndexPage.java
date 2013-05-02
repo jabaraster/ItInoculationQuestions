@@ -32,6 +32,7 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.request.cycle.RequestCycle;
 import org.apache.wicket.request.http.WebRequest;
 import org.apache.wicket.request.http.WebResponse;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 /**
  * @author jabaraster
@@ -91,7 +92,7 @@ public class IndexPage extends ItInoculationQuestionsWebPageBase {
         return new AbstractReadOnlyModel<String>() {
             @Override
             public String getObject() {
-                return "IT予防接種アンケート"; //$NON-NLS-1$
+                return "設問"; //$NON-NLS-1$
             }
         };
     }
@@ -109,7 +110,9 @@ public class IndexPage extends ItInoculationQuestionsWebPageBase {
                 @Override
                 public void onSubmit() {
                     IndexPage.this.answersService.decide(IndexPage.this.answersValue);
-                    setResponsePage(ThankYouPage.class);
+
+                    final PageParameters param = ThankYouPage.createParameterForAnswerIdDisplay(IndexPage.this.answersValue.getId().longValue());
+                    setResponsePage(ThankYouPage.class, param);
                 }
             };
         }
