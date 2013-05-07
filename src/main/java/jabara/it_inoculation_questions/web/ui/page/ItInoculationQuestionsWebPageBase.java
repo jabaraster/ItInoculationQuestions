@@ -4,7 +4,6 @@
 package jabara.it_inoculation_questions.web.ui.page;
 
 import jabara.general.ArgUtil;
-import jabara.it_inoculation_questions.ItInoculationQuestionsEnv;
 import jabara.it_inoculation_questions.web.ui.JavaScriptUtil;
 
 import org.apache.wicket.MarkupContainer;
@@ -31,7 +30,8 @@ public abstract class ItInoculationQuestionsWebPageBase extends WebPage {
 
     private Label             titleLabel;
     private Panel             headerPanel;
-    private Image             logo;
+    private Image             caLogo;
+    private Image             rikenLogo;
 
     /**
      * 
@@ -47,7 +47,8 @@ public abstract class ItInoculationQuestionsWebPageBase extends WebPage {
         super(pParameters);
         this.add(getTitleLabel());
         this.add(getHeaderPanel());
-        this.add(getLogo());
+        this.add(getCaLogo());
+        this.add(GetRikenLogo());
     }
 
     /**
@@ -89,11 +90,18 @@ public abstract class ItInoculationQuestionsWebPageBase extends WebPage {
      */
     protected abstract IModel<String> getTitleLabelModel();
 
-    private Image getLogo() {
-        if (this.logo == null) {
-            this.logo = new Image("logo", new SharedResourceReference(ItInoculationQuestionsWebPageBase.class, "img/ca_logo_trans.png")); //$NON-NLS-1$ //$NON-NLS-2$
+    private Image getCaLogo() {
+        if (this.caLogo == null) {
+            this.caLogo = new Image("caLogo", new SharedResourceReference(ItInoculationQuestionsWebPageBase.class, "img/ca_logo_trans.png")); //$NON-NLS-1$ //$NON-NLS-2$
         }
-        return this.logo;
+        return this.caLogo;
+    }
+
+    private Image GetRikenLogo() {
+        if (this.rikenLogo == null) {
+            this.rikenLogo = new Image("rikenLogo", new SharedResourceReference(ItInoculationQuestionsWebPageBase.class, "img/riken_logo.jpg")); //$NON-NLS-1$//$NON-NLS-2$
+        }
+        return this.rikenLogo;
     }
 
     @SuppressWarnings({ "nls", "serial" })
