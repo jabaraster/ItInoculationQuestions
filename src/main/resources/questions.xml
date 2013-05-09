@@ -7,7 +7,7 @@
         <selection value="2">学校関係者様：教員</selection>
         <selection value="3">学校関係者様：学校事務職員</selection>
         <selection value="4">提案業者様：Sier</selection>
-        <selection value="99">提案業者様：その他</selection>
+        <selection value="99" other="true">提案業者様：その他</selection>
     </question>
 
     <question type="SELECT" required="true">
@@ -15,7 +15,7 @@
         <selection value="1">2013年度内に新システムをサービスイン予定</selection>
         <selection value="2">2014年度内に新システムをサービスイン予定</selection>
         <selection value="3">2015年度以降に課題へ取り組み、計画を実施する予定がある</selection>
-        <selection value="99">その他</selection>
+        <selection value="99" other="true">その他</selection>
     </question>
 
     <question type="SELECT" required="true">
@@ -24,7 +24,7 @@
         <selection value="2">提案業者からの情報収集段階</selection>
         <selection value="3">新システム要件策定</selection>
         <selection value="4">業者コンペ中</selection>
-        <selection value="99">その他</selection>
+        <selection value="99" other="true">その他</selection>
     </question>
 
     <question type="MULTI_SELECT">
@@ -38,7 +38,7 @@
         <selection value="7">防災・防犯ソリューション</selection>
         <selection value="8">認証セキュリティ管理ツール</selection>
         <selection value="9">広域 Wifi 設備</selection>
-        <selection value="99">その他</selection>
+        <selection value="99" other="true">その他</selection>
     </question>
 
     <question type="SELECT">

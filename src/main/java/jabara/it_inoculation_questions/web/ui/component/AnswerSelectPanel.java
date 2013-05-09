@@ -3,13 +3,17 @@
  */
 package jabara.it_inoculation_questions.web.ui.component;
 
+import jabara.general.Empty;
 import jabara.it_inoculation_questions.model.Question;
 import jabara.it_inoculation_questions.model.Selection;
 
 import java.util.List;
 
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.form.OnChangeAjaxBehavior;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.FormComponent;
+import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.IModel;
 
 /**
@@ -22,6 +26,7 @@ public class AnswerSelectPanel extends InputPanel {
     private final IModel<List<String>> answerValueModel;
 
     private DropDownChoice<Selection>  selection;
+    private TextField<String>          other;
 
     /**
      * @param pId パネルのwicket:id.
@@ -33,6 +38,7 @@ public class AnswerSelectPanel extends InputPanel {
         this.question = pQuestion;
         this.answerValueModel = pAnswerValueModel;
         this.add(getSelection());
+        this.add(getOther());
     }
 
     /**
@@ -44,6 +50,16 @@ public class AnswerSelectPanel extends InputPanel {
     }
 
     @SuppressWarnings("synthetic-access")
+    private TextField<String> getOther() {
+        if (this.other == null) {
+            this.other = new TextField<String>("other", new AnswerTextModel()); //$NON-NLS-1$
+            this.other.setOutputMarkupPlaceholderTag(true);
+            this.other.setVisible(false);
+        }
+        return this.other;
+    }
+
+    @SuppressWarnings({ "synthetic-access", "serial" })
     private DropDownChoice<Selection> getSelection() {
         if (this.selection == null) {
             this.selection = new DropDownChoice<Selection>( //
@@ -53,6 +69,13 @@ public class AnswerSelectPanel extends InputPanel {
                     , new SelectionChoiceRenderer() //
             );
             this.selection.setRequired(this.question.isRequired());
+            this.selection.add(new OnChangeAjaxBehavior() {
+                @Override
+                protected void onUpdate(final AjaxRequestTarget pTarget) {
+                    getOther().setVisible(getSelection().getModelObject().isOther());
+                    pTarget.add(getOther());
+                }
+            });
         }
         return this.selection;
     }
@@ -85,5 +108,31 @@ public class AnswerSelectPanel extends InputPanel {
             values.clear();
             values.add(pObject.getValue());
         }
+    }
+
+    private class AnswerTextModel implements IModel<String> {
+        private static final long serialVersionUID = -8296551924907778630L;
+
+        @Override
+        public void detach() {
+            // 処理なし
+        }
+
+        @SuppressWarnings("synthetic-access")
+        @Override
+        public String getObject() {
+            final List<String> l = AnswerSelectPanel.this.answerValueModel.getObject();
+            return l.isEmpty() ? Empty.STRING : l.get(0);
+        }
+
+        @SuppressWarnings("synthetic-access")
+        @Override
+        public void setObject(final String pObject) {
+            // TODO コンボボックスの状態を見る必要が、きっとある.
+            final List<String> l = AnswerSelectPanel.this.answerValueModel.getObject();
+            l.clear();
+            l.add(pObject);
+        }
+
     }
 }

@@ -30,6 +30,9 @@ public class Selection implements Serializable {
     @XmlValue
     private String             message;
 
+    @XmlAttribute
+    private boolean            other            = false;
+
     /**
      * 
      */
@@ -48,6 +51,7 @@ public class Selection implements Serializable {
     /**
      * @see java.lang.Object#equals(java.lang.Object)
      */
+    @SuppressWarnings("hiding")
     @Override
     public boolean equals(final Object obj) {
         if (this == obj) {
@@ -104,10 +108,24 @@ public class Selection implements Serializable {
     }
 
     /**
+     * @return the other
+     */
+    public boolean isOther() {
+        return this.other;
+    }
+
+    /**
      * @param pMessage the message to set
      */
     public void setMessage(final String pMessage) {
         this.message = pMessage;
+    }
+
+    /**
+     * @param pOther the other to set
+     */
+    public void setOther(final boolean pOther) {
+        this.other = pOther;
     }
 
     /**
