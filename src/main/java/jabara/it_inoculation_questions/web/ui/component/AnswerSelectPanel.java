@@ -48,14 +48,6 @@ public class AnswerSelectPanel extends InputPanel {
         this.add(getOther());
     }
 
-    // /**
-    // * @see jabara.it_inoculation_questions.web.ui.component.InputPanel#getInputComponent()
-    // */
-    // @Override
-    // public FormComponent<?> getInputComponent() {
-    // return getSelection();
-    // }
-
     @SuppressWarnings({ "synthetic-access", "serial" })
     private TextField<String> getOther() {
         if (this.other == null) {
@@ -71,7 +63,6 @@ public class AnswerSelectPanel extends InputPanel {
                 protected void onUpdate(final AjaxRequestTarget pTarget) {
                     on_other_onUpdate(pTarget);
                 }
-
             });
         }
         return this.other;
@@ -98,7 +89,7 @@ public class AnswerSelectPanel extends InputPanel {
     }
 
     private boolean isOtherSelected() {
-        final Selection selectedValue = this.selection.getModelObject();
+        final Selection selectedValue = getSelection().getModelObject();
         if (selectedValue == null) {
             return false;
         }
@@ -106,13 +97,13 @@ public class AnswerSelectPanel extends InputPanel {
     }
 
     private void on_other_onUpdate(final AjaxRequestTarget pTarget) {
-        final List<AnswerValue> values = this.answerValuesModel.getObject();
-        if (values.isEmpty()) {
-            return;
-        }
-
-        final String optionText = getOther().getModelObject();
-        values.get(0).setOptionText(optionText);
+        // final List<AnswerValue> values = this.answerValuesModel.getObject();
+        // if (values.isEmpty()) {
+        // return;
+        // }
+        //
+        // final String optionText = getOther().getModelObject();
+        // values.get(0).setOptionText(optionText);
         fireAnswerValueChanged(pTarget);
     }
 
@@ -176,6 +167,5 @@ public class AnswerSelectPanel extends InputPanel {
             }
             AnswerSelectPanel.this.answerValuesModel.setObject(Arrays.asList(new AnswerValue(selectedValue.getValue(), pObject)));
         }
-
     }
 }

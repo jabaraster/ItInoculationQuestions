@@ -3,17 +3,25 @@
  */
 package jabara.it_inoculation_questions.web.ui.component;
 
+import jabara.general.Empty;
 import jabara.it_inoculation_questions.entity.AnswerValue;
 import jabara.it_inoculation_questions.model.Question;
 import jabara.it_inoculation_questions.model.Selection;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.OnChangeAjaxBehavior;
+import org.apache.wicket.markup.head.CssHeaderItem;
+import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.html.form.ListMultipleChoice;
+import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.request.resource.CssResourceReference;
 
 /**
  * @author jabaraster
@@ -25,6 +33,7 @@ public class AnswerMultiSelectPanel extends InputPanel {
     private final IModel<List<AnswerValue>> answerValuesModel;
 
     private ListMultipleChoice<Selection>   selections;
+    private TextField<String>               other;
 
     /**
      * @param pId パネルのwicket:id.
@@ -41,15 +50,38 @@ public class AnswerMultiSelectPanel extends InputPanel {
         this.question = pQuestion;
         this.answerValuesModel = pAnswerValuesModel;
         this.add(getSelections());
+        this.add(getOther());
     }
 
-    // /**
-    // * @see jabara.it_inoculation_questions.web.ui.component.InputPanel#getInputComponent()
-    // */
-    // @Override
-    // public FormComponent<?> getInputComponent() {
-    // return getSelections();
-    // }
+    /**
+     * @see org.apache.wicket.Component#renderHead(org.apache.wicket.markup.head.IHeaderResponse)
+     */
+    @Override
+    public void renderHead(final IHeaderResponse pResponse) {
+        super.renderHead(pResponse);
+        pResponse.render(CssHeaderItem.forReference( //
+                new CssResourceReference(AnswerMultiSelectPanel.class, AnswerMultiSelectPanel.class.getSimpleName() + ".css"))); //$NON-NLS-1$
+    }
+
+    @SuppressWarnings({ "synthetic-access", "serial" })
+    private TextField<String> getOther() {
+        if (this.other == null) {
+            this.other = new TextField<String>("other", new AnswerTextModel()) { //$NON-NLS-1$
+                @Override
+                public boolean isVisible() {
+                    return isOtherSelected();
+                }
+            };
+            this.other.setOutputMarkupPlaceholderTag(true);
+            this.other.add(new OnChangeAjaxBehavior() {
+                @Override
+                protected void onUpdate(final AjaxRequestTarget pTarget) {
+                    on_other_onUpdate(pTarget);
+                }
+            });
+        }
+        return this.other;
+    }
 
     @SuppressWarnings({ "synthetic-access", "serial" })
     private ListMultipleChoice<Selection> getSelections() {
@@ -63,11 +95,26 @@ public class AnswerMultiSelectPanel extends InputPanel {
             this.selections.add(new OnChangeAjaxBehavior() {
                 @Override
                 protected void onUpdate(final AjaxRequestTarget pTarget) {
+                    pTarget.add(getOther());
                     fireAnswerValueChanged(pTarget);
                 }
             });
         }
         return this.selections;
+    }
+
+    private boolean isOtherSelected() {
+        final Collection<Selection> selectedValues = getSelections().getModelObject();
+        for (final Selection selection : selectedValues) {
+            if (selection.isOther()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void on_other_onUpdate(final AjaxRequestTarget pTarget) {
+        fireAnswerValueChanged(pTarget);
     }
 
     private class AnswerModel implements IModel<List<Selection>> {
@@ -102,5 +149,32 @@ public class AnswerMultiSelectPanel extends InputPanel {
             }
         }
 
+    }
+
+    private class AnswerTextModel implements IModel<String> {
+        private static final long serialVersionUID = -8296551924907778630L;
+
+        @Override
+        public void detach() {
+            // 処理なし
+        }
+
+        @SuppressWarnings("synthetic-access")
+        @Override
+        public String getObject() {
+            final List<AnswerValue> l = AnswerMultiSelectPanel.this.answerValuesModel.getObject();
+            return l.isEmpty() ? Empty.STRING : l.get(0).getOptionText();
+        }
+
+        @SuppressWarnings("synthetic-access")
+        @Override
+        public void setObject(final String pObject) {
+            final Iterator<Selection> selectedValue = getSelections().getModelObject().iterator();
+            if (!selectedValue.hasNext()) {
+                return;
+            }
+            final AnswerValue answerValue = new AnswerValue(selectedValue.next().getValue(), pObject);
+            AnswerMultiSelectPanel.this.answerValuesModel.setObject(Arrays.asList(answerValue));
+        }
     }
 }

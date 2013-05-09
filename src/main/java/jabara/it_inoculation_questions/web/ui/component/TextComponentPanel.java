@@ -60,14 +60,6 @@ public abstract class TextComponentPanel<C extends AbstractTextComponent<List<An
         this.add(getValueSuffix());
     }
 
-    // /**
-    // * @see jabara.it_inoculation_questions.web.ui.component.InputPanel#getInputComponent()
-    // */
-    // @Override
-    // public FormComponent<?> getInputComponent() {
-    // return getAnswerText();
-    // }
-
     /**
      * @return テキスト入力欄.
      */

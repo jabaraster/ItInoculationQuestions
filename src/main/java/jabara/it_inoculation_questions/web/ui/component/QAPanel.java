@@ -50,14 +50,6 @@ public class QAPanel extends InputPanel {
         this.add(getAnswerInputPanel());
     }
 
-    // /**
-    // * @see jabara.it_inoculation_questions.web.ui.component.InputPanel#getInputComponent()
-    // */
-    // @Override
-    // public FormComponent<?> getInputComponent() {
-    // return this.answerInputPanel.getInputComponent();
-    // }
-
     private InputPanel getAnswerInputPanel() {
         if (this.answerInputPanel == null) {
             final String id = "answer"; //$NON-NLS-1$
