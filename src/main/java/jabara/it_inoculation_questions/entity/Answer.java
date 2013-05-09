@@ -18,21 +18,21 @@ import javax.persistence.FetchType;
  */
 @Entity
 public class Answer extends EntityBase<Answer> {
-    private static final long serialVersionUID     = 4438634181403267449L;
+    private static final long   serialVersionUID     = 4438634181403267449L;
 
-    private static final int  MAX_CHAR_COUNT_VALUE = 1000;
+    private static final int    MAX_CHAR_COUNT_VALUE = 1000;
 
     /**
      * この回答が、何番目の設問に対する回答かを0始まりのインデックス値で保持します.
      */
     @Column(nullable = false)
-    protected int             questionIndex;
+    protected int               questionIndex;
 
     /**
-     * 回答内容を表す文字列です.
+     * 回答内容です.
      */
     @ElementCollection(fetch = FetchType.EAGER)
-    protected List<String>    values               = new ArrayList<String>();
+    protected List<AnswerValue> values               = new ArrayList<AnswerValue>();
 
     /**
      * 
@@ -52,7 +52,7 @@ public class Answer extends EntityBase<Answer> {
      * @param pQuestionIndex 何番目の設問に対する回答かを0始まりのインデックスで指定.
      * @param pValues 回答内容.
      */
-    public Answer(final int pQuestionIndex, final List<String> pValues) {
+    public Answer(final int pQuestionIndex, final List<AnswerValue> pValues) {
         setQuestionIndex(pQuestionIndex);
         this.values.addAll(pValues);
     }
@@ -67,7 +67,7 @@ public class Answer extends EntityBase<Answer> {
     /**
      * @return the values
      */
-    public List<String> getValues() {
+    public List<AnswerValue> getValues() {
         return this.values;
     }
 

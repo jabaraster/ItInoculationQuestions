@@ -35,7 +35,7 @@ public class Answers extends EntityBase<Answers> implements Iterable<Answer> {
      * @param pValues 回答内容を表す文字列.
      * @return 追加した回答.
      */
-    public Answer addAnswer(final int pQuestionIndex, final List<String> pValues) {
+    public Answer addAnswer(final int pQuestionIndex, final List<AnswerValue> pValues) {
         final Answer a = new Answer(pQuestionIndex, pValues);
         this.answers.add(a);
         return a;

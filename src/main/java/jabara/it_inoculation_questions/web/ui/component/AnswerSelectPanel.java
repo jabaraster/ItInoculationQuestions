@@ -4,15 +4,17 @@
 package jabara.it_inoculation_questions.web.ui.component;
 
 import jabara.general.Empty;
+import jabara.it_inoculation_questions.entity.AnswerValue;
 import jabara.it_inoculation_questions.model.Question;
 import jabara.it_inoculation_questions.model.Selection;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.OnChangeAjaxBehavior;
 import org.apache.wicket.markup.html.form.DropDownChoice;
-import org.apache.wicket.markup.html.form.FormComponent;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.IModel;
 
@@ -20,41 +22,57 @@ import org.apache.wicket.model.IModel;
  * @author jabaraster
  */
 public class AnswerSelectPanel extends InputPanel {
-    private static final long          serialVersionUID = 6209600276674562508L;
+    private static final long               serialVersionUID = 6209600276674562508L;
 
-    private final Question             question;
-    private final IModel<List<String>> answerValueModel;
+    private final Question                  question;
+    private final IModel<List<AnswerValue>> answerValuesModel;
 
-    private DropDownChoice<Selection>  selection;
-    private TextField<String>          other;
+    private DropDownChoice<Selection>       selection;
+    private TextField<String>               other;
 
     /**
      * @param pId パネルのwicket:id.
      * @param pQuestion 設問.
-     * @param pAnswerValueModel 回答を格納するモデル.
+     * @param pAnswerValuesModel 回答を格納するモデル.
+     * @param pListener -
      */
-    public AnswerSelectPanel(final String pId, final Question pQuestion, final IModel<List<String>> pAnswerValueModel) {
-        super(pId);
+    public AnswerSelectPanel( //
+            final String pId //
+            , final Question pQuestion //
+            , final IModel<List<AnswerValue>> pAnswerValuesModel //
+            , final IAjaxListener pListener) {
+        super(pId, pListener);
         this.question = pQuestion;
-        this.answerValueModel = pAnswerValueModel;
+        this.answerValuesModel = pAnswerValuesModel;
         this.add(getSelection());
         this.add(getOther());
     }
 
-    /**
-     * @see jabara.it_inoculation_questions.web.ui.component.InputPanel#getInputComponent()
-     */
-    @Override
-    public FormComponent<?> getInputComponent() {
-        return getSelection();
-    }
+    // /**
+    // * @see jabara.it_inoculation_questions.web.ui.component.InputPanel#getInputComponent()
+    // */
+    // @Override
+    // public FormComponent<?> getInputComponent() {
+    // return getSelection();
+    // }
 
-    @SuppressWarnings("synthetic-access")
+    @SuppressWarnings({ "synthetic-access", "serial" })
     private TextField<String> getOther() {
         if (this.other == null) {
-            this.other = new TextField<String>("other", new AnswerTextModel()); //$NON-NLS-1$
+            this.other = new TextField<String>("other", new AnswerTextModel()) { //$NON-NLS-1$
+                @Override
+                public boolean isVisible() {
+                    return isOtherSelected();
+                }
+            };
             this.other.setOutputMarkupPlaceholderTag(true);
-            this.other.setVisible(false);
+            this.other.add(new OnChangeAjaxBehavior() {
+                @Override
+                protected void onUpdate(final AjaxRequestTarget pTarget) {
+                    on_other_onUpdate(pTarget);
+                }
+
+            });
         }
         return this.other;
     }
@@ -72,12 +90,35 @@ public class AnswerSelectPanel extends InputPanel {
             this.selection.add(new OnChangeAjaxBehavior() {
                 @Override
                 protected void onUpdate(final AjaxRequestTarget pTarget) {
-                    getOther().setVisible(getSelection().getModelObject().isOther());
-                    pTarget.add(getOther());
+                    on_selection_onUpdate(pTarget);
                 }
             });
         }
         return this.selection;
+    }
+
+    private boolean isOtherSelected() {
+        final Selection selectedValue = this.selection.getModelObject();
+        if (selectedValue == null) {
+            return false;
+        }
+        return selectedValue.isOther();
+    }
+
+    private void on_other_onUpdate(final AjaxRequestTarget pTarget) {
+        final List<AnswerValue> values = this.answerValuesModel.getObject();
+        if (values.isEmpty()) {
+            return;
+        }
+
+        final String optionText = getOther().getModelObject();
+        values.get(0).setOptionText(optionText);
+        fireAnswerValueChanged(pTarget);
+    }
+
+    private void on_selection_onUpdate(final AjaxRequestTarget pTarget) {
+        pTarget.add(getOther());
+        fireAnswerValueChanged(pTarget);
     }
 
     private class AnswerModel implements IModel<Selection> {
@@ -92,8 +133,8 @@ public class AnswerSelectPanel extends InputPanel {
         @Override
         public Selection getObject() {
             for (final Selection s : AnswerSelectPanel.this.question.getSelections()) {
-                for (final String v : AnswerSelectPanel.this.answerValueModel.getObject()) {
-                    if (s.getValue().equals(v)) {
+                for (final AnswerValue v : AnswerSelectPanel.this.answerValuesModel.getObject()) {
+                    if (s.getValue().equals(v.getValue())) {
                         return s;
                     }
                 }
@@ -104,9 +145,10 @@ public class AnswerSelectPanel extends InputPanel {
         @SuppressWarnings("synthetic-access")
         @Override
         public void setObject(final Selection pObject) {
-            final List<String> values = AnswerSelectPanel.this.answerValueModel.getObject();
-            values.clear();
-            values.add(pObject.getValue());
+            final List<AnswerValue> values = new ArrayList<AnswerValue>();
+            final String optionText = pObject.isOther() ? getOther().getModelObject() : null;
+            values.add(new AnswerValue(pObject.getValue(), optionText));
+            AnswerSelectPanel.this.answerValuesModel.setObject(values);
         }
     }
 
@@ -121,17 +163,18 @@ public class AnswerSelectPanel extends InputPanel {
         @SuppressWarnings("synthetic-access")
         @Override
         public String getObject() {
-            final List<String> l = AnswerSelectPanel.this.answerValueModel.getObject();
-            return l.isEmpty() ? Empty.STRING : l.get(0);
+            final List<AnswerValue> l = AnswerSelectPanel.this.answerValuesModel.getObject();
+            return l.isEmpty() ? Empty.STRING : l.get(0).getOptionText();
         }
 
         @SuppressWarnings("synthetic-access")
         @Override
         public void setObject(final String pObject) {
-            // TODO コンボボックスの状態を見る必要が、きっとある.
-            final List<String> l = AnswerSelectPanel.this.answerValueModel.getObject();
-            l.clear();
-            l.add(pObject);
+            final Selection selectedValue = getSelection().getModelObject();
+            if (selectedValue == null) {
+                return;
+            }
+            AnswerSelectPanel.this.answerValuesModel.setObject(Arrays.asList(new AnswerValue(selectedValue.getValue(), pObject)));
         }
 
     }

@@ -3,48 +3,55 @@
  */
 package jabara.it_inoculation_questions.web.ui.component;
 
+import jabara.it_inoculation_questions.entity.AnswerValue;
 import jabara.it_inoculation_questions.model.Question;
 import jabara.it_inoculation_questions.model.TextAnswerColumn;
 
 import java.util.List;
 
 import org.apache.wicket.AttributeModifier;
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.form.OnChangeAjaxBehavior;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.AbstractTextComponent;
-import org.apache.wicket.markup.html.form.FormComponent;
 import org.apache.wicket.model.IModel;
 
 /**
  * @param <C> テキスト入力欄の型.
  * @author jabaraster
  */
-public abstract class TextComponentPanel<C extends AbstractTextComponent<List<String>>> extends InputPanel {
-    private static final long            serialVersionUID = -7819960106628263705L;
+public abstract class TextComponentPanel<C extends AbstractTextComponent<List<AnswerValue>>> extends InputPanel {
+    private static final long                 serialVersionUID = -7819960106628263705L;
 
     /**
      * 
      */
-    protected final Question             question;
+    protected final Question                  question;
     /**
      * 
      */
-    protected final IModel<List<String>> answerValueModel;
+    protected final IModel<List<AnswerValue>> answerValuesModel;
 
-    private final TextAnswerColumn       answerColumn;
+    private final TextAnswerColumn            answerColumn;
 
-    private C                            answerText;
-    private Label                        valuePrefix;
-    private Label                        valueSuffix;
+    private C                                 answerText;
+    private Label                             valuePrefix;
+    private Label                             valueSuffix;
 
     /**
      * @param pId パネルのwicket:id.
      * @param pQuestion 設問.
-     * @param pAnswerValueModel 回答を格納するモデル.
+     * @param pAnswerValuesModel 回答を格納するモデル.
+     * @param pAnswerValueChangeListener -
      */
-    public TextComponentPanel(final String pId, final Question pQuestion, final IModel<List<String>> pAnswerValueModel) {
-        super(pId);
+    public TextComponentPanel( //
+            final String pId //
+            , final Question pQuestion //
+            , final IModel<List<AnswerValue>> pAnswerValuesModel //
+            , final IAjaxListener pAnswerValueChangeListener) {
+        super(pId, pAnswerValueChangeListener);
         this.question = pQuestion;
-        this.answerValueModel = pAnswerValueModel;
+        this.answerValuesModel = pAnswerValuesModel;
 
         this.answerColumn = pQuestion.getAnswerColumnForText();
 
@@ -53,13 +60,13 @@ public abstract class TextComponentPanel<C extends AbstractTextComponent<List<St
         this.add(getValueSuffix());
     }
 
-    /**
-     * @see jabara.it_inoculation_questions.web.ui.component.InputPanel#getInputComponent()
-     */
-    @Override
-    public FormComponent<?> getInputComponent() {
-        return getAnswerText();
-    }
+    // /**
+    // * @see jabara.it_inoculation_questions.web.ui.component.InputPanel#getInputComponent()
+    // */
+    // @Override
+    // public FormComponent<?> getInputComponent() {
+    // return getAnswerText();
+    // }
 
     /**
      * @return テキスト入力欄.
@@ -69,10 +76,17 @@ public abstract class TextComponentPanel<C extends AbstractTextComponent<List<St
     /**
      * @return テキスト入力欄.
      */
-    protected AbstractTextComponent<List<String>> getAnswerText() {
+    @SuppressWarnings("serial")
+    protected AbstractTextComponent<List<AnswerValue>> getAnswerText() {
         if (this.answerText == null) {
             this.answerText = createAnswerText();
             this.answerText.add(AttributeModifier.append("maxlength", Integer.valueOf(this.question.getMaxChar()))); //$NON-NLS-1$
+            this.answerText.add(new OnChangeAjaxBehavior() {
+                @Override
+                protected void onUpdate(final AjaxRequestTarget pTarget) {
+                    fireAnswerValueChanged(pTarget);
+                }
+            });
         }
         return this.answerText;
     }

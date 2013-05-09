@@ -5,12 +5,14 @@ package jabara.it_inoculation_questions.web.ui.page;
 
 import jabara.it_inoculation_questions.ItInoculationQuestionsEnv;
 import jabara.it_inoculation_questions.entity.Answer;
+import jabara.it_inoculation_questions.entity.AnswerValue;
 import jabara.it_inoculation_questions.entity.Answers;
 import jabara.it_inoculation_questions.entity.AnswersSave;
 import jabara.it_inoculation_questions.model.Question;
 import jabara.it_inoculation_questions.service.IAnswersService;
 import jabara.it_inoculation_questions.service.IQuestionService;
 import jabara.it_inoculation_questions.web.ui.component.DescriptionPanel;
+import jabara.it_inoculation_questions.web.ui.component.IAjaxListener;
 import jabara.it_inoculation_questions.web.ui.component.QAPanel;
 
 import java.util.List;
@@ -21,7 +23,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.form.OnChangeAjaxBehavior;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
@@ -137,34 +138,39 @@ public class IndexPage extends ItInoculationQuestionsWebPageBase {
                     @SuppressWarnings("synthetic-access")
                     final Answer answer = IndexPage.this.answersValue.getAnswer(pItem.getIndex());
 
-                    final IModel<List<String>> m = new IModel<List<String>>() {
+                    final IModel<List<AnswerValue>> m = new IModel<List<AnswerValue>>() {
                         @Override
                         public void detach() {
                             // 処理なし
                         }
 
                         @Override
-                        public List<String> getObject() {
+                        public List<AnswerValue> getObject() {
                             return answer.getValues();
                         }
 
                         @Override
-                        public void setObject(final List<String> pObject) {
+                        public void setObject(final List<AnswerValue> pObject) {
                             answer.getValues().clear();
                             answer.getValues().addAll(pObject);
                         }
                     };
-                    final QAPanel qaPanel = new QAPanel("question", pItem.getModelObject(), m, pItem.getIndex());
+                    final QAPanel qaPanel = new QAPanel("question", pItem.getModelObject(), m, pItem.getIndex(), new IAjaxListener() {
+                        @Override
+                        public void handle(@SuppressWarnings("unused") final AjaxRequestTarget pTarget) {
+                            IndexPage.this.answersService.update(answer);
+                        }
+                    });
                     final Form<?> form = new Form<Object>("questionForm");
                     form.add(qaPanel);
                     pItem.add(form);
 
-                    qaPanel.getInputComponent().add(new OnChangeAjaxBehavior() {
-                        @Override
-                        protected void onUpdate(@SuppressWarnings("unused") final AjaxRequestTarget pTarget) {
-                            IndexPage.this.answersService.update(answer);
-                        }
-                    });
+                    // qaPanel.getInputComponent().add(new OnChangeAjaxBehavior() {
+                    // @Override
+                    // protected void onUpdate(@SuppressWarnings("unused") final AjaxRequestTarget pTarget) {
+                    // IndexPage.this.answersService.update(answer);
+                    // }
+                    // });
                 }
             };
         }
