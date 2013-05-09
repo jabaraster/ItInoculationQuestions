@@ -16,7 +16,10 @@ public class AnswerValue implements Serializable {
     private static final long serialVersionUID           = -2978690585731318151L;
 
     private static final int  MAX_CHAR_COUNT_VALUE       = 20;
-    private static final int  MAX_CHAR_COUNT_OPTION_TEXT = 1000;
+    /**
+     * 
+     */
+    public static final int   MAX_CHAR_COUNT_OPTION_TEXT = 1000;
 
     /**
      * 

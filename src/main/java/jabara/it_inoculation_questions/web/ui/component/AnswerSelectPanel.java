@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.OnChangeAjaxBehavior;
 import org.apache.wicket.markup.html.form.DropDownChoice;
@@ -57,6 +58,9 @@ public class AnswerSelectPanel extends InputPanel {
                     return isOtherSelected();
                 }
             };
+
+            this.other.add(AttributeModifier.append("maxlength", Integer.valueOf(AnswerValue.MAX_CHAR_COUNT_OPTION_TEXT))); //$NON-NLS-1$
+
             this.other.setOutputMarkupPlaceholderTag(true);
             this.other.add(new OnChangeAjaxBehavior() {
                 @Override
