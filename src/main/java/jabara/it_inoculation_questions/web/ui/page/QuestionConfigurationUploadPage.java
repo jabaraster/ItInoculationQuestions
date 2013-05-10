@@ -118,7 +118,7 @@ public class QuestionConfigurationUploadPage extends AuthenticatedWebPageBase {
     private PasswordTextField getPassword() {
         if (this.password == null) {
             this.password = new PasswordTextField("password", Model.of(Empty.STRING)); //$NON-NLS-1$
-
+            this.password.setRequired(true);
         }
         return this.password;
     }

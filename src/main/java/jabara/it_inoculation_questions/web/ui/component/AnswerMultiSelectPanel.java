@@ -122,9 +122,6 @@ public class AnswerMultiSelectPanel extends InputPanel {
 
     private void on_selections_onUpdate(final AjaxRequestTarget pTarget) {
         pTarget.add(getOther());
-        if (getOther().isVisible()) {
-            pTarget.focusComponent(getOther());
-        }
         fireAnswerValueChanged(pTarget);
     }
 

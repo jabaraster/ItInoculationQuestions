@@ -22,7 +22,7 @@ public final class ItInoculationQuestionsEnv {
     /**
      * 
      */
-    public static final String APPLICATION_NAME_IN_JAPANESE           = "QRアンケートデモ";                                         //$NON-NLS-1$
+    public static final String APPLICATION_NAME_IN_JAPANESE           = "QRアンケート";                                           //$NON-NLS-1$
 
     /**
      * 

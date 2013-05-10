@@ -4,6 +4,7 @@
 package jabara.it_inoculation_questions.web.ui.page;
 
 import jabara.general.ArgUtil;
+import jabara.it_inoculation_questions.ItInoculationQuestionsEnv;
 import jabara.it_inoculation_questions.service.IQuestionService;
 import jabara.it_inoculation_questions.web.ui.JavaScriptUtil;
 
@@ -102,7 +103,8 @@ public abstract class ItInoculationQuestionsWebPageBase extends WebPage {
             @SuppressWarnings("synthetic-access")
             @Override
             public String getObject() {
-                return ItInoculationQuestionsWebPageBase.this.questionService.getQaName();
+                final String s = ItInoculationQuestionsWebPageBase.this.questionService.getQaName();
+                return s == null || s.length() == 0 ? ItInoculationQuestionsEnv.APPLICATION_NAME_IN_JAPANESE : s;
             }
         };
     }

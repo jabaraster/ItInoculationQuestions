@@ -57,7 +57,7 @@ public interface IQuestionService {
      * @param pPassword -
      * @param pQaName -
      * @param pQaXmlData -
-     * @throws FailAuthentication
+     * @throws FailAuthentication -
      */
     void registerQuestion(String pPassword, String pQaName, InputStream pQaXmlData) throws FailAuthentication;
 }
