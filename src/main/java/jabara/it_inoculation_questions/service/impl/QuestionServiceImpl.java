@@ -6,7 +6,9 @@ package jabara.it_inoculation_questions.service.impl;
 import jabara.general.Empty;
 import jabara.general.ExceptionUtil;
 import jabara.general.NotFound;
+import jabara.it_inoculation_questions.ItInoculationQuestionsEnv;
 import jabara.it_inoculation_questions.entity.QuestionConfiguration;
+import jabara.it_inoculation_questions.model.FailAuthentication;
 import jabara.it_inoculation_questions.model.Question;
 import jabara.it_inoculation_questions.model.QuestionType;
 import jabara.it_inoculation_questions.model.Selection;
@@ -127,13 +129,18 @@ public class QuestionServiceImpl extends JpaDaoBase implements IQuestionService 
     }
 
     /**
-     * @see jabara.it_inoculation_questions.service.IQuestionService#registerQuestion(java.lang.String, java.io.InputStream)
+     * @see jabara.it_inoculation_questions.service.IQuestionService#registerQuestion(String, java.lang.String, java.io.InputStream)
      */
     @Override
-    public synchronized void registerQuestion(final String pQaName, final InputStream pQaXmlData) {
+    public synchronized void registerQuestion(final String pPassword, final String pQaName, final InputStream pQaXmlData) throws FailAuthentication {
         if (isQuestionsRegisteredCore()) {
             return;
         }
+
+        if (!ItInoculationQuestionsEnv.getPassword().equals(pPassword)) {
+            throw new FailAuthentication();
+        }
+
         try {
             final QuestionConfiguration config = new QuestionConfiguration();
             config.setQaName(pQaName);

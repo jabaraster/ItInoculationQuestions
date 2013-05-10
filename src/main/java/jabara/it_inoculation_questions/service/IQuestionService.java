@@ -4,6 +4,7 @@
 package jabara.it_inoculation_questions.service;
 
 import jabara.general.NotFound;
+import jabara.it_inoculation_questions.model.FailAuthentication;
 import jabara.it_inoculation_questions.model.Question;
 import jabara.it_inoculation_questions.model.TextQuestionFound;
 import jabara.it_inoculation_questions.service.impl.QuestionServiceImpl;
@@ -53,8 +54,10 @@ public interface IQuestionService {
     boolean isQuestionsRegistered();
 
     /**
+     * @param pPassword -
      * @param pQaName -
      * @param pQaXmlData -
+     * @throws FailAuthentication
      */
-    void registerQuestion(String pQaName, InputStream pQaXmlData);
+    void registerQuestion(String pPassword, String pQaName, InputStream pQaXmlData) throws FailAuthentication;
 }
