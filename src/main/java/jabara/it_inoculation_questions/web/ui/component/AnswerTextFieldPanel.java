@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.util.convert.IConverter;
 
 /**
  * @author jabaraster
@@ -34,8 +35,20 @@ public class AnswerTextFieldPanel extends TextComponentPanel<TextField<List<Answ
     /**
      * @see jabara.it_inoculation_questions.web.ui.component.TextComponentPanel#createAnswerText()
      */
+    @SuppressWarnings("serial")
     @Override
     protected TextField<List<AnswerValue>> createAnswerText() {
-        return new TextField<List<AnswerValue>>("answerText", this.answerValuesModel); //$NON-NLS-1$
+        final TextField<List<AnswerValue>> ret = new TextField<List<AnswerValue>>("answerText", this.answerValuesModel) { //$NON-NLS-1$
+            @SuppressWarnings("unchecked")
+            @Override
+            public <C> IConverter<C> getConverter(final Class<C> pType) {
+                if (List.class.isAssignableFrom(pType)) {
+                    return (IConverter<C>) new ListConverter();
+                }
+                return super.getConverter(pType);
+            }
+        };
+        ret.setType(List.class);
+        return ret;
     }
 }
