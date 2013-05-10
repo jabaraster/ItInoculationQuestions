@@ -113,6 +113,9 @@ public class AnswerSelectPanel extends InputPanel {
 
     private void on_selection_onUpdate(final AjaxRequestTarget pTarget) {
         pTarget.add(getOther());
+        if (getOther().isVisible()) {
+            pTarget.focusComponent(getOther());
+        }
         fireAnswerValueChanged(pTarget);
     }
 

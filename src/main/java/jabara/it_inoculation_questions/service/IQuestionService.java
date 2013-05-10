@@ -8,6 +8,7 @@ import jabara.it_inoculation_questions.model.Question;
 import jabara.it_inoculation_questions.model.TextQuestionFound;
 import jabara.it_inoculation_questions.service.impl.QuestionServiceImpl;
 
+import java.io.InputStream;
 import java.util.List;
 
 import com.google.inject.ImplementedBy;
@@ -37,7 +38,23 @@ public interface IQuestionService {
     String findSelectionMessage(int pQuestionIndex, String pValue) throws NotFound, TextQuestionFound;
 
     /**
+     * @return -
+     */
+    String getQaName();
+
+    /**
      * @return 設問一覧.
      */
     List<Question> getQuestions();
+
+    /**
+     * @return 設問ファイルが登録済みならtrue.
+     */
+    boolean isQuestionsRegistered();
+
+    /**
+     * @param pQaName -
+     * @param pQaXmlData -
+     */
+    void registerQuestion(String pQaName, InputStream pQaXmlData);
 }

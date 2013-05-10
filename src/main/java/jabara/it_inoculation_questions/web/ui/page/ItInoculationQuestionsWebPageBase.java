@@ -4,7 +4,10 @@
 package jabara.it_inoculation_questions.web.ui.page;
 
 import jabara.general.ArgUtil;
+import jabara.it_inoculation_questions.service.IQuestionService;
 import jabara.it_inoculation_questions.web.ui.JavaScriptUtil;
+
+import javax.inject.Inject;
 
 import org.apache.wicket.MarkupContainer;
 import org.apache.wicket.markup.head.CssHeaderItem;
@@ -28,7 +31,11 @@ import org.apache.wicket.request.resource.SharedResourceReference;
 public abstract class ItInoculationQuestionsWebPageBase extends WebPage {
     private static final long serialVersionUID = -4825633194551616360L;
 
+    @Inject
+    private IQuestionService  questionService;
+
     private Label             titleLabel;
+    private Label             headline;
     private Panel             headerPanel;
     private Image             caLogo;
     private Image             rikenLogo;
@@ -46,6 +53,7 @@ public abstract class ItInoculationQuestionsWebPageBase extends WebPage {
     public ItInoculationQuestionsWebPageBase(final PageParameters pParameters) {
         super(pParameters);
         this.add(getTitleLabel());
+        this.add(getHeadline());
         this.add(getHeaderPanel());
         this.add(getCaLogo());
         this.add(GetRikenLogo());
@@ -86,6 +94,20 @@ public abstract class ItInoculationQuestionsWebPageBase extends WebPage {
     }
 
     /**
+     * @return -
+     */
+    @SuppressWarnings({ "serial" })
+    protected IModel<String> getHeadlineModel() {
+        return new AbstractReadOnlyModel<String>() {
+            @SuppressWarnings("synthetic-access")
+            @Override
+            public String getObject() {
+                return ItInoculationQuestionsWebPageBase.this.questionService.getQaName();
+            }
+        };
+    }
+
+    /**
      * @return HTMLのtitleタグの内容
      */
     protected abstract IModel<String> getTitleLabelModel();
@@ -95,6 +117,13 @@ public abstract class ItInoculationQuestionsWebPageBase extends WebPage {
             this.caLogo = new Image("caLogo", new SharedResourceReference(ItInoculationQuestionsWebPageBase.class, "img/ca_logo_trans.png")); //$NON-NLS-1$ //$NON-NLS-2$
         }
         return this.caLogo;
+    }
+
+    private Label getHeadline() {
+        if (this.headline == null) {
+            this.headline = new Label("headline", getHeadlineModel()); //$NON-NLS-1$
+        }
+        return this.headline;
     }
 
     private Image GetRikenLogo() {

@@ -99,8 +99,7 @@ public class AnswerMultiSelectPanel extends InputPanel {
             this.selections.add(new OnChangeAjaxBehavior() {
                 @Override
                 protected void onUpdate(final AjaxRequestTarget pTarget) {
-                    pTarget.add(getOther());
-                    fireAnswerValueChanged(pTarget);
+                    on_selections_onUpdate(pTarget);
                 }
             });
         }
@@ -118,6 +117,14 @@ public class AnswerMultiSelectPanel extends InputPanel {
     }
 
     private void on_other_onUpdate(final AjaxRequestTarget pTarget) {
+        fireAnswerValueChanged(pTarget);
+    }
+
+    private void on_selections_onUpdate(final AjaxRequestTarget pTarget) {
+        pTarget.add(getOther());
+        if (getOther().isVisible()) {
+            pTarget.focusComponent(getOther());
+        }
         fireAnswerValueChanged(pTarget);
     }
 

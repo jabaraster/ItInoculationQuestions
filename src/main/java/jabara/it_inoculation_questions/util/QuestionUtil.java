@@ -3,12 +3,14 @@
  */
 package jabara.it_inoculation_questions.util;
 
+import jabara.general.ArgUtil;
 import jabara.general.Empty;
 import jabara.it_inoculation_questions.model.InvalidQuestionSettingException;
 import jabara.it_inoculation_questions.model.Question;
 import jabara.it_inoculation_questions.model.Questions;
 import jabara.it_inoculation_questions.model.TextAnswerColumn;
 
+import java.io.StringReader;
 import java.net.URL;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -33,6 +35,17 @@ public final class QuestionUtil {
      */
     public static List<Question> loadQuestions(final URL pXmlLocation) {
         final List<Question> ret = JAXB.unmarshal(pXmlLocation, Questions.class).getQuestions();
+        checkQuestions(ret);
+        return ret;
+    }
+
+    /**
+     * @param pXml
+     * @return -
+     */
+    public static List<Question> parseQuestions(final String pXml) {
+        ArgUtil.checkNullOrEmpty(pXml, "pXml"); //$NON-NLS-1$
+        final List<Question> ret = JAXB.unmarshal(new StringReader(pXml), Questions.class).getQuestions();
         checkQuestions(ret);
         return ret;
     }

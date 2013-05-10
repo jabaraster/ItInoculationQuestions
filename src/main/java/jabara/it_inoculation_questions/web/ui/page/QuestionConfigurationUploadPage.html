@@ -1,0 +1,26 @@
+<wicket:extend>
+
+  <form wicket:id="form">
+    <fieldset>
+      <legend>アンケート名称</legend>
+      <p>
+      アンケート名称はアンケート画面のタイトルに使われます。
+      一度設定したら変えられないため、慎重に設定して下さい。
+      </p>
+      <input type="text" wicket:id="qaName" />
+      <div wicket:id="feedbackForQaName"></div>
+    </fieldset>
+
+    <fieldset>
+      <legend>設問XMLファイル</legend>
+      <p>
+      設問XMLファイルには、所定の書式で記述されたXMLを指定して下さい。
+      </p>
+      <input type="file" wicket:id="qaXml" />
+      <div wicket:id="feedbackForQaXml"></div>
+    </fieldset>
+  
+    <button class="btn btn-danger btn-large" wicket:id="submitter"><i class="icon-white icon-share-alt"></i> 登録</button>
+  </form>
+
+</wicket:extend>

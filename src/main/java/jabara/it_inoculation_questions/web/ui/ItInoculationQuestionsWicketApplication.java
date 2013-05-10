@@ -4,12 +4,14 @@
 package jabara.it_inoculation_questions.web.ui;
 
 import jabara.it_inoculation_questions.model.DI;
+import jabara.it_inoculation_questions.service.IQuestionService;
 import jabara.it_inoculation_questions.web.ui.page.AnswerPage;
 import jabara.it_inoculation_questions.web.ui.page.AnswersPage;
 import jabara.it_inoculation_questions.web.ui.page.AnswersStatisticsPage;
 import jabara.it_inoculation_questions.web.ui.page.AuthenticatedWebPageBase;
 import jabara.it_inoculation_questions.web.ui.page.IndexPage;
 import jabara.it_inoculation_questions.web.ui.page.LoginPage;
+import jabara.it_inoculation_questions.web.ui.page.QuestionConfigurationUploadPage;
 import jabara.it_inoculation_questions.web.ui.page.ThankYouPage;
 
 import org.apache.wicket.Component;
@@ -38,7 +40,11 @@ public class ItInoculationQuestionsWicketApplication extends WebApplication {
      */
     @Override
     public Class<? extends Page> getHomePage() {
-        return IndexPage.class;
+        final IQuestionService questionService = DI.get(IQuestionService.class);
+        if (questionService.isQuestionsRegistered()) {
+            return IndexPage.class;
+        }
+        return QuestionConfigurationUploadPage.class;
     }
 
     /**
