@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -32,7 +31,7 @@ public class AnswersSave extends EntityBase<AnswersSave> implements Iterable<Ans
     /**
      * 
      */
-    @OneToMany(cascade = { CascadeType.ALL })
+    @OneToMany
     @JoinColumn(name = "answers_save_id")
     @OrderBy("questionIndex")
     protected List<Answer>    answers          = new ArrayList<Answer>();

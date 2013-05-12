@@ -3,13 +3,13 @@
  */
 package jabara.it_inoculation_questions.entity;
 
+import jabara.general.ArgUtil;
 import jabara.jpa.entity.EntityBase;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
@@ -25,10 +25,18 @@ public class Answers extends EntityBase<Answers> implements Iterable<Answer> {
     /**
      * 
      */
-    @OneToMany(cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
+    @OneToMany
     @JoinColumn(name = "answers_id")
     @OrderBy("questionIndex")
     protected List<Answer>    answers          = new ArrayList<Answer>();
+
+    /**
+     * @param pAnswer -
+     */
+    public void addAnswer(final Answer pAnswer) {
+        ArgUtil.checkNull(pAnswer, "pAnswer"); //$NON-NLS-1$
+        this.answers.add(pAnswer);
+    }
 
     /**
      * @param pQuestionIndex 何番目の設問に対する回答かを0始まりのインデックスで指定.

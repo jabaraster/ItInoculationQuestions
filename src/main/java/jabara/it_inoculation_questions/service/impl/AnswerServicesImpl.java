@@ -98,7 +98,7 @@ public class AnswerServicesImpl implements IAnswersService {
 
         final Answers answers = new Answers();
         for (final Answer answer : pAnswersSave) {
-            answers.addAnswer(answer.getQuestionIndex(), answer.getValues());
+            answers.addAnswer(answer);
         }
 
         em.persist(answers);
@@ -174,6 +174,9 @@ public class AnswerServicesImpl implements IAnswersService {
         return ret;
     }
 
+    /**
+     * @see jabara.it_inoculation_questions.service.IAnswersService#getCsvFileEncoding()
+     */
     @Override
     public Charset getCsvFileEncoding() {
         return CSV_ENC;
@@ -330,7 +333,11 @@ public class AnswerServicesImpl implements IAnswersService {
     }
 
     private void insertCore(final AnswersSave pAnswers) {
-        getEntityManager().persist(pAnswers);
+        final EntityManager em = getEntityManager();
+        for (final Answer answer : pAnswers) {
+            em.persist(answer);
+        }
+        em.persist(pAnswers);
     }
 
     private static void addSelectQuestionAnswerSummary( //
@@ -356,12 +363,12 @@ public class AnswerServicesImpl implements IAnswersService {
         }
     }
 
-    private static void appendOtherIfExists(final StringBuilder pSb, final Question pQuestion) {
+    private static void appendOtherHeaderIfExists(final StringBuilder pSb, final Question pQuestion) {
         final Selection otherSelection = pQuestion.getOtherSelection();
         if (otherSelection != null) {
-            appendStringToken(pSb, otherSelection.getLabel());
+            appendStringToken(pSb, otherSelection.getLabel() + "(自由入力欄)"); //$NON-NLS-1$
+            appendSeparator(pSb);
         }
-        appendSeparator(pSb);
     }
 
     private static void appendSeparator(final StringBuilder pSb) {
@@ -435,8 +442,28 @@ public class AnswerServicesImpl implements IAnswersService {
     }
 
     private static void buildCsvLineForSelectWithText(final StringBuilder pSb, final Question pQuestion, final Answer pAnswer) {
-        // TODO Auto-generated method stub
+        for (final Selection selection : pQuestion.getSelections()) {
+            boolean exists = false;
+            for (final AnswerValue value : pAnswer) {
+                if (selection.getValue().equals(value.getValue())) {
+                    exists = true;
+                    break;
+                }
+            }
+            pSb.append(exists ? ON : OFF);
+            appendSeparator(pSb);
 
+            if (!exists) {
+                appendStringToken(pSb, Empty.STRING);
+            } else {
+                if (!selection.getOptionTexts().isEmpty()) {
+                    if (!pAnswer.getValues().isEmpty()) {
+                        appendStringToken(pSb, concat(pAnswer.getValues().get(0).getOptionTexts(), "/")); //$NON-NLS-1$
+                    }
+                }
+            }
+            appendSeparator(pSb);
+        }
     }
 
     private static void buildCsvLineForText(final StringBuilder pSb, final Answer pAnswer) {
@@ -464,7 +491,7 @@ public class AnswerServicesImpl implements IAnswersService {
                     appendStringToken(sb, selections.get(i).getLabel());
                     appendSeparator(sb);
                 }
-                appendOtherIfExists(sb, q);
+                appendOtherHeaderIfExists(sb, q);
                 break;
             case TEXT:
             case TEXTAREA:
@@ -472,13 +499,37 @@ public class AnswerServicesImpl implements IAnswersService {
                 appendSeparator(sb);
                 break;
             case SELECT_WITH_TEXT:
-                // TODO
+                appendStringToken(sb, q.getMessage() + selections.get(0).getLabel());
+                appendSeparator(sb);
+                appendStringToken(sb, selections.get(0).getLabel() + "(自由入力欄)"); //$NON-NLS-1$
+                appendSeparator(sb);
+                for (int i = 1; i < selections.size(); i++) {
+                    final Selection selection = selections.get(i);
+                    appendStringToken(sb, selection.getLabel());
+                    appendSeparator(sb);
+                    if (!selection.getOptionTexts().isEmpty()) {
+                        appendStringToken(sb, selection.getLabel() + "(自由入力欄)"); //$NON-NLS-1$
+                        appendSeparator(sb);
+                    }
+                }
                 break;
             default:
                 throw new IllegalStateException();
             }
         }
         sb.delete(sb.length() - 1, sb.length());
+        return new String(sb);
+    }
+
+    private static String concat(final List<String> pList, final String pSeparator) {
+        final StringBuilder sb = new StringBuilder();
+        for (final String s : pList) {
+            sb.append(s);
+            sb.append(pSeparator);
+        }
+        if (sb.length() > 0) {
+            sb.delete(sb.length() - pSeparator.length(), sb.length());
+        }
         return new String(sb);
     }
 
