@@ -6,18 +6,19 @@ package jabara.it_inoculation_questions.entity;
 import jabara.jpa.entity.EntityBase;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 
 /**
  * @author jabaraster
  */
 @Entity
-public class Answer extends EntityBase<Answer> {
+public class Answer extends EntityBase<Answer> implements Iterable<AnswerValue> {
     private static final long   serialVersionUID     = 4438634181403267449L;
 
     private static final int    MAX_CHAR_COUNT_VALUE = 1000;
@@ -31,7 +32,7 @@ public class Answer extends EntityBase<Answer> {
     /**
      * 回答内容です.
      */
-    @ElementCollection(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.LAZY)
     protected List<AnswerValue> values               = new ArrayList<AnswerValue>();
 
     /**
@@ -69,6 +70,14 @@ public class Answer extends EntityBase<Answer> {
      */
     public List<AnswerValue> getValues() {
         return this.values;
+    }
+
+    /**
+     * @see java.lang.Iterable#iterator()
+     */
+    @Override
+    public Iterator<AnswerValue> iterator() {
+        return this.values.iterator();
     }
 
     /**

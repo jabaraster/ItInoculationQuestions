@@ -3,26 +3,24 @@
  */
 package jabara.it_inoculation_questions.web.ui.component;
 
-import jabara.general.Empty;
 import jabara.it_inoculation_questions.entity.AnswerValue;
 import jabara.it_inoculation_questions.model.Question;
 import jabara.it_inoculation_questions.model.Selection;
+import jabara.it_inoculation_questions.web.ui.page.ItInoculationQuestionsWebPageBase;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.wicket.AttributeModifier;
+import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.OnChangeAjaxBehavior;
-import org.apache.wicket.markup.head.CssHeaderItem;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.html.form.ListMultipleChoice;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.request.resource.CssResourceReference;
 
 /**
  * @author jabaraster
@@ -60,8 +58,8 @@ public class AnswerMultiSelectPanel extends InputPanel {
     @Override
     public void renderHead(final IHeaderResponse pResponse) {
         super.renderHead(pResponse);
-        pResponse.render(CssHeaderItem.forReference( //
-                new CssResourceReference(AnswerMultiSelectPanel.class, AnswerMultiSelectPanel.class.getSimpleName() + ".css"))); //$NON-NLS-1$
+
+        ItInoculationQuestionsWebPageBase.addPageCssReference(pResponse, AnswerMultiSelectPanel.class);
     }
 
     @SuppressWarnings({ "synthetic-access", "serial" })
@@ -78,6 +76,12 @@ public class AnswerMultiSelectPanel extends InputPanel {
 
             this.other.setOutputMarkupPlaceholderTag(true);
             this.other.add(new OnChangeAjaxBehavior() {
+                @SuppressWarnings("unused")
+                @Override
+                public boolean canCallListenerInterface(final Component pComponent, final Method pMethod) {
+                    return true;
+                }
+
                 @Override
                 protected void onUpdate(final AjaxRequestTarget pTarget) {
                     on_other_onUpdate(pTarget);
@@ -150,11 +154,19 @@ public class AnswerMultiSelectPanel extends InputPanel {
         @SuppressWarnings("synthetic-access")
         @Override
         public void setObject(final List<Selection> pObject) {
-            final List<AnswerValue> answers = AnswerMultiSelectPanel.this.answerValuesModel.getObject();
-            answers.clear();
+            // final List<AnswerValue> answers = AnswerMultiSelectPanel.this.answerValuesModel.getObject();
+            // answers.clear();
+            final List<AnswerValue> values = new ArrayList<AnswerValue>();
             for (final Selection s : pObject) {
-                answers.add(new AnswerValue(s.getValue()));
+                final AnswerValue value;
+                if (s.isOther()) {
+                    value = new AnswerValue(s.getValue(), getOther().getModelObject());
+                } else {
+                    value = new AnswerValue(s.getValue());
+                }
+                values.add(value);
             }
+            AnswerMultiSelectPanel.this.answerValuesModel.setObject(values);
         }
 
     }
@@ -167,22 +179,38 @@ public class AnswerMultiSelectPanel extends InputPanel {
             // 処理なし
         }
 
-        @SuppressWarnings("synthetic-access")
         @Override
         public String getObject() {
-            final List<AnswerValue> l = AnswerMultiSelectPanel.this.answerValuesModel.getObject();
-            return l.isEmpty() ? Empty.STRING : l.get(0).getOptionText();
+            final String ret = getObjectCore();
+            jabara.Debug.write(ret);
+            return ret;
         }
 
         @SuppressWarnings("synthetic-access")
         @Override
         public void setObject(final String pObject) {
-            final Iterator<Selection> selectedValue = getSelections().getModelObject().iterator();
-            if (!selectedValue.hasNext()) {
-                return;
+            final List<AnswerValue> values = new ArrayList<AnswerValue>();
+            for (final Selection selection : getSelections().getModelObject()) {
+                final AnswerValue value;
+                if (selection.isOther()) {
+                    value = new AnswerValue(selection.getValue(), pObject);
+                } else {
+                    value = new AnswerValue(selection.getValue());
+                }
+                values.add(value);
             }
-            final AnswerValue answerValue = new AnswerValue(selectedValue.next().getValue(), pObject);
-            AnswerMultiSelectPanel.this.answerValuesModel.setObject(Arrays.asList(answerValue));
+            AnswerMultiSelectPanel.this.answerValuesModel.setObject(values);
+        }
+
+        @SuppressWarnings("synthetic-access")
+        private String getObjectCore() {
+            for (final AnswerValue value : AnswerMultiSelectPanel.this.answerValuesModel.getObject()) {
+                final String optionText = value.getOptionText();
+                if (optionText != null) {
+                    return optionText;
+                }
+            }
+            return null;
         }
     }
 }

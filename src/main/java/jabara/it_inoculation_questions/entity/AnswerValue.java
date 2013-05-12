@@ -3,16 +3,21 @@
  */
 package jabara.it_inoculation_questions.entity;
 
-import java.io.Serializable;
+import jabara.jpa.entity.EntityBase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
-import javax.persistence.Embeddable;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
 
 /**
  * @author jabaraster
  */
-@Embeddable
-public class AnswerValue implements Serializable {
+@Entity
+public class AnswerValue extends EntityBase<AnswerValue> {
     private static final long serialVersionUID           = -2978690585731318151L;
 
     private static final int  MAX_CHAR_COUNT_VALUE       = 20;
@@ -30,8 +35,8 @@ public class AnswerValue implements Serializable {
     /**
      * 
      */
-    @Column(length = MAX_CHAR_COUNT_OPTION_TEXT * 3, nullable = true)
-    protected String          optionText;
+    @ElementCollection(fetch = FetchType.EAGER)
+    protected List<String>    optionText                 = new ArrayList<String>();
 
     /**
      * 
@@ -53,7 +58,7 @@ public class AnswerValue implements Serializable {
      */
     public AnswerValue(final String pValue, final String pOptionText) {
         this.value = pValue;
-        this.optionText = pOptionText;
+        setOptionTextCore(pOptionText);
     }
 
     /**
@@ -92,7 +97,15 @@ public class AnswerValue implements Serializable {
      * @return the optionText
      */
     public String getOptionText() {
-        return this.optionText;
+        final List<String> l = getOptionTextList();
+        return l.isEmpty() ? null : l.get(0);
+    }
+
+    /**
+     * @return -
+     */
+    public int getOptionTextCount() {
+        return getOptionTextList().size();
     }
 
     /**
@@ -115,10 +128,25 @@ public class AnswerValue implements Serializable {
     }
 
     /**
+     * @param pIndex
+     * @param pOptionText
+     */
+    public void setOptionText(final int pIndex, final String pOptionText) {
+        final List<String> l = getOptionTextList();
+        for (int i = l.size(); i <= pIndex; i++) {
+            l.add(null);
+        }
+        l.set(pIndex, pOptionText);
+    }
+
+    /**
      * @param pOptionText the optionText to set
      */
     public void setOptionText(final String pOptionText) {
-        this.optionText = pOptionText;
+        if (pOptionText == null) {
+            getOptionTextList().clear();
+        }
+        setOptionTextCore(pOptionText);
     }
 
     /**
@@ -134,6 +162,20 @@ public class AnswerValue implements Serializable {
     @SuppressWarnings("nls")
     @Override
     public String toString() {
-        return "AnswerValue [value=" + this.value + ", optionText=" + this.optionText + "]";
+        return "AnswerValue [value=" + this.value + ", optionText=" + this.optionText + ", id=" + this.id + "]";
+    }
+
+    private List<String> getOptionTextList() {
+        if (this.optionText != null) {
+            return this.optionText;
+        }
+        this.optionText = new ArrayList<String>();
+        return this.optionText;
+    }
+
+    private void setOptionTextCore(final String pOptionText) {
+        final List<String> l = getOptionTextList();
+        l.clear();
+        l.add(pOptionText);
     }
 }

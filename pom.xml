@@ -45,11 +45,16 @@
 			<artifactId>wicket-core</artifactId>
 			<version>${wicket.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>org.apache.wicket</groupId>
-			<artifactId>wicket-extensions</artifactId>
-			<version>${wicket.version}</version>
-		</dependency>
+        <dependency>
+            <groupId>org.apache.wicket</groupId>
+            <artifactId>wicket-extensions</artifactId>
+            <version>${wicket.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>jabaraster</groupId>
+            <artifactId>jabara-wicket</artifactId>
+            <version>1.0</version>
+        </dependency>
 
 		<!-- WicketとDIコンテナであるGoogle Guiceを連携させるために必要. 依存JARがガツンと増えるのが難点 -->
 		<dependency>

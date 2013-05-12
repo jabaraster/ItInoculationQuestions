@@ -26,6 +26,11 @@ public enum QuestionType {
     /**
      * 
      */
+    MUILT_SELECT_WITH_TEXT,
+
+    /**
+     * 
+     */
     TEXTAREA,
 
     ;

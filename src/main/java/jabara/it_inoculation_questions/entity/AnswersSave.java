@@ -32,7 +32,7 @@ public class AnswersSave extends EntityBase<AnswersSave> implements Iterable<Ans
     /**
      * 
      */
-    @OneToMany(cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
+    @OneToMany(cascade = { CascadeType.ALL })
     @JoinColumn(name = "answers_save_id")
     @OrderBy("questionIndex")
     protected List<Answer>    answers          = new ArrayList<Answer>();

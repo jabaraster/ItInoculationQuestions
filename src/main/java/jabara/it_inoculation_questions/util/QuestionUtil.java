@@ -80,6 +80,9 @@ public final class QuestionUtil {
         case TEXTAREA:
             checkSelectionCountIsZeroOrOne(pQuestion);
             break;
+        case MUILT_SELECT_WITH_TEXT:
+            checkSelectionCountIsGeOne(pQuestion);
+            break;
         default:
             throw new IllegalStateException();
         }

@@ -65,18 +65,17 @@
         <selection value="4">製品の購入を検討したい</selection>
     </question>
 
-<!--
-    <question type="TEXT">
+
+    <question type="MUILT_SELECT_WITH_TEXT">
         <message>今後、弊社からの情報提供に関してご意見をお聞かせ下さい。</message>
-<selection value="">詳細説明を希望
+<selection value="1">詳細説明を希望
     　（製品名　　：${value}　）
 　（内容　　　：　　　　　　　　　）
 　（訪問希望日：　　　　　　）</selection>
-<selection value="">見積を希望
+<selection value="2">見積を希望
 　（製品名　：　　　　　　　　）</selection>
-<selection value="">不要</selection>
+<selection value="3">不要</selection>
     </question>
--->
 
     <question type="TEXTAREA" maxChar="400" required="false">
         <message>弊社ブースの展示内容をご覧になった感想をお聞かせ下さい。</message>

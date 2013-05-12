@@ -24,7 +24,6 @@ public class QAPanel extends InputPanel {
     private final int                       index;
 
     private InputPanel                      answerInputPanel;
-
     private Label                           message;
 
     /**
@@ -66,6 +65,9 @@ public class QAPanel extends InputPanel {
                 break;
             case TEXTAREA:
                 this.answerInputPanel = new AnswerTextAreaPanel(id, this.question, this.answerValuesModel, this.answerValueChangeListener);
+                break;
+            case MUILT_SELECT_WITH_TEXT:
+                this.answerInputPanel = new AnswerMultiSelectWithTextPanel(id, this.question, this.answerValuesModel, this.answerValueChangeListener);
                 break;
             default:
                 throw new IllegalStateException(this.question.getType() + " is unsupported."); //$NON-NLS-1$

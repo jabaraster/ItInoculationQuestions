@@ -6,6 +6,8 @@ package jabara.it_inoculation_questions.service.impl;
 import jabara.general.ArgUtil;
 import jabara.general.NotFound;
 import jabara.it_inoculation_questions.entity.Answer;
+import jabara.it_inoculation_questions.entity.AnswerValue;
+import jabara.it_inoculation_questions.entity.Answer_;
 import jabara.it_inoculation_questions.entity.Answers;
 import jabara.it_inoculation_questions.entity.AnswersSave;
 import jabara.it_inoculation_questions.entity.AnswersSave_;
@@ -168,9 +170,39 @@ public class AnswerServicesImpl implements IAnswersService {
     @Override
     public void update(final Answer pAnswer) {
         ArgUtil.checkNull(pAnswer, "pAnswer"); //$NON-NLS-1$
-        final Answer merged = getEntityManager().merge(pAnswer);
+
+        final EntityManager em = getEntityManager();
+
+        final Answer merged = getAnswerById(pAnswer.getId().longValue());
         merged.setQuestionIndex(pAnswer.getQuestionIndex());
-        merged.getValues().addAll(pAnswer.getValues());
+
+        final List<AnswerValue> values = merged.getValues();
+        for (final AnswerValue value : values) {
+            em.remove(value);
+        }
+        values.clear();
+        for (final AnswerValue value : pAnswer.getValues()) {
+            if (value.getId() == null) {
+                em.persist(value);
+                values.add(value);
+            } else {
+                values.add(em.merge(value));
+            }
+        }
+    }
+
+    private Answer getAnswerById(final long pAnswerId) {
+        final EntityManager em = getEntityManager();
+        final CriteriaBuilder builder = em.getCriteriaBuilder();
+        final CriteriaQuery<Answer> query = builder.createQuery(Answer.class);
+        final Root<Answer> root = query.from(Answer.class);
+
+        query.distinct(true);
+        query.where(builder.equal(root.get(EntityBase_.id), Long.valueOf(pAnswerId)));
+
+        root.fetch(Answer_.values, JoinType.LEFT);
+
+        return em.createQuery(query).getSingleResult();
     }
 
     private Map<String, ValueAndCount> getAnswersByQuestionIndex(final int pQuestionIndex) {
@@ -208,7 +240,14 @@ public class AnswerServicesImpl implements IAnswersService {
         root.fetch(AnswersSave_.answers, JoinType.LEFT);
 
         try {
-            return em.createQuery(query).getSingleResult();
+            final AnswersSave ret = em.createQuery(query).getSingleResult();
+            for (final Answer a : ret) {
+                for (@SuppressWarnings("unused")
+                final AnswerValue v : a) {
+                    // 処理なし
+                }
+            }
+            return ret;
         } catch (final NoResultException e) {
             throw NotFound.GLOBAL;
         }

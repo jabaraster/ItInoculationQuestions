@@ -51,14 +51,18 @@ public class AnswerServicesImplTest {
      */
     @SuppressWarnings({ "nls", "static-method" })
     @Test
-    @Ignore
     public void _update() {
         final IAnswersService sut = DI.get(IAnswersService.class);
-        final AnswersSave save = sut.getSavedByKey("key", new QuestionServiceImpl(null).getQuestions().size());
-        final Answer answer = save.newAnswer();
-        answer.setQuestionIndex(0);
-        answer.getValues().add(new AnswerValue("000", "Option Text"));
-        sut.decide(save);
+        final AnswersSave save = sut.getSavedByKey("key", 10);
+        final Answer answer = save.getAnswer(0);
+
+        answer.getValues().add(new AnswerValue("99", "Option Text"));
+        sut.update(answer);
+        jabara.Debug.write(answer.getValues().get(0).getId());
+
+        answer.getValues().get(0).setOptionText("Option Text 2");
+        sut.update(answer);
+        jabara.Debug.write(answer.getValues().get(0).getId());
     }
 
 }

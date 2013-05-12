@@ -10,6 +10,7 @@
         <class>jabara.it_inoculation_questions.entity.Answers</class>
         <class>jabara.it_inoculation_questions.entity.Answer</class>
         <class>jabara.it_inoculation_questions.entity.QuestionConfiguration</class>
+        <class>jabara.it_inoculation_questions.entity.AnswerValue</class>
 		<validation-mode>CALLBACK</validation-mode>
 		<properties>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
@@ -34,8 +35,8 @@
 			DIクラスを利用している場合、以下の環境変数によって設定を上書きできます..
 			  HIBERNATE_HBM2DDL_AUTO
 			 -->
-             <property name="hibernate.hbm2ddl.auto" value="create-drop" />
-
+<!--             <property name="hibernate.hbm2ddl.auto" value="create-drop" />
+ -->
 		</properties>
 	</persistence-unit>
 </persistence>

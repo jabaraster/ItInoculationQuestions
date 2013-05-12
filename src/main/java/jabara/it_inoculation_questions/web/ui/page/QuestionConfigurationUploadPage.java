@@ -6,11 +6,14 @@ package jabara.it_inoculation_questions.web.ui.page;
 import jabara.general.Empty;
 import jabara.it_inoculation_questions.model.FailAuthentication;
 import jabara.it_inoculation_questions.service.IQuestionService;
+import jabara.it_inoculation_questions.web.ui.JavaScriptUtil;
 
 import java.io.IOException;
 
 import javax.inject.Inject;
 
+import org.apache.wicket.markup.head.IHeaderResponse;
+import org.apache.wicket.markup.head.OnDomReadyHeaderItem;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.PasswordTextField;
@@ -48,6 +51,15 @@ public class QuestionConfigurationUploadPage extends AuthenticatedWebPageBase {
      */
     public QuestionConfigurationUploadPage() {
         this.add(getForm());
+    }
+
+    /**
+     * @see jabara.it_inoculation_questions.web.ui.page.ItInoculationQuestionsWebPageBase#renderHead(org.apache.wicket.markup.head.IHeaderResponse)
+     */
+    @Override
+    public void renderHead(final IHeaderResponse pResponse) {
+        super.renderHead(pResponse);
+        pResponse.render(OnDomReadyHeaderItem.forScript(JavaScriptUtil.getFocusScript(getQaName())));
     }
 
     /**
