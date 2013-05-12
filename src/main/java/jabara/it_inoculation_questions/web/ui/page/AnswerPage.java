@@ -90,7 +90,7 @@ public class AnswerPage extends AuthenticatedWebPageBase {
             return null;
         }
         try {
-            return this.answersService.getById(Long.parseLong(pAnswersId.toString()));
+            return this.answersService.getAnswersById(Long.parseLong(pAnswersId.toString()));
         } catch (final NumberFormatException e) {
             return null;
         } catch (final NotFound e) {

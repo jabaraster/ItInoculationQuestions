@@ -7,6 +7,8 @@ import jabara.it_inoculation_questions.entity.Answers;
 import jabara.it_inoculation_questions.service.IAnswersService;
 import jabara.it_inoculation_questions.util.DateUtil;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -23,6 +25,8 @@ import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.request.handler.resource.ResourceStreamRequestHandler;
+import org.apache.wicket.util.resource.FileResourceStream;
 
 /**
  * @author jabaraster
@@ -35,6 +39,7 @@ public class AnswersPage extends AuthenticatedWebPageBase {
 
     private final List<Answers> answersListValue;
 
+    private Link<?>             csvDownloader;
     private Link<?>             refresher;
     private ListView<Answers>   answersList;
 
@@ -44,6 +49,7 @@ public class AnswersPage extends AuthenticatedWebPageBase {
     public AnswersPage() {
         this.answersListValue = this.answersService.getAllAnswers();
         this.add(getAnswersList());
+        this.add(getCsvDownloader());
         this.add(getRefresher());
         setStatelessHint(true);
     }
@@ -99,6 +105,31 @@ public class AnswersPage extends AuthenticatedWebPageBase {
             };
         }
         return this.answersList;
+    }
+
+    @SuppressWarnings({ "serial", "nls" })
+    private Link<?> getCsvDownloader() {
+        if (this.csvDownloader == null) {
+            this.csvDownloader = new Link<Object>("csvDownloader") {
+                @Override
+                public void onClick() {
+                    final File csv = AnswersPage.this.answersService.makeAnswersCsv();
+                    getRequestCycle().scheduleRequestHandlerAfterCurrent(new ResourceStreamRequestHandler(new FileResourceStream(csv) {
+                        @Override
+                        public void close() throws IOException {
+                            super.close();
+                            csv.delete();
+                        }
+
+                        @Override
+                        public String getContentType() {
+                            return "text/csv; charset=UTF-8";
+                        }
+                    }));
+                }
+            };
+        }
+        return this.csvDownloader;
     }
 
     private Link<?> getRefresher() {

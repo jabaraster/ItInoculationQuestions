@@ -10,6 +10,7 @@ import jabara.it_inoculation_questions.entity.AnswersSave;
 import jabara.it_inoculation_questions.model.AnswersStatistics;
 import jabara.it_inoculation_questions.service.impl.AnswerServicesImpl;
 
+import java.io.File;
 import java.util.List;
 
 import com.google.inject.ImplementedBy;
@@ -39,16 +40,16 @@ public interface IAnswersService {
     List<Answers> getAllAnswers();
 
     /**
-     * @return 回答の統計情報を返します.
-     */
-    List<AnswersStatistics> getAnswersStatistics();
-
-    /**
      * @param pId ID値.
      * @return 指定のID値を持つ確定回答.
      * @throws NotFound 該当オブジェクトがない場合.
      */
-    Answers getById(long pId) throws NotFound;
+    Answers getAnswersById(long pId) throws NotFound;
+
+    /**
+     * @return 回答の統計情報を返します.
+     */
+    List<AnswersStatistics> getAnswersStatistics();
 
     /**
      * @param pAnswersKey 回答のキー. 回答途中の状態を保存するために、ブラウザのCookieに格納される.
@@ -56,6 +57,11 @@ public interface IAnswersService {
      * @return pAnswersKeyで記録されている回答.
      */
     AnswersSave getSavedByKey(String pAnswersKey, int pQuestionsCount);
+
+    /**
+     * @return -
+     */
+    File makeAnswersCsv();
 
     /**
      * @param pAnswer 回答.

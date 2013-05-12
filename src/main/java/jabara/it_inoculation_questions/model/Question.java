@@ -129,6 +129,18 @@ public class Question implements Serializable {
     }
 
     /**
+     * @return 該当がない場合はnull.
+     */
+    public Selection getOtherSelection() {
+        for (final Selection selection : this.selections) {
+            if (selection.isOther()) {
+                return selection;
+            }
+        }
+        return null;
+    }
+
+    /**
      * @return 選択肢一覧.
      */
     public List<Selection> getSelections() {

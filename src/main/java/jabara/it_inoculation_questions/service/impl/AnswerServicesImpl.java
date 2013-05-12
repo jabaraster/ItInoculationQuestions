@@ -4,6 +4,9 @@
 package jabara.it_inoculation_questions.service.impl;
 
 import jabara.general.ArgUtil;
+import jabara.general.Empty;
+import jabara.general.ExceptionUtil;
+import jabara.general.IoUtil;
 import jabara.general.NotFound;
 import jabara.it_inoculation_questions.entity.Answer;
 import jabara.it_inoculation_questions.entity.AnswerValue;
@@ -21,6 +24,13 @@ import jabara.it_inoculation_questions.service.IAnswersService;
 import jabara.it_inoculation_questions.service.IQuestionService;
 import jabara.jpa.entity.EntityBase_;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -39,6 +49,11 @@ import javax.persistence.criteria.Root;
  * @author jabaraster
  */
 public class AnswerServicesImpl implements IAnswersService {
+
+    private static final String        QUOT = "\"";    //$NON-NLS-1$
+    private static final String        SEP  = ",";     //$NON-NLS-1$
+    private static final int           ON   = 1;
+    private static final int           OFF  = 0;
 
     private final EntityManagerFactory emf;
 
@@ -104,6 +119,35 @@ public class AnswerServicesImpl implements IAnswersService {
     }
 
     /**
+     * @see jabara.it_inoculation_questions.service.IAnswersService#getAnswersById(long)
+     */
+    @Override
+    public Answers getAnswersById(final long pId) throws NotFound {
+        final EntityManager em = getEntityManager();
+        final CriteriaBuilder builder = em.getCriteriaBuilder();
+        final CriteriaQuery<Answers> query = builder.createQuery(Answers.class);
+        final Root<Answers> root = query.from(Answers.class);
+
+        query.distinct(true);
+        query.where(builder.equal(root.get(EntityBase_.id), Long.valueOf(pId)));
+
+        root.fetch(Answers_.answers);
+
+        try {
+            final Answers ret = em.createQuery(query).getSingleResult();
+            for (final Answer answer : ret) {
+                for (final AnswerValue value : answer.getValues()) {
+                    value.getOptionTexts();
+                }
+            }
+            return ret;
+
+        } catch (final NoResultException e) {
+            throw NotFound.GLOBAL;
+        }
+    }
+
+    /**
      * @see jabara.it_inoculation_questions.service.IAnswersService#getAnswersStatistics()
      */
     @Override
@@ -130,28 +174,6 @@ public class AnswerServicesImpl implements IAnswersService {
     }
 
     /**
-     * @see jabara.it_inoculation_questions.service.IAnswersService#getById(long)
-     */
-    @Override
-    public Answers getById(final long pId) throws NotFound {
-        final EntityManager em = getEntityManager();
-        final CriteriaBuilder builder = em.getCriteriaBuilder();
-        final CriteriaQuery<Answers> query = builder.createQuery(Answers.class);
-        final Root<Answers> root = query.from(Answers.class);
-
-        query.distinct(true);
-        query.where(builder.equal(root.get(EntityBase_.id), Long.valueOf(pId)));
-
-        root.fetch(Answers_.answers, JoinType.LEFT);
-
-        try {
-            return em.createQuery(query).getSingleResult();
-        } catch (final NoResultException e) {
-            throw NotFound.GLOBAL;
-        }
-    }
-
-    /**
      * @see jabara.it_inoculation_questions.service.IAnswersService#getSavedByKey(java.lang.String, int)
      */
     @Override
@@ -161,6 +183,40 @@ public class AnswerServicesImpl implements IAnswersService {
             return getByKeyCore(pAnswersKey);
         } catch (final NotFound e) {
             return insertAnswers(pAnswersKey, pQuestionsCount);
+        }
+    }
+
+    /**
+     * @see jabara.it_inoculation_questions.service.IAnswersService#makeAnswersCsv()
+     */
+    @SuppressWarnings("resource")
+    @Override
+    public File makeAnswersCsv() {
+        OutputStream out = null;
+        BufferedWriter writer = null;
+        try {
+            final File tempFile = File.createTempFile(this.getClass().getName(), ".csv"); //$NON-NLS-1$
+
+            out = new FileOutputStream(tempFile);
+            writer = new BufferedWriter(new OutputStreamWriter(out, Charset.forName("utf-8"))); //$NON-NLS-1$
+
+            final List<Question> questions = this.questionService.getQuestions();
+
+            writer.write(buildHeaderLine(questions));
+            writer.newLine();
+
+            for (final Answers answers : getAllAnswers()) {
+                writer.write(buildCsvLine(questions, answers));
+                writer.newLine();
+            }
+            writer.flush();
+            return tempFile;
+
+        } catch (final IOException e) {
+            throw ExceptionUtil.rethrow(e);
+        } finally {
+            IoUtil.close(writer);
+            IoUtil.close(out);
         }
     }
 
@@ -292,6 +348,132 @@ public class AnswerServicesImpl implements IAnswersService {
                 pStatistics.addAnswerSummary(summary);
             }
         }
+    }
+
+    private static void appendOtherIfExists(final StringBuilder pSb, final Question pQuestion) {
+        final Selection otherSelection = pQuestion.getOtherSelection();
+        if (otherSelection != null) {
+            appendStringToken(pSb, otherSelection.getLabel());
+        }
+        appendSeparator(pSb);
+    }
+
+    private static void appendSeparator(final StringBuilder pSb) {
+        pSb.append(SEP);
+    }
+
+    private static void appendStringToken(final StringBuilder pSb, final String pToken) {
+        pSb.append(QUOT);
+        pSb.append(pToken);
+        pSb.append(QUOT);
+    }
+
+    private static String buildCsvLine(final List<Question> pQuestion, final Answers pAnswers) {
+        final StringBuilder sb = new StringBuilder();
+        sb.append(pAnswers.getId().longValue());
+        sb.append(SEP);
+
+        for (final Answer answer : pAnswers) {
+            final Question q = pQuestion.get(answer.getQuestionIndex());
+            switch (q.getType()) {
+            case SELECT:
+            case MULTI_SELECT:
+                buildCsvLineForSelect(sb, q, answer);
+                break;
+            case TEXT:
+            case TEXTAREA:
+                buildCsvLineForText(sb, answer);
+                break;
+            case SELECT_WITH_TEXT:
+                buildCsvLineForSelectWithText(sb, q, answer);
+                break;
+            default:
+                throw new IllegalStateException();
+            }
+        }
+
+        sb.delete(sb.length() - 1, sb.length());
+        return new String(sb);
+    }
+
+    private static void buildCsvLineForSelect(final StringBuilder pSb, final Question pQuestion, final Answer pAnswer) {
+        // 選択されている項目には1を、選択されていない項目には0を設定する.
+        for (final Selection selection : pQuestion.getSelections()) {
+            boolean exists = false;
+            for (final AnswerValue value : pAnswer) {
+                if (selection.getValue().equals(value.getValue())) {
+                    exists = true;
+                    break;
+                }
+            }
+            if (exists) {
+                pSb.append(ON);
+            } else {
+                pSb.append(OFF);
+            }
+            appendSeparator(pSb);
+        }
+        // その他テキストを出力する.
+        final Selection otherSelection = pQuestion.getOtherSelection();
+        if (otherSelection != null) {
+            String s = Empty.STRING;
+            for (final AnswerValue value : pAnswer) {
+                if (!value.getValue().equals(otherSelection.getValue())) {
+                    continue;
+                }
+                s = value.getOptionText();
+            }
+            appendStringToken(pSb, s);
+            appendSeparator(pSb);
+        }
+    }
+
+    private static void buildCsvLineForSelectWithText(final StringBuilder pSb, final Question pQuestion, final Answer pAnswer) {
+        // TODO Auto-generated method stub
+
+    }
+
+    private static void buildCsvLineForText(final StringBuilder pSb, final Answer pAnswer) {
+        final List<AnswerValue> values = pAnswer.getValues();
+        if (values.isEmpty()) {
+            appendStringToken(pSb, Empty.STRING);
+        } else {
+            appendStringToken(pSb, values.get(0).getValue());
+        }
+        appendSeparator(pSb);
+    }
+
+    private static String buildHeaderLine(final List<Question> pQuestions) {
+        final StringBuilder sb = new StringBuilder();
+        appendStringToken(sb, "ID"); //$NON-NLS-1$
+        appendSeparator(sb);
+        for (final Question q : pQuestions) {
+            final List<Selection> selections = q.getSelections();
+            switch (q.getType()) {
+            case SELECT:
+            case MULTI_SELECT:
+                appendStringToken(sb, q.getMessage() + selections.get(0).getLabel());
+                appendSeparator(sb);
+                for (int i = 1; i < selections.size(); i++) {
+                    appendStringToken(sb, selections.get(i).getLabel());
+                    appendSeparator(sb);
+                }
+                appendOtherIfExists(sb, q);
+                break;
+            case TEXT:
+            case TEXTAREA:
+                appendStringToken(sb, q.getMessage());
+                appendSeparator(sb);
+                break;
+            case SELECT_WITH_TEXT:
+                // TODO
+                break;
+            default:
+                throw new IllegalStateException();
+            }
+        }
+        sb.delete(sb.length() - 1, sb.length());
+        return new String(sb);
     }
 
     /**

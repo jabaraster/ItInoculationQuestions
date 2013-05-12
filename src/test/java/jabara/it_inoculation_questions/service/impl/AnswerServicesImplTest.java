@@ -5,12 +5,21 @@ package jabara.it_inoculation_questions.service.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import jabara.general.IoUtil;
 import jabara.it_inoculation_questions.entity.Answer;
 import jabara.it_inoculation_questions.entity.AnswerValue;
 import jabara.it_inoculation_questions.entity.AnswersSave;
 import jabara.it_inoculation_questions.model.DI;
 import jabara.it_inoculation_questions.service.IAnswersService;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+
+import org.apache.wicket.util.io.IOUtils;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -47,10 +56,28 @@ public class AnswerServicesImplTest {
     }
 
     /**
+     * @throws IOException -
+     */
+    @SuppressWarnings({ "static-method", "nls", "resource" })
+    @Test
+    public void _makeAnswersCsv() throws IOException {
+        final File file = DI.get(IAnswersService.class).makeAnswersCsv();
+        final BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), Charset.forName("utf-8")));
+        try {
+            final String s = IOUtils.toString(reader);
+            System.out.println(s);
+        } finally {
+            IoUtil.close(reader);
+            file.delete();
+        }
+    }
+
+    /**
      * 
      */
     @SuppressWarnings({ "nls", "static-method" })
     @Test
+    @Ignore
     public void _update() {
         final IAnswersService sut = DI.get(IAnswersService.class);
         final AnswersSave save = sut.getSavedByKey("key", 10);
