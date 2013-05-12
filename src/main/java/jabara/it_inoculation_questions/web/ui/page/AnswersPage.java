@@ -123,7 +123,7 @@ public class AnswersPage extends AuthenticatedWebPageBase {
 
                         @Override
                         public String getContentType() {
-                            return "text/csv; charset=UTF-8";
+                            return "text/csv; charset=" + AnswersPage.this.answersService.getCsvFileEncoding().name();
                         }
                     }));
                 }

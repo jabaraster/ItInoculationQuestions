@@ -50,10 +50,11 @@ import javax.persistence.criteria.Root;
  */
 public class AnswerServicesImpl implements IAnswersService {
 
-    private static final String        QUOT = "\"";    //$NON-NLS-1$
-    private static final String        SEP  = ",";     //$NON-NLS-1$
-    private static final int           ON   = 1;
-    private static final int           OFF  = 0;
+    private static final String        QUOT    = "\"";                        //$NON-NLS-1$
+    private static final String        SEP     = ",";                         //$NON-NLS-1$
+    private static final int           ON      = 1;
+    private static final int           OFF     = 0;
+    private static final Charset       CSV_ENC = Charset.forName("Shift_JIS"); //$NON-NLS-1$
 
     private final EntityManagerFactory emf;
 
@@ -173,6 +174,11 @@ public class AnswerServicesImpl implements IAnswersService {
         return ret;
     }
 
+    @Override
+    public Charset getCsvFileEncoding() {
+        return CSV_ENC;
+    }
+
     /**
      * @see jabara.it_inoculation_questions.service.IAnswersService#getSavedByKey(java.lang.String, int)
      */
@@ -198,7 +204,7 @@ public class AnswerServicesImpl implements IAnswersService {
             final File tempFile = File.createTempFile(this.getClass().getName(), ".csv"); //$NON-NLS-1$
 
             out = new FileOutputStream(tempFile);
-            writer = new BufferedWriter(new OutputStreamWriter(out, Charset.forName("utf-8"))); //$NON-NLS-1$
+            writer = new BufferedWriter(new OutputStreamWriter(out, getCsvFileEncoding()));
 
             final List<Question> questions = this.questionService.getQuestions();
 

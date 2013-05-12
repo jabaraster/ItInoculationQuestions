@@ -11,6 +11,7 @@ import jabara.it_inoculation_questions.model.AnswersStatistics;
 import jabara.it_inoculation_questions.service.impl.AnswerServicesImpl;
 
 import java.io.File;
+import java.nio.charset.Charset;
 import java.util.List;
 
 import com.google.inject.ImplementedBy;
@@ -50,6 +51,11 @@ public interface IAnswersService {
      * @return 回答の統計情報を返します.
      */
     List<AnswersStatistics> getAnswersStatistics();
+
+    /**
+     * @return -
+     */
+    Charset getCsvFileEncoding();
 
     /**
      * @param pAnswersKey 回答のキー. 回答途中の状態を保存するために、ブラウザのCookieに格納される.
