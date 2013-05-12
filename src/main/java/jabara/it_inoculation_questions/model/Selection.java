@@ -4,12 +4,14 @@
 package jabara.it_inoculation_questions.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlValue;
 
 /**
  * @author jabaraster
@@ -22,21 +24,25 @@ public class Selection implements Serializable {
     /**
      * 
      */
-    public static final String TAG_NAME         = "selection";          //$NON-NLS-1$
+    public static final String TAG_NAME         = "selection";            //$NON-NLS-1$
 
     @XmlAttribute
     private String             value;
 
-    @XmlValue
-    private String             message;
+    @XmlElement
+    private String             label;
 
     @XmlAttribute
     private boolean            other            = false;
+
+    @XmlElement(name = "option")
+    private final List<String> optionTexts      = new ArrayList<String>();
 
     /**
      * 
      */
     public Selection() {
+        // 処理なし
     }
 
     /**
@@ -45,7 +51,7 @@ public class Selection implements Serializable {
      */
     public Selection(final String pValue, final String pMessage) {
         this.value = pValue;
-        this.message = pMessage;
+        this.label = pMessage;
     }
 
     /**
@@ -64,11 +70,11 @@ public class Selection implements Serializable {
             return false;
         }
         final Selection other = (Selection) obj;
-        if (this.message == null) {
-            if (other.message != null) {
+        if (this.label == null) {
+            if (other.label != null) {
                 return false;
             }
-        } else if (!this.message.equals(other.message)) {
+        } else if (!this.label.equals(other.label)) {
             return false;
         }
         if (this.value == null) {
@@ -82,10 +88,17 @@ public class Selection implements Serializable {
     }
 
     /**
-     * @return the message
+     * @return the label
      */
-    public String getMessage() {
-        return this.message;
+    public String getLabel() {
+        return this.label;
+    }
+
+    /**
+     * @return optionTextsを返す.
+     */
+    public List<String> getOptionTexts() {
+        return this.optionTexts;
     }
 
     /**
@@ -102,7 +115,7 @@ public class Selection implements Serializable {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + (this.message == null ? 0 : this.message.hashCode());
+        result = prime * result + (this.label == null ? 0 : this.label.hashCode());
         result = prime * result + (this.value == null ? 0 : this.value.hashCode());
         return result;
     }
@@ -115,10 +128,10 @@ public class Selection implements Serializable {
     }
 
     /**
-     * @param pMessage the message to set
+     * @param pMessage the label to set
      */
-    public void setMessage(final String pMessage) {
-        this.message = pMessage;
+    public void setLabel(final String pMessage) {
+        this.label = pMessage;
     }
 
     /**
@@ -141,6 +154,6 @@ public class Selection implements Serializable {
     @SuppressWarnings("nls")
     @Override
     public String toString() {
-        return "Selection [value=" + this.value + ", message=" + this.message + "]";
+        return "Selection [value=" + this.value + ", label=" + this.label + "]";
     }
 }

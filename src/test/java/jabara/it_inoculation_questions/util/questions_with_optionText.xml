@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<questions>
+    <question type="MUILT_SELECT_WITH_TEXT">
+        <message>今後、弊社からの情報提供に関してご意見をお聞かせ下さい。</message>
+        <selection value="1">
+            <message>詳細説明を希望</message>
+            <option>（製品名：${value}）</option>
+            <option>（内容：${value}）</option>
+            <option>（訪問希望日：${value}）</option>
+        </selection>
+        <selection value="2">
+            <message>見積を希望</message>
+            <option>（製品名：${value}）</option>
+        </selection>
+    </question>
+</questions>

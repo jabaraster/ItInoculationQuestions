@@ -3,78 +3,86 @@
 
     <question type="SELECT" required="true">
         <message>お客様についてお聞かせ下さい。</message>
-        <selection value="1">学校関係者様：法人経営者</selection>
-        <selection value="2">学校関係者様：教員</selection>
-        <selection value="3">学校関係者様：学校事務職員</selection>
-        <selection value="4">提案業者様：Sier</selection>
-        <selection value="99" other="true">提案業者様：その他</selection>
+        <selection value="1"><label>学校関係者様：法人経営者</label></selection>
+        <selection value="2"><label>学校関係者様：教員</label></selection>
+        <selection value="3"><label>学校関係者様：学校事務職員</label></selection>
+        <selection value="4"><label>提案業者様：Sier</label></selection>
+        <selection value="99" other="true"><label>提案業者様：その他</label></selection>
     </question>
 
     <question type="SELECT" required="true">
         <message>お客様の課題、計画についてお聞かせください。</message>
-        <selection value="1">2013年度内に新システムをサービスイン予定</selection>
-        <selection value="2">2014年度内に新システムをサービスイン予定</selection>
-        <selection value="3">2015年度以降に課題へ取り組み、計画を実施する予定がある</selection>
-        <selection value="99" other="true">その他</selection>
+        <selection value="1"><label>2013年度内に新システムをサービスイン予定</label></selection>
+        <selection value="2"><label>2014年度内に新システムをサービスイン予定</label></selection>
+        <selection value="3"><label>2015年度以降に課題へ取り組み、計画を実施する予定がある</label></selection>
+        <selection value="99" other="true"><label>その他</label></selection>
     </question>
 
     <question type="SELECT" required="true">
         <message>上記の課題、計画に対する現時点の活動状況についてお聞かせください。</message>
-        <selection value="1">お客様独自での情報収集段階</selection>
-        <selection value="2">提案業者からの情報収集段階</selection>
-        <selection value="3">新システム要件策定</selection>
-        <selection value="4">業者コンペ中</selection>
-        <selection value="99" other="true">その他</selection>
+        <selection value="1"><label>お客様独自での情報収集段階</label></selection>
+        <selection value="2"><label>提案業者からの情報収集段階</label></selection>
+        <selection value="3"><label>新システム要件策定</label></selection>
+        <selection value="4"><label>業者コンペ中</label></selection>
+        <selection value="99" other="true"><label>その他</label></selection>
     </question>
 
     <question type="MULTI_SELECT">
         <message>次のキーワードの中から、現在、興味をお持ちのものがあればお聞かせ下さい。（複数可）</message>
-        <selection value="1">学校事務（ 入試 ・ 教務 ・ 就職 ）支援システム</selection>
-        <selection value="2">学校会計支援システム</selection>
-        <selection value="3">学校CRM支援ソリューション</selection>
-        <selection value="4">学校ポータル、コミュニケーションシステム</selection>
-        <selection value="5">資産管理ソリューション</selection>
-        <selection value="6">統合認証ツール</selection>
-        <selection value="7">防災・防犯ソリューション</selection>
-        <selection value="8">認証セキュリティ管理ツール</selection>
-        <selection value="9">広域 Wifi 設備</selection>
-        <selection value="99" other="true">その他</selection>
+        <selection value="1"><label>学校事務（ 入試 ・ 教務 ・ 就職 ）支援システム</label></selection>
+        <selection value="2"><label>学校会計支援システム</label></selection>
+        <selection value="3"><label>学校CRM支援ソリューション</label></selection>
+        <selection value="4"><label>学校ポータル、コミュニケーションシステム</label></selection>
+        <selection value="5"><label>資産管理ソリューション</label></selection>
+        <selection value="6"><label>統合認証ツール</label></selection>
+        <selection value="7"><label>防災・防犯ソリューション</label></selection>
+        <selection value="8"><label>認証セキュリティ管理ツール</label></selection>
+        <selection value="9"><label>広域 Wifi 設備</label></selection>
+        <selection value="99" other="true"><label>その他</label></selection>
     </question>
 
     <question type="SELECT">
         <message>展示製品である「 CampusMagic 」＜学校事務支援（入試・教務・就職）システム＞についてお聞かせ下さい。</message>
-        <selection value="1">興味がある</selection>
-        <selection value="2">興味は無い</selection>
-        <selection value="3">ニーズにマッチしている</selection>
-        <selection value="4">製品の購入を検討したい</selection>
+        <selection value="1"><label>興味がある</label></selection>
+        <selection value="2"><label>興味は無い</label></selection>
+        <selection value="3"><label>ニーズにマッチしている</label></selection>
+        <selection value="4"><label>製品の購入を検討したい</label></selection>
     </question>
 
     <question type="SELECT">
         <message>展示製品である「TOMAS-PSシリーズ」＜学校会計支援システム＞についてお聞かせ下さい。</message>
-        <selection value="1">興味がある</selection>
-        <selection value="2">興味は無い</selection>
-        <selection value="3">ニーズにマッチしている</selection>
-        <selection value="4">製品の購入を検討したい</selection>
+        <selection value="1"><label>興味がある</label></selection>
+        <selection value="2"><label>興味は無い</label></selection>
+        <selection value="3"><label>ニーズにマッチしている</label></selection>
+        <selection value="4"><label>製品の購入を検討したい</label></selection>
     </question>
 
     <question type="SELECT">
         <message>展示製品である「Portrait/Heart Core」＜CRM支援ソリューション＞＆「カラービット」についてお聞かせ下さい。</message>
-        <selection value="1">興味がある</selection>
-        <selection value="2">興味は無い</selection>
-        <selection value="3">ニーズにマッチしている</selection>
-        <selection value="4">製品の購入を検討したい</selection>
+        <selection value="1"><label>興味がある</label></selection>
+        <selection value="2"><label>興味は無い</label></selection>
+        <selection value="3"><label>ニーズにマッチしている</label></selection>
+        <selection value="4"><label>製品の購入を検討したい</label></selection>
     </question>
 
+    <question type="TEXT">
+        <message>１行テキストの設問です。</message>
+        <selection><label>ここに→${value}入力して下さい。</label></selection>
+    </question>
 
-    <question type="MUILT_SELECT_WITH_TEXT">
+    <question type="SELECT_WITH_TEXT">
         <message>今後、弊社からの情報提供に関してご意見をお聞かせ下さい。</message>
-<selection value="1">詳細説明を希望
-    　（製品名　　：${value}　）
-　（内容　　　：　　　　　　　　　）
-　（訪問希望日：　　　　　　）</selection>
-<selection value="2">見積を希望
-　（製品名　：　　　　　　　　）</selection>
-<selection value="3">不要</selection>
+        <selection value="1">
+            <label>詳細説明を希望</label>
+            <option>（製品名　　：${value}）</option>
+            <option>（内容　　　：${value}）</option>
+            <option>（訪問希望日：${value}）</option>
+        </selection>
+        <selection value="2">
+            <label>見積を希望</label>
+            <option>（製品名　　：${value}）</option>
+        </selection>
+        <selection value="3"><label>不要</label></selection>
     </question>
 
     <question type="TEXTAREA" maxChar="400" required="false">

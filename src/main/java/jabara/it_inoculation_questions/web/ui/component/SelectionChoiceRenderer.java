@@ -9,7 +9,7 @@ class SelectionChoiceRenderer implements IChoiceRenderer<Selection> {
 
     @Override
     public Object getDisplayValue(final Selection pObject) {
-        return pObject.getMessage();
+        return pObject.getLabel();
     }
 
     @Override

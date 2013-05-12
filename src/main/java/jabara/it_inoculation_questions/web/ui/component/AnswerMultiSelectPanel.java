@@ -182,7 +182,6 @@ public class AnswerMultiSelectPanel extends InputPanel {
         @Override
         public String getObject() {
             final String ret = getObjectCore();
-            jabara.Debug.write(ret);
             return ret;
         }
 

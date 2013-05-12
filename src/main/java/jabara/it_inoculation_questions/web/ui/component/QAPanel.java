@@ -66,8 +66,8 @@ public class QAPanel extends InputPanel {
             case TEXTAREA:
                 this.answerInputPanel = new AnswerTextAreaPanel(id, this.question, this.answerValuesModel, this.answerValueChangeListener);
                 break;
-            case MUILT_SELECT_WITH_TEXT:
-                this.answerInputPanel = new AnswerMultiSelectWithTextPanel(id, this.question, this.answerValuesModel, this.answerValueChangeListener);
+            case SELECT_WITH_TEXT:
+                this.answerInputPanel = new AnswerSelectWithTextPanel(id, this.question, this.answerValuesModel, this.answerValueChangeListener);
                 break;
             default:
                 throw new IllegalStateException(this.question.getType() + " is unsupported."); //$NON-NLS-1$

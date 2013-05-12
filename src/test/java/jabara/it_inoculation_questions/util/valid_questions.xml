@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<questions>
+
+    <question type="SELECT" required="true">
+        <message>お客様についてお聞かせ下さい。</message>
+        <selection value="1"><label>学校関係者様：法人経営者</label></selection>
+        <selection value="2"><label>学校関係者様：教員</label></selection>
+        <selection value="3"><label>学校関係者様：学校事務職員</label></selection>
+        <selection value="4"><label>提案業者様：Sier</label></selection>
+        <selection value="99" other="true"><label>提案業者様：その他</label></selection>
+    </question>
+
+    <question type="MULTI_SELECT">
+        <message>次のキーワードの中から、現在、興味をお持ちのものがあればお聞かせ下さい。（複数可）</message>
+        <selection value="1"><label>学校事務（ 入試 ・ 教務 ・ 就職 ）支援システム</label></selection>
+        <selection value="2"><label>学校会計支援システム</label></selection>
+        <selection value="3"><label>学校CRM支援ソリューション</label></selection>
+        <selection value="4"><label>学校ポータル、コミュニケーションシステム</label></selection>
+        <selection value="5"><label>資産管理ソリューション</label></selection>
+        <selection value="6"><label>統合認証ツール</label></selection>
+        <selection value="7"><label>防災・防犯ソリューション</label></selection>
+        <selection value="8"><label>認証セキュリティ管理ツール</label></selection>
+        <selection value="9"><label>広域 Wifi 設備</label></selection>
+        <selection value="99" other="true"><label>その他</label></selection>
+    </question>
+
+    <question type="TEXT">
+        <message>１行テキストの設問です。</message>
+        <selection><label>ここに→${value}入力して下さい。</label></selection>
+    </question>
+
+    <question type="SELECT_WITH_TEXT">
+        <message>今後、弊社からの情報提供に関してご意見をお聞かせ下さい。</message>
+        <selection value="1">
+            <label>詳細説明を希望</label>
+            <option>（製品名：${value}）</option>
+            <option>（内容：${value}）</option>
+            <option>（訪問希望日：${value}）</option>
+        </selection>
+        <selection value="2">
+            <label>見積を希望</label>
+            <option>（製品名：${value}）</option>
+        </selection>
+        <selection value="3"><label>不要</label></selection>
+    </question>
+
+    <question type="TEXTAREA" maxChar="400" required="false">
+        <message>弊社ブースの展示内容をご覧になった感想をお聞かせ下さい。</message>
+    </question>
+</questions>

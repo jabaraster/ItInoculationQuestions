@@ -279,7 +279,7 @@ public class AnswerServicesImpl implements IAnswersService {
         for (final Selection selection : pQuestion.getSelections()) {
             final ValueAndCount vc = pAnswers.get(selection.getValue());
             final int answerCount = vc == null ? 0 : (int) vc.getCount();
-            final AnswerSummaryImpl summary = new AnswerSummaryImpl(answerCount, selection.getMessage());
+            final AnswerSummaryImpl summary = new AnswerSummaryImpl(answerCount, selection.getLabel());
             pStatistics.addAnswerSummary(summary);
         }
     }

@@ -111,7 +111,7 @@ public class Question implements Serializable {
         if (this.selections.isEmpty()) {
             return TextAnswerColumn.EMPTY;
         }
-        return QuestionUtil.parseTextAnswerColumn(this.selections.get(0).getMessage());
+        return QuestionUtil.parseTextAnswerColumn(this.selections.get(0).getLabel());
     }
 
     /**

@@ -62,38 +62,6 @@ public class AnswerValue extends EntityBase<AnswerValue> {
     }
 
     /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
-    @Override
-    public boolean equals(final Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final AnswerValue other = (AnswerValue) obj;
-        if (this.optionText == null) {
-            if (other.optionText != null) {
-                return false;
-            }
-        } else if (!this.optionText.equals(other.optionText)) {
-            return false;
-        }
-        if (this.value == null) {
-            if (other.value != null) {
-                return false;
-            }
-        } else if (!this.value.equals(other.value)) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
      * @return the optionText
      */
     public String getOptionText() {
@@ -109,22 +77,17 @@ public class AnswerValue extends EntityBase<AnswerValue> {
     }
 
     /**
+     * @return -
+     */
+    public List<String> getOptionTexts() {
+        return this.optionText;
+    }
+
+    /**
      * @return the value
      */
     public String getValue() {
         return this.value;
-    }
-
-    /**
-     * @see java.lang.Object#hashCode()
-     */
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + (this.optionText == null ? 0 : this.optionText.hashCode());
-        result = prime * result + (this.value == null ? 0 : this.value.hashCode());
-        return result;
     }
 
     /**

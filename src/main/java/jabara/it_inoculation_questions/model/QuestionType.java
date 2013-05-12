@@ -26,7 +26,7 @@ public enum QuestionType {
     /**
      * 
      */
-    MUILT_SELECT_WITH_TEXT,
+    SELECT_WITH_TEXT,
 
     /**
      * 

@@ -84,7 +84,7 @@ public class QuestionServiceImpl extends JpaDaoBase implements IQuestionService 
                 throw NotFound.GLOBAL;
             }
             if (value.equals(pValue)) {
-                return selection.getMessage();
+                return selection.getLabel();
             }
         }
         throw NotFound.GLOBAL;
