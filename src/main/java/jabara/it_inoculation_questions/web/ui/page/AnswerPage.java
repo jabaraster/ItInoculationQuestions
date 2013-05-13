@@ -19,8 +19,6 @@ import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.head.JavaScriptHeaderItem;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.TextField;
-import org.apache.wicket.markup.html.link.Link;
-import org.apache.wicket.markup.html.link.StatelessLink;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.AbstractReadOnlyModel;
@@ -44,7 +42,6 @@ public class AnswerPage extends AuthenticatedWebPageBase {
 
     private TextField<Long>   idText;
     private ListView<Answer>  answers;
-    private Link<?>           goList;
 
     /**
      * @param pParameters URLパラメータ.
@@ -57,7 +54,6 @@ public class AnswerPage extends AuthenticatedWebPageBase {
 
         this.add(getIdText());
         this.add(getAnswers());
-        this.add(getGoList());
         setStatelessHint(true);
     }
 
@@ -136,19 +132,6 @@ public class AnswerPage extends AuthenticatedWebPageBase {
             };
         }
         return this.answers;
-    }
-
-    @SuppressWarnings({ "nls", "serial" })
-    private Link<?> getGoList() {
-        if (this.goList == null) {
-            this.goList = new StatelessLink<Object>("goList") {
-                @Override
-                public void onClick() {
-                    setResponsePage(AnswersPage.class);
-                }
-            };
-        }
-        return this.goList;
     }
 
     @SuppressWarnings({ "serial", "nls" })

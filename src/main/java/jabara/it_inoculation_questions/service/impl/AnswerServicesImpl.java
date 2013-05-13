@@ -480,12 +480,13 @@ public class AnswerServicesImpl implements IAnswersService {
         final StringBuilder sb = new StringBuilder();
         appendStringToken(sb, "ID"); //$NON-NLS-1$
         appendSeparator(sb);
-        for (final Question q : pQuestions) {
+        for (int qIdx = 0; qIdx < pQuestions.size(); qIdx++) {
+            final Question q = pQuestions.get(qIdx);
             final List<Selection> selections = q.getSelections();
             switch (q.getType()) {
             case SELECT:
             case MULTI_SELECT:
-                appendStringToken(sb, q.getMessage() + selections.get(0).getLabel());
+                appendStringToken(sb, "Q" + (qIdx + 1) + ")" + q.getMessage() + selections.get(0).getLabel()); //$NON-NLS-1$//$NON-NLS-2$
                 appendSeparator(sb);
                 for (int i = 1; i < selections.size(); i++) {
                     appendStringToken(sb, selections.get(i).getLabel());
@@ -495,11 +496,11 @@ public class AnswerServicesImpl implements IAnswersService {
                 break;
             case TEXT:
             case TEXTAREA:
-                appendStringToken(sb, q.getMessage());
+                appendStringToken(sb, "Q" + (qIdx + 1) + ")" + q.getMessage()); //$NON-NLS-1$ //$NON-NLS-2$
                 appendSeparator(sb);
                 break;
             case SELECT_WITH_TEXT:
-                appendStringToken(sb, q.getMessage() + selections.get(0).getLabel());
+                appendStringToken(sb, "Q" + (qIdx + 1) + ")" + q.getMessage() + selections.get(0).getLabel()); //$NON-NLS-1$//$NON-NLS-2$
                 appendSeparator(sb);
                 appendStringToken(sb, selections.get(0).getLabel() + "(自由入力欄)"); //$NON-NLS-1$
                 appendSeparator(sb);
