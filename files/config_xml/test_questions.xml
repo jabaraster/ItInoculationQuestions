@@ -65,6 +65,11 @@
         <selection value="4"><label>製品の購入を検討したい</label></selection>
     </question>
 
+    <question type="TEXT">
+        <message>１行テキストの設問です。</message>
+        <selection><label>ここに→${value}入力して下さい。</label></selection>
+    </question>
+
     <question type="SELECT_WITH_TEXT">
         <message>今後、弊社からの情報提供に関してご意見をお聞かせ下さい。</message>
         <selection value="1">
