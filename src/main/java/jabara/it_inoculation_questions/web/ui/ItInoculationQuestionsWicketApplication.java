@@ -11,6 +11,7 @@ import jabara.it_inoculation_questions.web.ui.page.AnswersStatisticsPage;
 import jabara.it_inoculation_questions.web.ui.page.AuthenticatedWebPageBase;
 import jabara.it_inoculation_questions.web.ui.page.IndexPage;
 import jabara.it_inoculation_questions.web.ui.page.LoginPage;
+import jabara.it_inoculation_questions.web.ui.page.LogoutPage;
 import jabara.it_inoculation_questions.web.ui.page.QuestionConfigurationUploadPage;
 import jabara.it_inoculation_questions.web.ui.page.ThankYouPage;
 
@@ -126,5 +127,6 @@ public class ItInoculationQuestionsWicketApplication extends WebApplication {
         mountPage("answers/${id}", AnswerPage.class); //$NON-NLS-1$
         mountPage("answers", AnswersPage.class); //$NON-NLS-1$
         mountPage("answersStatistics", AnswersStatisticsPage.class); //$NON-NLS-1$
+        mountPage("logout", LogoutPage.class); //$NON-NLS-1$
     }
 }

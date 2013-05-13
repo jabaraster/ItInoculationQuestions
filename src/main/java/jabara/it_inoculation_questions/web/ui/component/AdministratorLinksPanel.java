@@ -6,6 +6,7 @@ package jabara.it_inoculation_questions.web.ui.component;
 import jabara.it_inoculation_questions.web.ui.page.AnswersPage;
 import jabara.it_inoculation_questions.web.ui.page.AnswersStatisticsPage;
 import jabara.it_inoculation_questions.web.ui.page.ItInoculationQuestionsWebPageBase;
+import jabara.it_inoculation_questions.web.ui.page.LogoutPage;
 
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
@@ -20,6 +21,7 @@ public class AdministratorLinksPanel extends Panel {
 
     private Link<?>           goStatistics;
     private Link<?>           goList;
+    private Link<?>           goLogout;
 
     /**
      * @param pId パネルのwicket:id.
@@ -28,6 +30,7 @@ public class AdministratorLinksPanel extends Panel {
         super(pId);
         this.add(getGoList());
         this.add(getGoStatistics());
+        this.add(getGoLogout());
     }
 
     /**
@@ -47,10 +50,18 @@ public class AdministratorLinksPanel extends Panel {
         return this.goList;
     }
 
+    private Link<?> getGoLogout() {
+        if (this.goLogout == null) {
+            this.goLogout = new BookmarkablePageLink<Object>("goLogout", LogoutPage.class); //$NON-NLS-1$
+        }
+        return this.goLogout;
+    }
+
     @SuppressWarnings("nls")
     private Link<?> getGoStatistics() {
         if (this.goStatistics == null) {
             this.goStatistics = new BookmarkablePageLink<Object>("goStatistics", AnswersStatisticsPage.class);
+            this.goStatistics.setVisible(false);
         }
         return this.goStatistics;
     }

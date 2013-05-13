@@ -1,1 +1,131 @@
-h1{color:#ff82c8;text-shadow:rgba(0,0,0,0.3) 1px 1px}h2,h3,h4,h5,h6{color:#464646;text-shadow:rgba(0,0,0,0.3) 1px 1px}body textarea{width:90%;height:10em;border-radius:4px}input[type='text']{border-radius:5px}header{box-shadow:rgba(0,0,0,0.3) 1px 1px;border-bottom-left-radius:6px;border-bottom-right-radius:6px;height:90px;margin-right:1em;padding-left:.5em;padding-right:.5em;background:#8b4513;position:fixed;top:0;width:100%}header>h1{float:left}header>div.imageContainer{margin-bottom:5px;margin-right:1em;border-radius:4px;text-align:right}header>div.imageContainer>img{height:36px;margin-top:5px}header>div.imageContainer>img.caLogo{background:#fff;width:167px}header>div.headerPanelContainer{clear:both}footer{background:#8b4513;box-shadow:rgba(0,0,0,0.3) 1px 1px;border-top-left-radius:4px;border-top-right-radius:4px;padding-top:.3em;position:fixed;bottom:0;height:25px;width:100%;color:#ffefd5;text-align:right}footer>p{margin-left:.2em;padding-left:.3em;padding-right:.3em;font-size:small;float:left;border-radius:4px;background:#ffefd5}footer>div{text-shadow:#000 3px 3px;padding-right:.5em}footer>div img{border:0;height:1em}span.required:after{content:'(*)';color:red}input.error,textarea.error{color:#000;background:#ffc8c8}li.feedbackPanelERROR{color:#000;background:#ffc8c8}fieldset{border:0}ul{list-style-type:none}body form{margin-bottom:.1em}div.mainContent{margin-top:110px;margin-left:1em;margin-right:1em;margin-bottom:3em}select{width:auto}tr:nth-child(2n+1){background:#ffffe9}th{border:solid 1px #fff;background:#8b4513;padding:3px;color:#fff}td{border:solid 1px #8b4513;padding:3px;color:#000}
+h1 {
+  color: #ff82c8;
+  text-shadow: rgba(0, 0, 0, 0.3) 1px 1px;
+}
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #464646;
+  text-shadow: rgba(0, 0, 0, 0.3) 1px 1px;
+}
+body textarea {
+  width: 90%;
+  height: 10em;
+  border-radius: 4px;
+}
+input[type='text'] {
+  border-radius: 5px;
+}
+header {
+  box-shadow: rgba(0, 0, 0, 0.3) 1px 1px;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+  height: 90px;
+  margin-right: 1em;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  background: #8b4513;
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+header > h1 {
+  float: left;
+}
+header > div.imageContainer {
+  margin-bottom: 5px;
+  margin-right: 1em;
+  border-radius: 4px;
+  text-align: right;
+}
+header > div.imageContainer > img {
+  height: 30px;
+  margin-top: 5px;
+}
+header > div.imageContainer > img.caLogo {
+  background: #ffffff;
+  width: 120px;
+}
+header > div.imageContainer > img.rikenLogo {
+  width: 120px;
+}
+header > div.headerPanelContainer {
+  clear: both;
+}
+footer {
+  background: #8b4513;
+  box-shadow: rgba(0, 0, 0, 0.3) 1px 1px;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  padding-top: 0.3em;
+  position: fixed;
+  bottom: 0;
+  height: 25px;
+  width: 100%;
+  color: #ffefd5;
+  text-align: right;
+}
+footer > p {
+  margin-left: 0.2em;
+  padding-left: 0.3em;
+  padding-right: 0.3em;
+  font-size: small;
+  float: left;
+  border-radius: 4px;
+  background: #ffefd5;
+}
+footer > div {
+  text-shadow: #000000 3px 3px;
+  padding-right: 0.5em;
+}
+footer > div img {
+  border: 0;
+  height: 1em;
+}
+span.required:after {
+  content: '(*)';
+  color: red;
+}
+input.error,
+textarea.error {
+  color: #000000;
+  background: #ffc8c8;
+}
+li.feedbackPanelERROR {
+  color: #000000;
+  background: #ffc8c8;
+}
+fieldset {
+  border: none;
+}
+ul {
+  list-style-type: none;
+}
+body form {
+  margin-bottom: 0.1em;
+}
+div.mainContent {
+  margin-top: 110px;
+  margin-left: 1em;
+  margin-right: 1em;
+  margin-bottom: 3em;
+}
+select {
+  width: auto;
+}
+tr:nth-child(2n+1) {
+  background: #ffffe9;
+}
+th {
+  border: solid 1px #ffffff;
+  background: #8b4513;
+  padding: 3px;
+  color: #ffffff;
+}
+td {
+  border: solid 1px #8b4513;
+  padding: 3px;
+  color: #000000;
+}
